@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>微服务中的服务过载 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Architecture &amp; Design">
+    <meta name="description" content="在微服务中某个服务的请求突然升高会造成服务的过载，服务一旦过载进入异常状态之后会对服务的上下游都造成一定的影响。当服务出现过载的时候常见的处理方法是调用方进行熔断，服务方进行降级、流量抛弃等。 资源耗尽假设一个服务最多能处理1000QPS的请求，当QPS超过1000之后随着请求量的增多会发生什么：  CPU不足以应对这么多的请求则所有请求的响应时间变慢 响应时间变慢进而导致积压的in-flight">
+<meta name="keywords" content="Architecture &amp; Design">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务中的服务过载">
+<meta property="og:url" content="http://singlecool.com/2020/12/05/micro-service-overload/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="在微服务中某个服务的请求突然升高会造成服务的过载，服务一旦过载进入异常状态之后会对服务的上下游都造成一定的影响。当服务出现过载的时候常见的处理方法是调用方进行熔断，服务方进行降级、流量抛弃等。 资源耗尽假设一个服务最多能处理1000QPS的请求，当QPS超过1000之后随着请求量的增多会发生什么：  CPU不足以应对这么多的请求则所有请求的响应时间变慢 响应时间变慢进而导致积压的in-flight">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-12-05T15:58:30.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务中的服务过载">
+<meta name="twitter:description" content="在微服务中某个服务的请求突然升高会造成服务的过载，服务一旦过载进入异常状态之后会对服务的上下游都造成一定的影响。当服务出现过载的时候常见的处理方法是调用方进行熔断，服务方进行降级、流量抛弃等。 资源耗尽假设一个服务最多能处理1000QPS的请求，当QPS超过1000之后随着请求量的增多会发生什么：  CPU不足以应对这么多的请求则所有请求的响应时间变慢 响应时间变慢进而导致积压的in-flight">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">微服务中的服务过载</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">微服务中的服务过载</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-12-05T13:19:54.000Z" itemprop="datePublished" class="page-time">
+  2020-12-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#资源耗尽"><span class="post-toc-number">1.</span> <span class="post-toc-text">资源耗尽</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应对过载"><span class="post-toc-number">2.</span> <span class="post-toc-text">应对过载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#客户端"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">客户端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#服务端"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">服务端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#小心负载均衡和重试"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">小心负载均衡和重试</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">3.</span> <span class="post-toc-text">最后</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-micro-service-overload"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">微服务中的服务过载</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-12-05 21:19:54" datetime="2020-12-05T13:19:54.000Z"  itemprop="datePublished">2020-12-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在微服务中某个服务的请求突然升高会造成服务的过载，服务一旦过载进入异常状态之后会对服务的上下游都造成一定的影响。当服务出现过载的时候常见的处理方法是调用方进行熔断，服务方进行降级、流量抛弃等。</p>
+<h2 id="资源耗尽"><a href="#资源耗尽" class="headerlink" title="资源耗尽"></a>资源耗尽</h2><p>假设一个服务最多能处理1000QPS的请求，当QPS超过1000之后随着请求量的增多会发生什么：</p>
+<ol>
+<li>CPU不足以应对这么多的请求则所有请求的响应时间变慢</li>
+<li>响应时间变慢进而导致积压的in-flight请求变多</li>
+<li>in-flight请求增多会导致内存、活跃线程数(在每个请求一个线程的模式下)、文件描述符等资源的消耗增加</li>
+<li>请求队列填满，所有请求都要排队进一步增加响应时间同时会使用更多的内存</li>
+<li>如果跑的是带有垃圾回收的runtime程序内存使用率上升会导致GC触发的次数增多，进而导致CPU资源进一步减少</li>
+<li>内存的过多消耗会导致内存中的缓存命中率降低，未命中缓存的请求发送给下游获取数据进而导致下游服务的连锁反应</li>
+</ol>
+<p>当发生过载的情况时往往会伴随着高延迟、高错误率或者低质量的响应发生</p>
+<h2 id="应对过载"><a href="#应对过载" class="headerlink" title="应对过载"></a>应对过载</h2><h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>当服务发生过载错误率升高的时候对于调用方可以进行熔断容错处理，常见的是Netflix的Hystrix框架。当检测到错误率达到一定阈值之后调用方进行熔断，不再向服务方发送请求同时要对此进行容错处理，过一段时间之后再尝试向服务方发送一部分流量探测服务方是否正常，如果正常则恢复请求，如果不正常则继续熔断。</p>
+<p>该熔断策略不好之处在于“一刀切”，熔断之后所有请求都不发送给服务方，调用方不能及时的感知到服务方的状态，动态调整的能力较弱。Google提出的一种自适应的机制可动态调整请求的发送量，客户端通过滑动窗口记录过去两分钟的请求数量(requests)和被服务端正常接受的请求数量(accepts)。</p>
+<p>正常情况下这两个数值是相等的，当后端开始出现请求超时、返回错误等拒绝一部分请求时，accepts的值将降低，直到超过<code>requests = K*accepts</code>时客户端开始自行节流熔断，请求将以一定的概率被客户端直接拒绝，概率计算如下：$$ drop=max(0, \frac {requests -K * accetps} {requests+1})$$ K通常设置为2，开始时requests=accetps，drop值为0。当后端开始拒绝服务导致<code>requests &gt; K*accepts</code>此时客户端开始拒绝请求，requests会继续上升导致拒绝的概率变大。当后端服务恢复之后accepts值增大<br>且由于K的存在K*accepts的增速比requests快因此会逐渐降低drop值最终恢复正常的状态。</p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>服务端应对过载常见的做法有以下几种：</p>
+<ol>
+<li>流量抛弃，当请求速率超过线程处理速率时会产生排队，此时线程池和队列都会饱和，当出现队列饱和时可以尽早的拒绝请求。对于一些排队很久的请求可以不处理因为客户端可能已经发起重试了，对这种请求进行处理没有意义。如果请求有优先级可对某些低优先级的请求进行拒绝，进一步降低资源消耗</li>
+<li>降级，通过降低响应的质量来减少资源的消耗，例如：推荐系统可以减少召回数量或者直接返回静态数据等</li>
+<li>传递和判断请求的截止时间，在多层级的RPC请求中传递截止时间，如果已经超过截止时间则不再向下传递请求</li>
+<li>为预防过载服务端针对不同的客户端设置一定配额的限流，防止某个客户端的流量突增导致整个服务不可用进而影响其他客户端</li>
+</ol>
+<h3 id="小心负载均衡和重试"><a href="#小心负载均衡和重试" class="headerlink" title="小心负载均衡和重试"></a>小心负载均衡和重试</h3><p>当某个集群实例发生过载而崩溃时负载均衡会把请求转发到其他的集群，这会导致其他的集群也相继过载从而导致整个服务过载，如同滚雪球一样整个服务进入循环崩溃且比较难以恢复，一旦某个实例恢复就会被流量立即打垮。</p>
+<p>对于重试应注意以下几点：</p>
+<ol>
+<li>区分可重试与不可重试的错误处理，对于服务端明确返回的不可重试错误不应进行重试</li>
+<li>限制请求重试次数，不能无限重试</li>
+<li>客户端设置全局重试次数</li>
+<li>在较长的调用链路中避免多级重试，进而放大重试次数</li>
+<li>使用随机的、指数避让式的重试，避免同一时刻发起大量重试</li>
+</ol>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>服务一旦出现滚雪球式的过载往往对整个系统造成较大影响，需要在平时把容量估算、水位监控、限流、降级等工作做好，才能防患未然。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-05T15:58:30.100Z" itemprop="dateUpdated">2020-12-05 23:58:30</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/">Architecture & Design</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/05/micro-service-overload/&title=《微服务中的服务过载》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/05/micro-service-overload/&title=《微服务中的服务过载》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2020/12/05/micro-service-overload/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《微服务中的服务过载》 — SingleX&url=http://singlecool.com/2020/12/05/micro-service-overload/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2020/12/05/micro-service-overload/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/02/01/k8s-with-gpu/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Kubernetes使用DevicePlugin 管理 GPU</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.png" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/05/micro-service-overload/&title=《微服务中的服务过载》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/05/micro-service-overload/&title=《微服务中的服务过载》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2020/12/05/micro-service-overload/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《微服务中的服务过载》 — SingleX&url=http://singlecool.com/2020/12/05/micro-service-overload/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2020/12/05/micro-service-overload/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2020/12/05/micro-service-overload/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'Oops!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'happy reading~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

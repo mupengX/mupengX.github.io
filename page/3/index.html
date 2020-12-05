@@ -149,6 +149,53 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-golang-test"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-06-11 17:24:56" datetime="2017-06-11T09:24:56.000Z"  itemprop="datePublished">2017-06-11</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/06/11/golang-test/">Go多个pkg的单元测试覆盖率</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        在go test命令后面添加 -cover参数开启测试覆盖率统计，其结果如下：ok      models  0.012s  coverage: 71.4% of statements in models-coverpkg 标记来指定要被统计的代码包之后，未被指定的代码则肯定不会被统计，即使是被直接测试的那个代码包。go test -coverpkg=./... pkg2可以跑pkg2下的所...
+    
+
+        <a href="/2017/06/11/golang-test/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-ssh-nohup"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -572,54 +619,6 @@ Why为什么会这样呢？
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-关于密码保护"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-08-28 20:32:25" datetime="2016-08-28T12:32:25.000Z"  itemprop="datePublished">2016-08-28</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/加解密/">加解密</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/08/28/关于密码保护/">关于密码保护</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        作为一名开发者，开发一个用户账户系统很可能就是你工作内容的一部分，其中比较重要的事情就是如何保护用户的密码，当系统被攻破、数据库被拖库时如何降低泄露用户原始密码的风险是一件值得深思的问题（还记得当年CSDN被拖库后爆出系统存储了用户的明文密码吗？）。比较行之有效的办法是对用户密码进行加盐哈希。
-为什么要对密码进行哈希首先我们希望即使被拖库后用户的明文密码也不会遭到泄露，以免使得坏蛋们可以拿着...
-    
-
-        <a href="/2016/08/28/关于密码保护/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/密码/">密码</a></li></ul>
 
     </div>
     
