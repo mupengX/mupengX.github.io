@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>go语言HttpClient中的https证书 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,https">
+    <meta name="description" content="关于HTTPS中SSL/TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有了CA这个">
+<meta name="keywords" content="Go,https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语言HttpClient中的https证书">
+<meta property="og:url" content="http://singlecool.com/2017/08/18/golang-https/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="关于HTTPS中SSL/TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有了CA这个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-12-05T09:56:43.213Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="go语言HttpClient中的https证书">
+<meta name="twitter:description" content="关于HTTPS中SSL/TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有了CA这个">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">go语言HttpClient中的https证书</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">go语言HttpClient中的https证书</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-18T09:17:15.000Z" itemprop="datePublished" class="page-time">
+  2017-08-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-golang-https"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">go语言HttpClient中的https证书</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-18 17:17:15" datetime="2017-08-18T09:17:15.000Z"  itemprop="datePublished">2017-08-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>关于HTTPS中SSL/TLS具体原理就不具体说了，可以看一下阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">文章</a></p>
+<p>这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。</p>
+<p>然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有了CA这个机构来负责管理和签发证书。CA会将申请者的一些信息和公钥用CA自己的私钥加密并附上CA的一些信息生成数字证书给申请者。client在向服务器发出加密请求的时候，服务器会将数字证书一起返回给client，client在受信任的根证书颁发机构列表里来查看解开数字证书的公钥是否在列表之内，如果这张数字证书不是由受信任的机构颁发的会发出警告，如果数字证书是可靠的，客户端就可以使用证书中的服务器公钥。</p>
+<p>通过CA的数字签名来保证公钥的有效性，而黑客的公钥是很难通过CA的认证。CA证书具有层级结构，它建立了自上而下的信任链，下级CA信任上级CA，下级CA由上级CA颁发证书并认证。数字证书最常见的格式是X.509，这种公钥基础设施又称之为PKIX。在用HttpClient进行数字证书认证出错的时候会提示：<code>PKIX path building failed</code></p>
+<p>我们知道浏览器保存了一个常用的CA证书列表，那么用golang的HttpClient请求HTTPS的服务时，它所受信任的证书列表在哪里呢？</p>
+<p>查看golang的源码发现在目录<code>src/crypto/x509</code>下有针对各个操作系统获取根证书的实现，例如root_linux.go中记录了各个Linux发行版根证书的存放路径：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2015 The Go Authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style</span></span><br><span class="line"><span class="comment">// license that can be found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> x509</span><br><span class="line"></span><br><span class="line"><span class="comment">// Possible certificate files; stop after finding one.</span></span><br><span class="line"><span class="keyword">var</span> certFiles = []<span class="keyword">string</span>&#123;</span><br><span class="line">	<span class="string">"/etc/ssl/certs/ca-certificates.crt"</span>,                <span class="comment">// Debian/Ubuntu/Gentoo etc.</span></span><br><span class="line">	<span class="string">"/etc/pki/tls/certs/ca-bundle.crt"</span>,                  <span class="comment">// Fedora/RHEL 6</span></span><br><span class="line">	<span class="string">"/etc/ssl/ca-bundle.pem"</span>,                            <span class="comment">// OpenSUSE</span></span><br><span class="line">	<span class="string">"/etc/pki/tls/cacert.pem"</span>,                           <span class="comment">// OpenELEC</span></span><br><span class="line">	<span class="string">"/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"</span>, <span class="comment">// CentOS/RHEL 7</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>root_unix.go中写了类Unix系统的证书路径：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Possible directories with certificate files; stop after successfully</span></span><br><span class="line"><span class="comment">// reading at least one file from a directory.</span></span><br><span class="line">  <span class="keyword">var</span> certDirectories = []<span class="keyword">string</span>&#123;</span><br><span class="line">  	<span class="string">"/etc/ssl/certs"</span>,               <span class="comment">// SLES10/SLES11, https://golang.org/issue/12139</span></span><br><span class="line">  	<span class="string">"/system/etc/security/cacerts"</span>, <span class="comment">// Android</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应的还有root_darwin.go，root_windows.go等分别实现了MacOS及Windows平台下的根证书的获取。</p>
+<p>另外，Java在JRE的安装目录下也有一份默认的可信任证书列表，这个列表一般是保存在 $JRE/lib/security/cacerts 文件中，随着JDK版本的升级而更新。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-05T09:56:43.213Z" itemprop="dateUpdated">2020-12-05 17:56:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2017/08/18/golang-https/&title=《go语言HttpClient中的https证书》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2017/08/18/golang-https/&title=《go语言HttpClient中的https证书》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2017/08/18/golang-https/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《go语言HttpClient中的https证书》 — SingleX&url=http://singlecool.com/2017/08/18/golang-https/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2017/08/18/golang-https/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/29/golang-using-experience/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go使用感受</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/13/user-behavior/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">搜索引擎系列(三)---用户行为分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.png" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2017/08/18/golang-https/&title=《go语言HttpClient中的https证书》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2017/08/18/golang-https/&title=《go语言HttpClient中的https证书》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2017/08/18/golang-https/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《go语言HttpClient中的https证书》 — SingleX&url=http://singlecool.com/2017/08/18/golang-https/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2017/08/18/golang-https/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2017/08/18/golang-https/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'Oops!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'happy reading~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

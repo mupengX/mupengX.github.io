@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>基于词图的最大概率中文分词方法 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="分词">
+    <meta name="description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C=C1,C2,……,Cn，输出是一个词串S=W1,W2,……,Wm，其中m&amp;lt;=n。对于一个特">
+<meta name="keywords" content="分词">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于词图的最大概率中文分词方法">
+<meta property="og:url" content="http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C=C1,C2,……,Cn，输出是一个词串S=W1,W2,……,Wm，其中m&amp;lt;=n。对于一个特">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://singlecool.com/img/WordSeg.png">
+<meta property="og:updated_time" content="2020-12-05T09:56:43.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于词图的最大概率中文分词方法">
+<meta name="twitter:description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C=C1,C2,……,Cn，输出是一个词串S=W1,W2,……,Wm，其中m&amp;lt;=n。对于一个特">
+<meta name="twitter:image" content="http://singlecool.com/img/WordSeg.png">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于词图的最大概率中文分词方法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于词图的最大概率中文分词方法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-07-31T07:59:39.000Z" itemprop="datePublished" class="page-time">
+  2016-07-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/NLP/">NLP</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分词方法分类"><span class="post-toc-number">1.</span> <span class="post-toc-text">分词方法分类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#语言模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">语言模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#词典"><span class="post-toc-number">3.</span> <span class="post-toc-text">词典</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构建词图"><span class="post-toc-number">4.</span> <span class="post-toc-text">构建词图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#计算最大概率"><span class="post-toc-number">5.</span> <span class="post-toc-text">计算最大概率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">6.</span> <span class="post-toc-text">最后</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-基于词图的最大概率中文分词方法"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于词图的最大概率中文分词方法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-07-31 15:59:39" datetime="2016-07-31T07:59:39.000Z"  itemprop="datePublished">2016-07-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/NLP/">NLP</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="分词方法分类"><a href="#分词方法分类" class="headerlink" title="分词方法分类"></a>分词方法分类</h2><p>中文分词大致分为三类：</p>
+<ul>
+<li>基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等</li>
+<li>基于统计：基于词频度统计的分词方法</li>
+<li>基于规则：基于知识理解，利用神经网络等分词方法</li>
+</ul>
+<h2 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h2><p>基于词图的最大概率分词方法源于概率统计语言模型。<br>从统计思想的角度来看，分词问题的输入是一个字串C=C1,C2,……,Cn，输出是一个词串S=W1,W2,……,Wm，其中m&lt;=n。对于一个特定的字符串C，会有多个切分方案S对应，分词的任务就是在这些S中找出概率最大的一个切分方案，也就是对输入字符串切分出最有可能的词序列。</p>
+<p>$$Seg(c)argmax_{S \epsilon G} P(S|C)=argmax_{S \epsilon G}\frac{P(C|S)P(S)}{P(C)}<br>$$</p>
+<p>例如对于输入『小红马上下来』，切分可能有：</p>
+<ul>
+<li>S1: 小红/马上/下来</li>
+<li>S2: 小红马/上/下来</li>
+<li>S3: 小红马/上下/来</li>
+<li>……</li>
+</ul>
+<p>计算条件概率P(S1|C)，P(S2|C)和P(S3|C)，然后采用概率大的值对应的切分方案。根据贝叶斯公式：</p>
+<p>$$P(S|C)=\frac{P(C|S)P(S)}{P(C)}$$</p>
+<p>其中P(C)是字符串在语料库中出现的概率为一固定值，从词串恢复到汉字串的概率只有唯一的一种方式，所以P(C|S)=1。因此，比较P(S1|C)和P(S2|C)的大小变成比较P(S1)和P(S2)的大小。<br>概率语言模型分词的任务是：在全切分所得的所有结果中求某个切分方案S，使得P(S)最大。为了容易实现，假设每个词之间的概率是上下文无关的。（<strong>注意此处</strong>）</p>
+<p>$$P(S)=P(W_1,W_2,W_3 \ldots)=P(W_1)*P(W_2)* \cdots*P(W_m)$$</p>
+<p>计算任意一个词出现的概率如下：</p>
+<p>$$P(W_i)=\frac{W_i在语料库中出现的次数n_i}{语料库中总词数N}$$</p>
+<h2 id="词典"><a href="#词典" class="headerlink" title="词典"></a>词典</h2><p>词典中存储了词的text，出现次数，词性等信息，结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>词</th>
+<th align="right">出现次数</th>
+<th align="center">词性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>小红马</td>
+<td align="right">113</td>
+<td align="center">nr</td>
+</tr>
+<tr>
+<td>巴塞尔</td>
+<td align="right">113</td>
+<td align="center">nr</td>
+</tr>
+<tr>
+<td>巴塞爾</td>
+<td align="right">113</td>
+<td align="center">nr</td>
+</tr>
+<tr>
+<td>文明史</td>
+<td align="right">113</td>
+<td align="center">nr</td>
+</tr>
+</tbody></table>
+<p>为了能够快速查找字典采用双数组Trie树来存储，关于Trie树相关内容请自行百度。</p>
+<h2 id="构建词图"><a href="#构建词图" class="headerlink" title="构建词图"></a>构建词图</h2><p>根据字典构建的trie树，扫描待分词句子生成DAG（有向无环图），就是对待分词句子，根据给定的词典进行查词典操作，找出所有可能的句子切分。<br>如果待切分的字符串有m个字符，考虑每个字符左边和右边的位置，则有m+1个点对应，点的编号从0到m。把候选词看成边，可以根据词典生成一个切分词图。例如『小红马上下来』形成的词图如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/WordSeg.png" alt="WordSeg" title>
+                </div>
+                <div class="image-caption">WordSeg</div>
+            </figure>
+
+<p>路径1： 0-3-4-6  小红马/上/下来<br>路径2： 0-2-4-6  小红/马上/下来<br>……<br>切分词图中的边都是词典中的词，边的起点和终点分别是词的开始和结束位置。</p>
+<h2 id="计算最大概率"><a href="#计算最大概率" class="headerlink" title="计算最大概率"></a>计算最大概率</h2><p>因为假设每个词之间的概率是上下文无关的，因此满足动态规划求解所要求的最优子结构性质和无后效性。求出值最大的P(Si)后，利用回溯的方法直接输出Si。图用邻接矩阵存储，伪代码如下：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> Token <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">//分词的字串</span></span><br><span class="line">	text []<span class="keyword">byte</span></span><br><span class="line">	<span class="comment">//该分词概率</span></span><br><span class="line">	Prod <span class="keyword">float32</span></span><br><span class="line">	<span class="comment">// 词性标注</span></span><br><span class="line">	pos <span class="keyword">string</span></span><br><span class="line">	<span class="comment">//分词开始节点的概率</span></span><br><span class="line">	PredProd <span class="keyword">float32</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">segmentWords(<span class="keyword">byte</span> []s) []Segment&#123;</span><br><span class="line">    <span class="keyword">for</span> i:=<span class="number">0</span>; i&lt;<span class="built_in">len</span>(s); i++ &#123;</span><br><span class="line">        <span class="comment">// 从Trie树中得到以当前字元开头的所有分词</span></span><br><span class="line">        tokens = dict.getPrev(i)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> j:=<span class="number">0</span>; j&lt;<span class="built_in">len</span>(token); j++ &#123;</span><br><span class="line">            newProd := token[j].PrevProd + token[j].Prod</span><br><span class="line">            <span class="keyword">if</span>(newProd &gt; dis[token.end].prod) &#123;</span><br><span class="line">                dis[token.end].prod = newProd</span><br><span class="line">                dis[token.end].token = token[j]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从右向左扫描</span></span><br><span class="line">    numSegments := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> index := <span class="built_in">len</span>(text) - <span class="number">1</span>; index &gt;= <span class="number">0</span>; &#123;</span><br><span class="line">	</span><br><span class="line">		location := index - <span class="built_in">len</span>(dis[index].token.text) + <span class="number">1</span></span><br><span class="line">		numSegments++</span><br><span class="line">		index = location - <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	output := <span class="built_in">make</span>([]Segment, numSeg)</span><br><span class="line">    <span class="keyword">for</span> index:=<span class="built_in">len</span>(s)<span class="number">-1</span>; index&gt;=<span class="number">0</span>; &#123;</span><br><span class="line">        location := index - <span class="built_in">len</span>(dis[index].token.text) + <span class="number">1</span></span><br><span class="line">		numSegments--</span><br><span class="line">		output[numSegments].text = dis[index].token.text</span><br><span class="line">		index = location - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从右向左扫描是因为汉语句子的重心经常落在后面，这种扫描方式能提高分词的准确性。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>该模型有一个前提条件：『假设每个词之间的概率是上下文无关的』，这一点是不严谨的，一句话当中相邻词之间上下文无关很难做到。</p>
+<p>搜索引擎中的中文分词十分复杂，分词的过程中需要考虑：</p>
+<ul>
+<li>切分的正确性</li>
+<li>粒度的合理性</li>
+<li>切分的一致性</li>
+<li>词条关系分析</li>
+<li>词条属性分析  </li>
+<li>歧义词处理</li>
+<li>……</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-05T09:56:43.216Z" itemprop="dateUpdated">2020-12-05 17:56:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分词/">分词</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于词图的最大概率中文分词方法》 — SingleX&url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/08/20/Reservoir-Sampling/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">蓄水池抽样（Reservoir sampling）问题</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/06/19/openssl/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">OpenSSL</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.png" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于词图的最大概率中文分词方法》 — SingleX&url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'Oops!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'happy reading~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
