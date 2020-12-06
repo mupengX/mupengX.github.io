@@ -480,23 +480,6 @@ MathJax.Hub.Queue(function() {
 
 
 
-<script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = 'Oops!';
-            clearTimeout(titleTime);
-        } else {
-            document.title = 'happy reading~';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
-    });
-})();
-</script>
-
 
 
 </body>
