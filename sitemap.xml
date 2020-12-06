@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://singlecool.com/2020/12/06/micro-service-subsetting/</loc>
+    
+    <lastmod>2020-12-06T14:56:06.656Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2020/12/05/micro-service-overload/</loc>
     
     <lastmod>2020-12-05T15:58:30.100Z</lastmod>
@@ -37,7 +44,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2016/12/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%82%B9%E4%BA%AE%E8%BF%87%E7%A8%8B/</loc>
+    <loc>http://singlecool.com/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%A9%BA%E9%97%B4/</loc>
     
     <lastmod>2020-12-05T09:56:43.217Z</lastmod>
     
@@ -51,7 +58,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%A9%BA%E9%97%B4/</loc>
+    <loc>http://singlecool.com/2016/12/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%82%B9%E4%BA%AE%E8%BF%87%E7%A8%8B/</loc>
     
     <lastmod>2020-12-05T09:56:43.217Z</lastmod>
     
@@ -156,6 +163,13 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.214Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2019/06/02/k8s-thinking/</loc>
     
     <lastmod>2020-12-05T09:56:43.214Z</lastmod>
@@ -164,13 +178,6 @@
   
   <url>
     <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.214Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
     
     <lastmod>2020-12-05T09:56:43.214Z</lastmod>
     
@@ -226,14 +233,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/07/29/RelevantSearch/</loc>
+    <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
     
     <lastmod>2020-12-05T09:56:43.212Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
+    <loc>http://singlecool.com/2017/07/29/RelevantSearch/</loc>
     
     <lastmod>2020-12-05T09:56:43.212Z</lastmod>
     
@@ -247,7 +254,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
+    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     
     <lastmod>2020-12-05T09:56:43.212Z</lastmod>
     
