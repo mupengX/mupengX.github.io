@@ -30,7 +30,7 @@
 <meta property="og:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I/O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I/O模型在网络">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://singlecool.com/img/non-blockingIO.jpg">
-<meta property="og:updated_time" content="2020-12-13T09:55:39.679Z">
+<meta property="og:updated_time" content="2020-12-13T10:06:25.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go netpoller网络模型">
 <meta name="twitter:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I/O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I/O模型在网络">
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O模型"><span class="post-toc-number">1.</span> <span class="post-toc-text">I/O模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O多路复用"><span class="post-toc-number">2.</span> <span class="post-toc-text">I/O多路复用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#select-amp-poll"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">select&amp;poll</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">epoll</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#netpoller"><span class="post-toc-number">3.</span> <span class="post-toc-text">netpoller</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#one-more-thing"><span class="post-toc-number">4.</span> <span class="post-toc-text">one more thing</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">参考</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O模型"><span class="post-toc-number">1.</span> <span class="post-toc-text">I/O模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O多路复用"><span class="post-toc-number">2.</span> <span class="post-toc-text">I/O多路复用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#select-amp-poll"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">select&amp;poll</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">epoll</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#netpoller"><span class="post-toc-number">3.</span> <span class="post-toc-text">netpoller</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#one-more-thing"><span class="post-toc-number">4.</span> <span class="post-toc-text">one more thing</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
         </nav>
     </aside>
 
@@ -246,7 +246,7 @@
 <li>如果新添加的定时任务when小于netpoll的休眠等待时间<code>sched.pollUntil</code>就会激活netPoll的等待。也就是在<code>runtime.findrunable</code>里的最后会使用超时阻塞的方法调用<code>epoll_wait</code>，这样既监控了epoll实例红黑树上的fd，又可兼顾最近的定时任务</li>
 <li>在每次<code>runtime.schedule</code>调度时在<code>runtime.findrunable</code>中都会通过<code>checkTimers</code>来查找可运行的定时任务 </li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://morsmachine.dk/netpoller" target="_blank" rel="noopener">The Go netpoller</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://morsmachine.dk/netpoller" target="_blank" rel="noopener">The Go netpoller</a></p>
 
         </div>
 
@@ -255,7 +255,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-12-13T09:55:39.679Z" itemprop="dateUpdated">2020-12-13 17:55:39</time>
+    最后更新时间：<time datetime="2020-12-13T10:06:25.963Z" itemprop="dateUpdated">2020-12-13 18:06:25</time>
 </span><br>
 
 

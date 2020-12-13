@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://singlecool.com/2020/12/13/golang-netpoll/</loc>
+    <loc>http://singlecool.com/2020/12/06/micro-service-subsetting/</loc>
     <lastmod>2020-12-13</lastmod>
   </url>  <url>
-    <loc>http://singlecool.com/2020/12/06/micro-service-subsetting/</loc>
-    <lastmod>2020-12-06</lastmod>
+    <loc>http://singlecool.com/2020/12/13/golang-netpoll/</loc>
+    <lastmod>2020-12-13</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2020/12/05/micro-service-overload/</loc>
     <lastmod>2020-12-05</lastmod>
@@ -40,13 +40,13 @@
     <loc>http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
+    <loc>http://singlecool.com/2018/03/25/robot/</loc>
+    <lastmod>2020-12-05</lastmod>
+  </url>  <url>
     <loc>http://singlecool.com/2018/05/19/nil-channel/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2016/06/19/openssl/</loc>
-    <lastmod>2020-12-05</lastmod>
-  </url>  <url>
-    <loc>http://singlecool.com/2018/03/25/robot/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2017/11/26/something_about-nlp/</loc>
@@ -64,22 +64,22 @@
     <loc>http://singlecool.com/2017/08/29/golang-using-experience/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
-    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
-    <lastmod>2020-12-05</lastmod>
-  </url>  <url>
     <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2019/06/02/k8s-thinking/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
+    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
+    <lastmod>2020-12-05</lastmod>
+  </url>  <url>
     <loc>http://singlecool.com/2016/11/13/mysql%E7%9A%84set%20names/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
-    <loc>http://singlecool.com/2018/01/28/consumption-upgrading/</loc>
+    <loc>http://singlecool.com/2017/12/16/chatbot/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
-    <loc>http://singlecool.com/2017/12/16/chatbot/</loc>
+    <loc>http://singlecool.com/2018/01/28/consumption-upgrading/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2017/09/16/go-dns/</loc>
@@ -91,19 +91,19 @@
     <loc>http://singlecool.com/2017/08/18/golang-https/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
+    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
+    <lastmod>2020-12-05</lastmod>
+  </url>  <url>
     <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2017/07/29/RelevantSearch/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
-    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
+    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2017/03/26/RestlessHeart/</loc>
-    <lastmod>2020-12-05</lastmod>
-  </url>  <url>
-    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     <lastmod>2020-12-05</lastmod>
   </url>  <url>
     <loc>http://singlecool.com/2017/10/21/TLS-Go/</loc>

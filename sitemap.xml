@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://singlecool.com/2020/12/13/golang-netpoll/</loc>
+    <loc>http://singlecool.com/2020/12/06/micro-service-subsetting/</loc>
     
-    <lastmod>2020-12-13T09:55:39.679Z</lastmod>
+    <lastmod>2020-12-13T10:07:03.059Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2020/12/06/micro-service-subsetting/</loc>
+    <loc>http://singlecool.com/2020/12/13/golang-netpoll/</loc>
     
-    <lastmod>2020-12-06T15:01:41.786Z</lastmod>
+    <lastmod>2020-12-13T10:06:25.963Z</lastmod>
     
   </url>
   
@@ -114,6 +114,13 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2018/03/25/robot/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.215Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2018/05/19/nil-channel/</loc>
     
     <lastmod>2020-12-05T09:56:43.215Z</lastmod>
@@ -122,13 +129,6 @@
   
   <url>
     <loc>http://singlecool.com/2016/06/19/openssl/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.215Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2018/03/25/robot/</loc>
     
     <lastmod>2020-12-05T09:56:43.215Z</lastmod>
     
@@ -170,13 +170,6 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.214Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
     
     <lastmod>2020-12-05T09:56:43.214Z</lastmod>
@@ -191,6 +184,13 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.214Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2016/11/13/mysql%E7%9A%84set%20names/</loc>
     
     <lastmod>2020-12-05T09:56:43.214Z</lastmod>
@@ -198,14 +198,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2018/01/28/consumption-upgrading/</loc>
+    <loc>http://singlecool.com/2017/12/16/chatbot/</loc>
     
     <lastmod>2020-12-05T09:56:43.213Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/12/16/chatbot/</loc>
+    <loc>http://singlecool.com/2018/01/28/consumption-upgrading/</loc>
     
     <lastmod>2020-12-05T09:56:43.213Z</lastmod>
     
@@ -233,6 +233,13 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.212Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
     
     <lastmod>2020-12-05T09:56:43.212Z</lastmod>
@@ -247,7 +254,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
+    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     
     <lastmod>2020-12-05T09:56:43.212Z</lastmod>
     
@@ -255,13 +262,6 @@
   
   <url>
     <loc>http://singlecool.com/2017/03/26/RestlessHeart/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.212Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     
     <lastmod>2020-12-05T09:56:43.212Z</lastmod>
     
