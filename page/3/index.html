@@ -149,6 +149,55 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-golang-https"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-08-18 17:17:15" datetime="2017-08-18T09:17:15.000Z"  itemprop="datePublished">2017-08-18</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/08/18/golang-https/">go语言HttpClient中的https证书</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        关于HTTPS中SSL/TLS具体原理就不具体说了，可以看一下阮一峰老师的文章
+这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。
+然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有了C...
+    
+
+        <a href="/2017/08/18/golang-https/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-user-behavior"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -572,53 +621,6 @@ Why为什么会这样呢？
         <a href="/2017/03/01/为什么更新频率降低了呢/" class="post-more waves-effect waves-button">
             阅读全文…
         </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-分布式锁设计"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-12-19 23:28:36" datetime="2016-12-19T15:28:36.000Z"  itemprop="datePublished">2016-12-19</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/12/19/分布式锁设计/">分布式锁设计</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        分布式环境下，多台机器上多个线程对同一份数据进行操作如果不做处理防范，就有可能出现类似『数据重复入库』、『商品超卖』等情况，在这种情况下需要分布式锁来对分布式环境下临界资源做互斥。
-那么如何来做呢？
-想想单机多线程的时候我们是如何保证互斥的，单机多线程的情况下所有的线程都去尝试获取同一把锁。换到分布式环境下我们把局限于一台机器内的锁提出来，其实就是利用一个大家都能访问的公共资源来实现分布式锁...
-    
-
-        <a href="/2016/12/19/分布式锁设计/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Distributed-Locks/">Distributed Locks</a></li></ul>
-
     </div>
     
 </article>
