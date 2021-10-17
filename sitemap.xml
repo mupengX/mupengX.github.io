@@ -72,13 +72,6 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/04/22/BigData-And-AI/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2018/04/01/DM/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
@@ -93,21 +86,14 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2017/04/22/BigData-And-AI/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -121,7 +107,21 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2017/03/26/RestlessHeart/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -150,13 +150,6 @@
   
   <url>
     <loc>http://singlecool.com/2017/09/16/go-dns/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2017/09/16/go-upgrade-on-fly/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -198,7 +191,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
+    <loc>http://singlecool.com/2017/09/16/go-upgrade-on-fly/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -213,6 +206,13 @@
   
   <url>
     <loc>http://singlecool.com/2018/05/19/nil-channel/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -282,14 +282,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://singlecool.com/2016/12/19/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%AE%BE%E8%AE%A1/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2016/12/19/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%AE%BE%E8%AE%A1/</loc>
+    <loc>http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -303,14 +303,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%A9%BA%E9%97%B4/</loc>
+    <loc>http://singlecool.com/2016/12/04/%E7%94%A8%E6%88%B7%E8%AF%84%E8%AE%BA%E6%8C%96%E6%8E%98/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2016/12/04/%E7%94%A8%E6%88%B7%E8%AF%84%E8%AE%BA%E6%8C%96%E6%8E%98/</loc>
+    <loc>http://singlecool.com/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%A9%BA%E9%97%B4/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
