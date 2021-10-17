@@ -58,13 +58,6 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2018/01/01/2018-1-1/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
@@ -72,7 +65,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2018/04/01/DM/</loc>
+    <loc>http://singlecool.com/2018/01/01/2018-1-1/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2017/04/22/BigData-And-AI/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -86,7 +86,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/04/22/BigData-And-AI/</loc>
+    <loc>http://singlecool.com/2018/04/01/DM/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -101,13 +108,6 @@
   
   <url>
     <loc>http://singlecool.com/2017/07/29/RelevantSearch/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2015/06/27/HelloSingle/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -170,14 +170,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/08/29/golang-using-experience/</loc>
+    <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
+    <loc>http://singlecool.com/2017/08/29/golang-using-experience/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -198,6 +198,13 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2016/11/13/mysql%E7%9A%84set%20names/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
@@ -206,13 +213,6 @@
   
   <url>
     <loc>http://singlecool.com/2018/05/19/nil-channel/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
