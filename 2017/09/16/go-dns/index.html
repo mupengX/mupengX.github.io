@@ -35,7 +35,7 @@
 <meta name="twitter:description" content="这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&amp;lt;1S。 首先看/etc/resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个过程只请求了一个na">
     
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
     <script>window.lazyScripts=[]</script>
 
     <!-- custom head -->
@@ -445,7 +445,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
 <div class="search-panel" id="search-panel">
@@ -465,7 +465,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 </li>
 </template>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 

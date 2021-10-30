@@ -35,7 +35,7 @@
 <meta name="twitter:description" content="前言提到全文搜索ES是一款比较被人熟知的开源搜索引擎，很多公司会基于ES来做全文搜索相关的业务。例如，在做内容相关的业务时常会有类似的运营需求：根据某个关键词搜索出所有包含该关键词的内容。如果量级比较小使用SQL的LIKE语句便可以解决，如果量级比较大的话一般需要通过搜索引擎来处理，但中文搜索往往因为分词问题会影响到最终的搜索效果。不同的业务对搜索结果的准确率和召回率各有不同的侧重，在根据某关键词">
     
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
     <script>window.lazyScripts=[]</script>
 
     <!-- custom head -->
@@ -331,7 +331,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/10/23/protobuf-tips/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">利用Protocol buffers FieldMask和Wrapper Message设计API</h4>
+      </a>
+    </div>
   
 
   
@@ -502,7 +509,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
 <div class="search-panel" id="search-panel">
@@ -522,7 +529,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 </li>
 </template>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 
