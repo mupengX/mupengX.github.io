@@ -149,6 +149,97 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-k8s-thinking"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-06-02 20:14:39" datetime="2019-06-02T12:14:39.000Z"  itemprop="datePublished">2019-06-02</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/06/02/k8s-thinking/">关于Kubernetes的思考</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        随着这些年的发展Kubernetes已经成为容器编排调度的事实标准，它的出现将改变软件部署交付的方式而它本身的设计理念也十分值得深思和借鉴。
+声明式API和编程范式当你开始尝试在k8s中部署一个pod时，它所给你带来的最直接的感受就是k8s的API是声明式而不是命令式的。如果是命令式的API，那么你就需要通过API来告诉k8s具体要执行的动作是什么，比如启动或停止容器。而声明式的API只需要...
+    
+
+        <a href="/2019/06/02/k8s-thinking/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/">k8s</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-nil-channel"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-19 22:03:23" datetime="2018-05-19T14:03:23.000Z"  itemprop="datePublished">2018-05-19</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/19/nil-channel/">Go 中的nil channel</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        从一个问题开始要求写一个函数，该函数将从两个channel里获取值并将获取到的值放到一个新的channel里，最后将新的channel返回:func merge(a,b &lt;-chan int) &lt;-chan int
+一种思路首先有一个生成a,b这两个channel的函数：
+1234567891011func getChan(vs []int) &lt;-chan int &#12...
+    
+
+        <a href="/2018/05/19/nil-channel/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-DM"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -512,109 +603,6 @@
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TLS/">TLS</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-go-dns"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-09-16 19:25:54" datetime="2017-09-16T11:25:54.000Z"  itemprop="datePublished">2017-09-16</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/09/16/go-dns/">go 域名解析过慢</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&lt;1S。
-首先看/etc/resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个过程只请求了一...
-    
-
-        <a href="/2017/09/16/go-dns/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-go-upgrade-on-fly"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-09-16 19:14:58" datetime="2017-09-16T11:14:58.000Z"  itemprop="datePublished">2017-09-16</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/09/16/go-upgrade-on-fly/">go upgrade on fly</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        作为一个服务端程序在修改配置时最好能够支持优雅的重启，这样避免给用户带来糟糕的体验。即使不能优雅重启，那么在停止服务做配置修改时，也要做到优雅的停止，而不是粗暴的kill掉进程，这种粗暴的做法会lost正在处理的请求，对用户也是不友好的。
-目标：
-不掐断当前处理中的连接
-不中断socket的监听
-新版本的程序能够接替老版本的程序
-
-要做的事情：
-启动新的进程并监听到对应的address
-老进...
-    
-
-        <a href="/2017/09/16/go-upgrade-on-fly/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
     </div>
     

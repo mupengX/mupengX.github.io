@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>说说那些“鬼见愁”的项目-Part1 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。  在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。 代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接口得到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="说说那些“鬼见愁”的项目-Part1">
+<meta property="og:url" content="http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。  在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。 代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接口得到">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-12-03T11:01:37.103Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="说说那些“鬼见愁”的项目-Part1">
+<meta name="twitter:description" content="前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。  在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。 代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接口得到">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">说说那些“鬼见愁”的项目-Part1</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">说说那些“鬼见愁”的项目-Part1</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-11-27T12:43:24.000Z" itemprop="datePublished" class="page-time">
+  2022-11-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#代码相关"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-调用其他服务接口不判断响应结果"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. 调用其他服务接口不判断响应结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-好异步却不知Trace为何物"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 好异步却不知Trace为何物</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-滥用事件且监听随意"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3. 滥用事件且监听随意</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-日志不全、吞异常不打日志"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4. 日志不全、吞异常不打日志</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-数据同步消息发送时机混乱导致读取到旧数据"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">5. 数据同步消息发送时机混乱导致读取到旧数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-方法名词不达意、随意复用方法引发bug"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">6. 方法名词不达意、随意复用方法引发bug</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-过长的函数"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">7. 过长的函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-嵌套过深的if语句"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">8. 嵌套过深的if语句</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-数据库事务与数据唯一性混淆"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">9. 数据库事务与数据唯一性混淆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-异步任务共用队列，不区分优先级"><span class="post-toc-number">2.10.</span> <span class="post-toc-text">10. 异步任务共用队列，不区分优先级</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#未完待续。。。"><span class="post-toc-number">2.11.</span> <span class="post-toc-text">未完待续。。。</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-the-dammit-mistakes-part1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">说说那些“鬼见愁”的项目-Part1</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-11-27 20:43:24" datetime="2022-11-27T12:43:24.000Z"  itemprop="datePublished">2022-11-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。 </p>
+<p>在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。</p>
+<h1 id="代码相关"><a href="#代码相关" class="headerlink" title="代码相关"></a>代码相关</h1><h2 id="1-调用其他服务接口不判断响应结果"><a href="#1-调用其他服务接口不判断响应结果" class="headerlink" title="1. 调用其他服务接口不判断响应结果"></a>1. 调用其他服务接口不判断响应结果</h2><p><strong>神操作：</strong> 在调用其他服务接口得到response后不判断结果是否符合预期径直执行后续的逻辑或者将response直接返回给上层调用方</p>
+<p>通常我们会跟对方约定好接口返回结构及状态码，调用方可以根据不同的状态码判断是否该重试、执行逻辑分支或者提前退出业务逻辑等，这种不判断返回的做法等于默认对其他服务调用成功而实际上是存在调用失败或者对方内部出错的情况，在这种情况下不应该再继续执行业务逻辑，否则会带来数据不正确/不一致等问题。</p>
+<p><strong>建议：</strong> 对于其他服务的接口调用应及时判断接口的返回结果，并根据结果执行对应的业务逻辑。</p>
+<h2 id="2-好异步却不知Trace为何物"><a href="#2-好异步却不知Trace为何物" class="headerlink" title="2. 好异步却不知Trace为何物"></a>2. 好异步却不知Trace为何物</h2><p><strong>神操作：</strong> 代码里通过发送event的方式生成了很多异步执行的job，但缺少可以进行链路追踪的trace信息导致问题排查困难</p>
+<p>项目中将一些逻辑复杂且不需要即时响应的工作通过异步的方式来处理是一种常见做法，当异步job及触发异步job的事件变多之后，因缺少trace信息在排查问题时将变得异常困难，仅通过打印日志的时间无法判断一次异常的操作(例如：数据库更新)是由哪条链路的哪个event触发而产生的，尤其在job内还会触发别的job的情况下事情变得更为复杂</p>
+<p><strong>建议：</strong>  对每次请求都分配一个唯一的TraceID并将traceID在整个调用链(无论是异步job还是跨服务调用)中传递下去，配合日志及监控打点可以使得整条调用链有比较好的可观测性。对于服务的可观测性业内已有较为成熟的方案，可以借鉴并引入到项目中，将大大提升问题排查的效率</p>
+<h2 id="3-滥用事件且监听随意"><a href="#3-滥用事件且监听随意" class="headerlink" title="3. 滥用事件且监听随意"></a>3. 滥用事件且监听随意</h2><p><strong>神操作：</strong> event名称与实际用途不一致，同一个event在多个不同场景下都会触发且随意增加监听event的listener进而导致逻辑混乱</p>
+<p>异步虽好但不能贪杯。如果不对异步job进行管理和维护则容易产生滥用。例如：在某个新场景下需要触发一个异步任务，因为已经有个类似的job则偷懒在原job基础上添加了新逻辑并通过发送对应的event来触发产生异步job，但殊不知这个已有类型的event还被别的listener所监听，进而也触发了别的异步job执行带来了意想不到的结果</p>
+<p><strong>建议：</strong> 明确event的作用范围避免随意复用。这更多的是在项目迭代过程中需要注意维护好event和job的对应关系，但这却常常被忽视</p>
+<h2 id="4-日志不全、吞异常不打日志"><a href="#4-日志不全、吞异常不打日志" class="headerlink" title="4. 日志不全、吞异常不打日志"></a>4. 日志不全、吞异常不打日志</h2><p><strong>神操作：</strong> 日志信息记录不全甚至关键地方不打印日志</p>
+<p>一些关键日志对于问题的定位和排查是十分重要的，然而却经常遇到某些关键链路上没有日志或者只有一句：<code>failed to update db</code>，你说没打日志吗？确实打了，但又跟没打一样。</p>
+<p>还有一些场景逻辑执行产生了错误/异常并将错误/异常catch住后没有记录任何关于该异常的日志，并且返回了一个空值给上游，再加上调用方在接到空值后没有进行判断进而产生了一连串的逻辑错误。</p>
+<p>每次查问题都要先补日志，这简直是天坑</p>
+<p><strong>建议：</strong> 在一些关键路径以及产生异常错误时应尽量打印完整且有用的日志信息，包括：业务信息、trace信息、有效的错误堆栈等</p>
+<h2 id="5-数据同步消息发送时机混乱导致读取到旧数据"><a href="#5-数据同步消息发送时机混乱导致读取到旧数据" class="headerlink" title="5. 数据同步消息发送时机混乱导致读取到旧数据"></a>5. 数据同步消息发送时机混乱导致读取到旧数据</h2><p><strong>神操作：</strong> 两个系统之间通过kakfa消息传递信息，但因消息发送时机不对导致数据同步混乱</p>
+<p>在某个场景中内容在系统A中发生变更，系统A发送消息通知系统B内容发生了变更，系统B接到消息后调用系统A的接口获取最新数据，然而系统A却在内容变更落库前先发送消息，导致系统B调用A的接口获取的仍然是旧数据</p>
+<p>严格来说这是个bug</p>
+<p><strong>建议：</strong> 明确消息的发送时机，确保获取到的数据有效性。</p>
+<h2 id="6-方法名词不达意、随意复用方法引发bug"><a href="#6-方法名词不达意、随意复用方法引发bug" class="headerlink" title="6. 方法名词不达意、随意复用方法引发bug"></a>6. 方法名词不达意、随意复用方法引发bug</h2><p><strong>神操作：</strong> 方法名与实际逻辑不符，随意复用引发bug</p>
+<p>在一个从方法名来看是做上报用户操作日志的方法中还连带发送了触发其他job的event，在其他地方复用该方法时触发了不该触发的job。</p>
+<p><strong>建议：</strong> 好好写代码，别瞎搞</p>
+<h2 id="7-过长的函数"><a href="#7-过长的函数" class="headerlink" title="7. 过长的函数"></a>7. 过长的函数</h2><p><strong>神操作：</strong> 所有逻辑在一个方法函数里完成，一个函数上千行，不易读懂和维护</p>
+<p>一个过长的函数就像是一篇没有分段的作文，层次结构不分明，想到哪写到哪。如果一个函数的职责范围不够明确，后续有新的功能似乎都可以塞到这个函数里，长此以往这个函数变得难以读懂，不可维护。</p>
+<p><strong>建议：</strong> 对于较长的业务流程可以按逻辑分块，拆分到不同的函数中并且明确函数的职责范围</p>
+<h2 id="8-嵌套过深的if语句"><a href="#8-嵌套过深的if语句" class="headerlink" title="8. 嵌套过深的if语句"></a>8. 嵌套过深的if语句</h2><p><strong>神操作：</strong>  if语句嵌套过深，远观代码整体像一个向右的大箭头</p>
+<p>嵌套过深的if语句理解起来比较费劲，后续再添加新的条件时容易出错</p>
+<p><strong>建议：</strong>  可以采用不满足条件提前退出的方式减少if的嵌套。或者采用责任链模式来完成数据的处理，亦或是通过查表的方式完成不同数据状态的处理</p>
+<h2 id="9-数据库事务与数据唯一性混淆"><a href="#9-数据库事务与数据唯一性混淆" class="headerlink" title="9. 数据库事务与数据唯一性混淆"></a>9. 数据库事务与数据唯一性混淆</h2><p><strong>神操作：</strong> 通过数据库事务来保证数据的唯一性</p>
+<p>期望通过数据库来保证表中数据的唯一性，但未添加唯一索引。在出现重复插入的数据时一脸疑惑，以为事务失效了</p>
+<p><strong>建议：</strong> 摸清事务的特性，如果要通过数据库保证唯一性可以添加唯一索引</p>
+<h2 id="10-异步任务共用队列，不区分优先级"><a href="#10-异步任务共用队列，不区分优先级" class="headerlink" title="10. 异步任务共用队列，不区分优先级"></a>10. 异步任务共用队列，不区分优先级</h2><p><strong>神操作：</strong> 多种类型的任务共用一条队列，当突发产生大量低优先级的任务时，因消费积压导致高优先级的任务一同被淹没，不能及时得到处理</p>
+<p><strong>建议：</strong> 按照任务优先级送入不同的队列，保证高优先级的任务能够得到及时的处理。同理，系统中数据流与控制流也应分开避免相互影响</p>
+<h2 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h2>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-12-03T11:01:37.103Z" itemprop="dateUpdated">2022-12-03 19:01:37</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/&title=《说说那些“鬼见愁”的项目-Part1》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/&title=《说说那些“鬼见愁”的项目-Part1》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《说说那些“鬼见愁”的项目-Part1》 — SingleX&url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/12/03/the-dammit-mistaks-part2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">说说那些“鬼见愁”的项目-Part2</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/05/03/computer-history/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">计算机发展历史</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/&title=《说说那些“鬼见愁”的项目-Part1》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/&title=《说说那些“鬼见愁”的项目-Part1》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《说说那些“鬼见愁”的项目-Part1》 — SingleX&url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

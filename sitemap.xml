@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://singlecool.com/2022/12/03/the-dammit-mistaks-part2/</loc>
+    
+    <lastmod>2022-12-03T11:04:08.712Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/</loc>
+    
+    <lastmod>2022-12-03T11:01:37.103Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2022/05/03/computer-history/</loc>
     
     <lastmod>2022-05-03T12:50:50.176Z</lastmod>
@@ -65,13 +79,6 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/07/09/2017%E4%B8%8A%E5%8D%8A%E5%B9%B4/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
@@ -79,7 +86,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/04/22/BigData-And-AI/</loc>
+    <loc>http://singlecool.com/2017/07/09/2017%E4%B8%8A%E5%8D%8A%E5%B9%B4/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -93,7 +100,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
+    <loc>http://singlecool.com/2018/04/01/DM/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2017/04/22/BigData-And-AI/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -101,6 +115,13 @@
   
   <url>
     <loc>http://singlecool.com/2017/07/29/RelevantSearch/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2017/05/13/RankModel/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -121,13 +142,6 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/03/26/RestlessHeart/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2016/08/20/Reservoir-Sampling/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
@@ -135,7 +149,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2018/04/01/DM/</loc>
+    <loc>http://singlecool.com/2017/03/26/RestlessHeart/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2017/10/21/TLS-Go/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -156,13 +177,6 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/10/21/TLS-Go/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2017/09/16/go-dns/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
@@ -177,21 +191,7 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/09/16/go-upgrade-on-fly/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://singlecool.com/2017/06/11/golang-test/</loc>
-    
-    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -205,7 +205,21 @@
   </url>
   
   <url>
+    <loc>http://singlecool.com/2017/09/03/just-a-kind-life/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://singlecool.com/2019/06/02/k8s-thinking/</loc>
+    
+    <lastmod>2020-12-05T09:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://singlecool.com/2017/09/16/go-upgrade-on-fly/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -219,14 +233,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2018/05/19/nil-channel/</loc>
+    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2018/03/25/robot/</loc>
+    <loc>http://singlecool.com/2018/05/19/nil-channel/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -240,14 +254,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/11/26/something_about-nlp/</loc>
+    <loc>http://singlecool.com/2018/03/25/robot/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2020/02/01/k8s-with-gpu/</loc>
+    <loc>http://singlecool.com/2017/11/26/something_about-nlp/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -261,14 +275,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/12/03/vitualenv-error/</loc>
+    <loc>http://singlecool.com/2017/08/13/user-behavior/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2017/08/13/user-behavior/</loc>
+    <loc>http://singlecool.com/2017/12/03/vitualenv-error/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
@@ -303,14 +317,14 @@
   </url>
   
   <url>
-    <loc>http://singlecool.com/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84schema/</loc>
+    <loc>http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://singlecool.com/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84schema/</loc>
     
     <lastmod>2020-12-05T09:56:43.000Z</lastmod>
     
