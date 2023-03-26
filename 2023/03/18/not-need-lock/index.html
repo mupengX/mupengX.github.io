@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://singlecool.com/img/lock-option-1.png">
 <meta property="og:image" content="http://singlecool.com/img/lock-option-2.png">
 <meta property="og:image" content="http://singlecool.com/img/lock-option-3.png">
-<meta property="og:updated_time" content="2023-03-26T13:04:15.888Z">
+<meta property="og:updated_time" content="2023-03-26T15:34:32.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你可能并不需要显式的加分布式锁">
 <meta name="twitter:description" content="前言在不同的系统或者同一个系统的不同实例间共享某个临界资源，为防止互相影响往往需要通过加锁的方式来将二者互斥开来。分布式锁就是在分布式系统中将多个同时对临界资源进行的操作互斥开的一种方式。 当我们遇到并发的对某个资源进行操作的场景时经常第一时间想到的是利用Redis、ZK等中间件加分布式锁来保证数据的准确性和一致性，但是在一些场景下并不一定需要显式的加锁来解决这个问题。 背景这天亚瑟和胖虎遇到如下">
@@ -234,7 +234,8 @@
 <p>哈哈，说的对但也不完全对。</p>
 <p>使用<code>select for update</code>确实可以解决问题，但同时要考虑到这种在第一次查询就加锁的操作如果在业务逻辑复杂的场景下会使得事务变长、持锁的时间变长，增加锁的等待时间进而带来资源的损耗。另外，如果使用的存储并非关系型数据库也不提供<code>for update</code>的语义接口怎么办呢？此时使用上面Option 3的方法只要存储有行锁机制就可以达到<code>select for update</code>的效果。</p>
 <p>当然这里有个大前提：两个操作更新的是同一个存储里的同一条数据。那如果是不同数据库里的不同数据呢，亚瑟问到。胖虎笑嘻嘻的说：你腰间不是还别着一把锁呢么~</p>
-<p>说完胖虎脑子里又浮现出另一个topic：分布式系统中数据读写的线性一致性问题</p>
+<p>亚瑟听完开启一技能兴冲冲的奔向了峡谷</p>
+<p>望着他远去的背影胖虎脑子里又浮现出另一个topic：分布式系统中数据读写的线性一致性问题</p>
 <p>未完待续……</p>
 
         </div>
@@ -244,7 +245,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2023-03-26T13:04:15.888Z" itemprop="dateUpdated">2023-03-26 21:04:15</time>
+    最后更新时间：<time datetime="2023-03-26T15:34:32.140Z" itemprop="dateUpdated">2023-03-26 23:34:32</time>
 </span><br>
 
 
