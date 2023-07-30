@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>计算机开机过程 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="从按下计算机的电源按钮到出现欢迎页，这个过程都发生了什么？我们知道计算机启动叫boot，重启叫reboot，这里的boot其实是bootstrap的缩写。计算机运行时其硬件交由软件来控制，所以计算机要启动必须要运行软件，但是计算机不启动就无法运行软件，这是一个鸡生蛋和蛋生鸡的过程。有一句谚语：  “pull oneself up by one’s bootstraps”  意思是说拽着自己的鞋带把">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机开机过程">
+<meta property="og:url" content="http://singlecool.com/2016/12/02/计算机点亮过程/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="从按下计算机的电源按钮到出现欢迎页，这个过程都发生了什么？我们知道计算机启动叫boot，重启叫reboot，这里的boot其实是bootstrap的缩写。计算机运行时其硬件交由软件来控制，所以计算机要启动必须要运行软件，但是计算机不启动就无法运行软件，这是一个鸡生蛋和蛋生鸡的过程。有一句谚语：  “pull oneself up by one’s bootstraps”  意思是说拽着自己的鞋带把">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机开机过程">
+<meta name="twitter:description" content="从按下计算机的电源按钮到出现欢迎页，这个过程都发生了什么？我们知道计算机启动叫boot，重启叫reboot，这里的boot其实是bootstrap的缩写。计算机运行时其硬件交由软件来控制，所以计算机要启动必须要运行软件，但是计算机不启动就无法运行软件，这是一个鸡生蛋和蛋生鸡的过程。有一句谚语：  “pull oneself up by one’s bootstraps”  意思是说拽着自己的鞋带把">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">计算机开机过程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">计算机开机过程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-12-01T16:05:25.000Z" itemprop="datePublished" class="page-time">
+  2016-12-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/OS/">OS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、BIOS"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、BIOS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、主引导记录-MBR"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、主引导记录(MBR)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、硬盘启动"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、硬盘启动</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四、操作系统"><span class="post-toc-number">4.</span> <span class="post-toc-text">四、操作系统</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-计算机点亮过程"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">计算机开机过程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-12-02 00:05:25" datetime="2016-12-01T16:05:25.000Z"  itemprop="datePublished">2016-12-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/OS/">OS</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>从按下计算机的电源按钮到出现欢迎页，这个过程都发生了什么？<br>我们知道计算机启动叫boot，重启叫reboot，这里的boot其实是bootstrap的缩写。计算机运行时其硬件交由软件来控制，所以计算机要启动必须要运行软件，但是计算机不启动就无法运行软件，这是一个鸡生蛋和蛋生鸡的过程。<br>有一句谚语：</p>
+<blockquote>
+<p>“pull oneself up by one’s bootstraps”</p>
+</blockquote>
+<p>意思是说拽着自己的鞋带把自己拉起来。这也充分反映了计算机的启动是一个矛盾的过程，时间久了就简称boot。</p>
+<p>计算机启动的过程主要有四个阶段：</p>
+<h2 id="一、BIOS"><a href="#一、BIOS" class="headerlink" title="一、BIOS"></a>一、BIOS</h2><p>内存包括随机存储器（RAM），只读存储器（ROM），以及高速缓存（CACHE）。开机程序被刷入ROM芯片中，按下电源键之后计算机首先去读取ROM，这段程序被称作基本的输入输出系统(Basic Input&#x2F;Output System)简称BIOS.</p>
+<p>BIOS程序首先检查计算机硬件能否满足运行的基本条件，这叫做”硬件自检”（Power-On Self-Test），缩写为POST。如果硬件出现问题，主板会发出不同含义的蜂鸣，中止启动。</p>
+<p>在BIOS的菜单中有一项『设定启动顺序』，这个启动顺序实际上是一个外部存储设备的排序，在BIOS完成硬件自检后按照这个启动顺序将控制权优先交给排在前面的设备。</p>
+<h2 id="二、主引导记录-MBR"><a href="#二、主引导记录-MBR" class="headerlink" title="二、主引导记录(MBR)"></a>二、主引导记录(MBR)</h2><p>BIOS按照『启动顺序』把控制权交给排在第一个的存储设备。计算机读取该设备的第一个扇区，即前512个字节，并判断该设备是否能用于启动（512个字节的最后两位是不是0x55和0xAA），如果不能则将控制权交给启动顺序中的下一个设备。</p>
+<p>这512个字节主要用来告诉计算机哪个分区是激活分区，并将控制权交给激活分区，被称为『主引导记录』(Master boot record)，简称MBR。MBR由三部分组成：<br>（1） 第1-446字节：调用操作系统的机器码。<br>（2） 第447-510字节：分区表（Partition table）。<br>（3） 第511-512字节：主引导记录签名（0x55和0xAA）。</p>
+<p>一个硬盘可以分成多个分区，其中分区表中记录了硬盘的分区信息。不同的分区可以安装不同的操作系统，因此MBR需要知道将控制权交给哪个分区。</p>
+<p>分区表只有64个字节，分为4项，所以一个硬盘最多只能有四个一级分区，即主分区。每一项的16个字节记录的内容为：<br>（1） 第1个字节：如果为0x80，就表示该主分区是激活分区，控制权要转交给这个分区。四个主分区里面只能有一个是激活的。<br>（2） 第2-4个字节：主分区第一个扇区的物理位置（柱面、磁头、扇区号等等）。<br>（3） 第5个字节：主分区类型。<br>（4） 第6-8个字节：主分区最后一个扇区的物理位置。<br>（5） 第9-12字节：该主分区第一个扇区的逻辑地址。<br>（6） 第13-16字节：主分区的扇区总数。</p>
+<p>随着硬盘越来越大四个分区已经不够用了，但分区表只有四项，因此规定其中只有一项可以设置为扩展分区。所谓”扩展分区”，就是指这个区里面又分成多个区。这种分区里面的分区，就叫做”逻辑分区”（logical partition）。<br>扩展分区的第一个扇区叫做”扩展引导记录”（Extended boot record），里面也包含了一张分区表，记录着下一个逻辑分区的位置，以此类推，直到某个逻辑分区分区表只包含自己。</p>
+<h2 id="三、硬盘启动"><a href="#三、硬盘启动" class="headerlink" title="三、硬盘启动"></a>三、硬盘启动</h2><p>此时将计算机的控制权交给硬盘的某个分区了。计算机会读取激活分区的第一个扇区，叫做”卷引导记录”（Volume boot record），VBR告诉计算机操作系统位于该分区的哪个位置，然后计算机加载OS。</p>
+<p>特殊情况下，计算机读取”主引导记录”前面446字节的机器码之后，不再把控制权转交给某一个分区，而是运行事先安装的”启动管理器”（boot loader），由用户选择启动哪一个操作系统，目前常用的启动管理器是Grub。</p>
+<h2 id="四、操作系统"><a href="#四、操作系统" class="headerlink" title="四、操作系统"></a>四、操作系统</h2><p>最后控制器交给操作系统，首先载入操作系统的内核，例如Linux，先载入&#x2F;boot下的kernel，然后运行&#x2F;sbin&#x2F;init，根据&#x2F;etc&#x2F;initab产生PID为1的init进程，他是所有进程的父进程。然后init进程加载各个模块，例如网络、XWindow等，直至运行&#x2F;bin&#x2F;login跳出登录界面等待用户输入用户名和密码。</p>
+<p>至此，全过程结束。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-05T09:56:43.000Z" itemprop="dateUpdated">2020-12-05 17:56:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/12/02/计算机点亮过程/&title=《计算机开机过程》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/12/02/计算机点亮过程/&title=《计算机开机过程》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/12/02/计算机点亮过程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《计算机开机过程》 — SingleX&url=http://singlecool.com/2016/12/02/计算机点亮过程/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/12/02/计算机点亮过程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/12/04/用户评论挖掘/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">用户评论挖掘</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/11/13/mysql的set names/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">mysql的set names</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/12/02/计算机点亮过程/&title=《计算机开机过程》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/12/02/计算机点亮过程/&title=《计算机开机过程》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/12/02/计算机点亮过程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《计算机开机过程》 — SingleX&url=http://singlecool.com/2016/12/02/计算机点亮过程/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/12/02/计算机点亮过程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/12/02/计算机点亮过程/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

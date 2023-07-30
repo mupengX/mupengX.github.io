@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>数据库的schema | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="PostgreSQL">
+    <meta name="description" content="schema是对数据库逻辑的分割，schema隶属于数据库。一个数据库可以包含多个schema。 schema可以包含多种命名对象，例如：数据类型、函数等。不同的schema中可以包含相同的对象名而不会冲突。 使用schema的原因主要有：  允许多个用户使用同一个数据库而互不干扰 将数据库对象进行逻辑分组，便于管理 第三方应用放在单独的schema，不与其他对象发生冲突  下面以Postgres">
+<meta name="keywords" content="PostgreSQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库的schema">
+<meta property="og:url" content="http://singlecool.com/2015/08/16/数据库的schema/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="schema是对数据库逻辑的分割，schema隶属于数据库。一个数据库可以包含多个schema。 schema可以包含多种命名对象，例如：数据类型、函数等。不同的schema中可以包含相同的对象名而不会冲突。 使用schema的原因主要有：  允许多个用户使用同一个数据库而互不干扰 将数据库对象进行逻辑分组，便于管理 第三方应用放在单独的schema，不与其他对象发生冲突  下面以Postgres">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库的schema">
+<meta name="twitter:description" content="schema是对数据库逻辑的分割，schema隶属于数据库。一个数据库可以包含多个schema。 schema可以包含多种命名对象，例如：数据类型、函数等。不同的schema中可以包含相同的对象名而不会冲突。 使用schema的原因主要有：  允许多个用户使用同一个数据库而互不干扰 将数据库对象进行逻辑分组，便于管理 第三方应用放在单独的schema，不与其他对象发生冲突  下面以Postgres">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数据库的schema</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数据库的schema</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-08-16T07:35:19.000Z" itemprop="datePublished" class="page-time">
+  2015-08-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Database/">Database</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建schema"><span class="post-toc-number">1.</span> <span class="post-toc-text">创建schema</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查询schema"><span class="post-toc-number">2.</span> <span class="post-toc-text">查询schema</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除schema"><span class="post-toc-number">3.</span> <span class="post-toc-text">删除schema</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#schema搜索路径"><span class="post-toc-number">4.</span> <span class="post-toc-text">schema搜索路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#System-Catalog-Schema"><span class="post-toc-number">5.</span> <span class="post-toc-text">System Catalog Schema</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-数据库的schema"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数据库的schema</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015-08-16 15:35:19" datetime="2015-08-16T07:35:19.000Z"  itemprop="datePublished">2015-08-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Database/">Database</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>schema是对数据库逻辑的分割，schema隶属于数据库。一个数据库可以包含多个schema。</p>
+<p>schema可以包含多种命名对象，例如：数据类型、函数等。不同的schema中可以包含相同的对象名而不会冲突。</p>
+<p>使用schema的原因主要有：</p>
+<ol>
+<li>允许多个用户使用同一个数据库而互不干扰</li>
+<li>将数据库对象进行逻辑分组，便于管理</li>
+<li>第三方应用放在单独的schema，不与其他对象发生冲突</li>
+</ol>
+<p>下面以PostgresSQL为例说一下schema的使用</p>
+<h3 id="创建schema"><a href="#创建schema" class="headerlink" title="创建schema"></a>创建schema</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">SCHEMA</span> schema_name [ AUTHORIZATION user_name ] [ schema_element [ ... ] ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>schema_name<br> 将要创建的schema的名字，在当前数据库中schema的名字不能冲突。如果忽略此参数，则以当前数据库用户的名字命名新创建的schema。schema的名字不能以pg_开头，这是系统保留的名字。</li>
+<li>user_name<br> 拥有新创建schema的角色名字，如果不指定则为执行当前命令的数据库用户。</li>
+<li>schema_element<br> 创建schema名字空间下其他对象的SQL语句。与创建schema完毕后执行单独的SQL来创建对象是一样的，除了如果指定AUTHORIZATION,那么新创建的对象都有指定的角色拥有</li>
+</ul>
+<p>每个新建数据库包含一个默认的public模式，数据库中没有指定的schema对象都归属于public schema</p>
+<h3 id="查询schema"><a href="#查询schema" class="headerlink" title="查询schema"></a>查询schema</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postgres-<span class="comment"># \dn</span></span><br><span class="line">  List of schemas</span><br><span class="line">  Name  |  Owner   </span><br><span class="line"><span class="comment">--------+----------</span></span><br><span class="line"> public | postgres</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除schema"><a href="#删除schema" class="headerlink" title="删除schema"></a>删除schema</h3><p>如果schema已经为空对象，可以用一下语句删除schema</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">SCHEMA</span> myschema;</span><br></pre></td></tr></table></figure>
+
+<h3 id="schema搜索路径"><a href="#schema搜索路径" class="headerlink" title="schema搜索路径"></a>schema搜索路径</h3><p>全限定的名字写起来十分冗长，系统通过一个搜索路径来决定到底使用的是哪一张表，搜索路径是schema的一个列表。搜索路径中第一个匹配的表即是要访问的表。如果搜索路径中没有匹配，会报告一个错误，即使在数据库的其他schema中有相匹配的表。</p>
+<p>查看当前额搜索路径：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">postgres=<span class="comment"># SHOW search_path;</span></span><br><span class="line">  search_path   </span><br><span class="line"><span class="comment">----------------</span></span><br><span class="line"> "$user",public</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，搜索路径的第一个schema是与当前用户同名的schema,第二个则是public schema。</p>
+<p>可以这样设置搜索路径：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> search_path <span class="keyword">TO</span> myschema,<span class="keyword">public</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>官方建议是这样的：</strong>在管理员创建一个具体数据库后，应该为所有可以连接到该数据库的用户分别创建一个与用户名相同的模式，然后，将search_path设置为”$user”，这样，任何当某个用户连接上来后，会默认将查找或者定义的对象都定位到与之同名的模式中。这是一个好的设计架构。</p>
+<p>默认情况下，用户不能访问不属于他的schema中的任何对象。要允许访问，schema的拥有者必须授予用户在这个schema上的USAGE权限。不同访问权限需要不同的授权。</p>
+<h3 id="System-Catalog-Schema"><a href="#System-Catalog-Schema" class="headerlink" title="System Catalog Schema"></a>System Catalog Schema</h3><ul>
+<li>如果不创建任何schema，则所有用户隐式的使用public schema。这等同于不使用schema。这在数据库中只有一个或者极少的用户时推荐使用。</li>
+<li>可以为每一个用户创建一个与其用户名相同的schema。如果每个用户有一个与其名字相同的单独的schema，则默认他们只能访问自己所属的schema。使用这种schema范式，可以撤销掉对public schema的访问许可，甚至把public schema直接移除，这样每个用户就真正的限定在了他们自己的schema里</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-05T09:56:43.000Z" itemprop="dateUpdated">2020-12-05 17:56:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PostgreSQL/">PostgreSQL</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2015/08/16/数据库的schema/&title=《数据库的schema》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2015/08/16/数据库的schema/&title=《数据库的schema》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2015/08/16/数据库的schema/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据库的schema》 — SingleX&url=http://singlecool.com/2015/08/16/数据库的schema/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2015/08/16/数据库的schema/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2015/08/16/数据库表空间/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数据库表空间</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/07/30/关于前后端分离的一些想法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">关于前后端分离的一些想法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2015/08/16/数据库的schema/&title=《数据库的schema》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2015/08/16/数据库的schema/&title=《数据库的schema》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2015/08/16/数据库的schema/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据库的schema》 — SingleX&url=http://singlecool.com/2015/08/16/数据库的schema/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2015/08/16/数据库的schema/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2015/08/16/数据库的schema/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

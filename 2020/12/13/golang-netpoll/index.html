@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Go netpoller网络模型 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go">
+    <meta name="description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
+<meta name="keywords" content="Go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go netpoller网络模型">
+<meta property="og:url" content="http://singlecool.com/2020/12/13/golang-netpoll/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://singlecool.com/img/non-blockingIO.jpg">
+<meta property="og:updated_time" content="2020-12-13T10:11:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go netpoller网络模型">
+<meta name="twitter:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
+<meta name="twitter:image" content="http://singlecool.com/img/non-blockingIO.jpg">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go netpoller网络模型</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go netpoller网络模型</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-12-13T02:15:18.000Z" itemprop="datePublished" class="page-time">
+  2020-12-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O模型"><span class="post-toc-number">1.</span> <span class="post-toc-text">I/O模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O多路复用"><span class="post-toc-number">2.</span> <span class="post-toc-text">I/O多路复用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#select-poll"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">select&amp;poll</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">epoll</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#netpoller"><span class="post-toc-number">3.</span> <span class="post-toc-text">netpoller</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#one-more-thing"><span class="post-toc-number">4.</span> <span class="post-toc-text">one more thing</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-golang-netpoll"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go netpoller网络模型</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-12-13 10:15:18" datetime="2020-12-13T02:15:18.000Z"  itemprop="datePublished">2020-12-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。</p>
+<h2 id="I-O模型"><a href="#I-O模型" class="headerlink" title="I&#x2F;O模型"></a>I&#x2F;O模型</h2><p>在网络编程的世界里存在5种IO模型：</p>
+<ol>
+<li>阻塞 I&#x2F;O (Blocking I&#x2F;O)  </li>
+<li>非阻塞 I&#x2F;O (Nonblocking I&#x2F;O)</li>
+<li>I&#x2F;O 多路复用 (I&#x2F;O multiplexing)</li>
+<li>信号驱动 I&#x2F;O (Signal driven I&#x2F;O)</li>
+<li>异步 I&#x2F;O (Asynchronous I&#x2F;O)</li>
+</ol>
+<p>当应用程序对一个socket发起一次网络读写操作时分为两个步骤：</p>
+<ol>
+<li>等待网络数据流到来网卡可读(读就绪)&#x2F;等待网卡可写(写就绪) ，将数据从网卡写入到内核&#x2F;读取内核数据写入网卡</li>
+<li>从内核缓冲区复制数据到用户空间(读)&#x2F;从用户空间复制数据到内核缓冲区(写)</li>
+</ol>
+<p>同步IO与异步IO的主要区别在于执行第二步的时候应用程序是否需要同步等待。上述5种IO模型除了Asynchronous I&#x2F;O是异步之外，其余都为同步模型。</p>
+<p>至于阻塞与非阻塞主要区别在于第一步数据未到达时当前进程是否会被阻塞住。</p>
+<p>在阻塞模式下当应用程序调用<code>recvfrom</code>读取socket时，如果数据未到达应用程序会被阻塞直到数据完全准备好。</p>
+<p>在非阻塞模式下当应用程序调用<code>recvfrom</code>读取socket时，如果数据未准备好则内核会立即返回一个EWOULDBLOCK，应用程序接到一个 EAGAIN error。非阻塞模式下也可以是同步IO：基于轮询，当返回EAGAIN时应用程序继续发起<code>recvfrom</code>调用直到数据准备好。</p>
+<p>当数据准备好之后就可以将数据从内核空间的缓存复制到用户空间的缓存，在复制数据这一步应用程序还是阻塞的。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/non-blockingIO.jpg" alt="Non-blocking I/O" title>
+                </div>
+                <div class="image-caption">Non-blocking I/O</div>
+            </figure>
+
+
+<h2 id="I-O多路复用"><a href="#I-O多路复用" class="headerlink" title="I&#x2F;O多路复用"></a>I&#x2F;O多路复用</h2><p>IO多路复用是指一个线程同时监听多个IO连接的事件，阻塞等待，当某个连接发生可读写IO事件时收到通知。所以复用的是线程而不是IO连接。常见的多路复用选择器有：select&#x2F;poll&#x2F;epoll、kqueue、iocp</p>
+<p>简单讲一下select&#x2F;poll&#x2F;epoll：</p>
+<h3 id="select-poll"><a href="#select-poll" class="headerlink" title="select&amp;poll"></a>select&amp;poll</h3><p>select主要存在以下几个缺点：</p>
+<ul>
+<li>每次调用select都需要使用copy_from_user把fd集合从用户态拷贝到内核态，当fd很多时这个开销会很大</li>
+<li>每次调用select都需要在内核遍历传递进来的所有fd挨个检查fd的状态，随着fd数量的增长 I&#x2F;O 性能会线性下降</li>
+<li>最大文件描述符数量限制，默认一次只能传入1024个fd，意味着一次只能监听1024个socket</li>
+</ul>
+<p>poll在本质上与select没有区别只是扩大了可传入的fd集合的大小</p>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p>相比于select，用户可以通过epoll_ctl调用将fd注册到epoll实例上，而epoll_wait则会阻塞监听所有的epoll实例上所有的fd的事件。他解决了select未解决的两个问题：</p>
+<ol>
+<li>通过epoll_ctl注册fd，一个fd只完成一次从用户态到内核态的拷贝而不需要每次调用时都拷贝一次，并且epoll使用红黑树存储所有的fd因此重复注册是没用的</li>
+<li>当某个fd注册完成后会与对应的设备建立回调关系，当设备就绪触发中断后内核通过该回调函数将该fd添加到rdllist 双向就绪链表中。epoll_wait 就是去检查 rdllist 中是否有就绪的 fd，当 rdllist 为空时就会阻塞挂起当前调用epoll_wait进程，直到 rdllist 非空时进程才被唤醒并返回。此处epoll解决了select的第二个问题：不需要每次调用都遍历传进来的fd列表，从而不会因为随着fd数量的增多而性能下降。</li>
+</ol>
+<h2 id="netpoller"><a href="#netpoller" class="headerlink" title="netpoller"></a>netpoller</h2><p>首先对于epoll提供的三个调用接口Go对此都做了封装</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/epoll.h&gt;  </span><br><span class="line"><span class="keyword">int</span> epoll_create(<span class="keyword">int</span> size);  </span><br><span class="line"><span class="keyword">int</span> epoll_ctl(<span class="keyword">int</span> epfd, <span class="keyword">int</span> op, <span class="keyword">int</span> fd, <span class="keyword">struct</span> epoll_event *event);  </span><br><span class="line"><span class="keyword">int</span> epoll_wait(<span class="keyword">int</span> epfd, <span class="keyword">struct</span> epoll_event * events, <span class="keyword">int</span> maxevents, <span class="keyword">int</span> timeout);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Go 对上面三个调用的封装</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpollinit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpollopen</span><span class="params">(fd <span class="keyword">uintptr</span>, pd *pollDesc)</span> <span class="title">int32</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpoll</span><span class="params">(block <span class="keyword">bool</span>)</span> <span class="title">gList</span></span></span><br></pre></td></tr></table></figure>
+
+<p>当调用<code>net.Listen</code>之后操作系统会创建一个socket同时返回与之对应的fd(被设置为非阻塞模式)，该fd用来初始化listener的netFD(go层面封装的网络文件描述符)，同时会调用<code>epoll_create</code>创建一个 epoll 实例 作为整个 runtime 的唯一 event-loop 使用。</p>
+<p>当一个client连接server时，listener通过accept接受新的连接，该连接的fd被设置为非阻塞模式同时会起一个新的goroutine来处理新连接并将新连接对应的fd注册到epoll中。当goroutine调用<code>conn.Read</code>，<code>conn.Write</code>对连接进行读写操作遇到<code> EAGAIN</code>错误时会被 gopark 给park住进行休眠，让P去执行本地调度队列里的下一个可执行的G。这些被park住的goroutine会在goroutine的调度中调用<code>runtime.netpoll</code>被唤醒，然后调用 injectglist 把唤醒的 G 放入当前 P 本地调度队列或者全局调度队列去执行。</p>
+<p>runtime.netpoll 的核心逻辑是： 根据入参 delay设置调用 epoll_wait 的 timeout 值，调用 epoll_wait 从 epoll 的 <code>eventpoll.rdllist</code>双向列表中获取IO就绪的fd列表，遍历epoll_wait 返回的fd列表， 根据调用<code>epoll_ctl</code>注册fd时封装的上下文信息组装可运行的 goroutine 并返回。(仔细看遍历fd列表的这个操作是不是又有点像select？)</p>
+<p>调用<code>runtime.netpoll</code>的地方有两处：</p>
+<ul>
+<li>在调度器中执行<code>runtime.schedule()</code>，该方法中会执行<code>runtime.findrunable()</code>，在<code>runtime.findrunable()</code>中调用了<code>runtime.netpoll</code>获取待执行的goroutine</li>
+<li>Go runtime 在程序启动的时候会创建一个独立的sysmon监控线程，sysmon 每 20us~10ms 运行一次，每次运行会检查距离上一次执行netpoll是否超过10ms，如果是则会调用一次<code>runtime.netpoll</code></li>
+</ul>
+<p><strong>敲黑板，划重点：</strong><br>上面过程中通过Listen和Accept返回的fd都被设置为非阻塞模式，原因是如果为阻塞模式则会使对应的G阻塞在system call上，此时与G对应的M也会被阻塞从而进入内核态，一旦进入内核态之后调度的控制权就不在go runtime手中也就无法借助go scheduler进行调度。在非阻塞模式下对应goroutine是被gopark给park住放入某个wait queue中，M可以继续执行下一个G。整个过程网络 I&#x2F;O 的控制权都牢牢掌握在 Go 自己的 runtime 里。</p>
+<h2 id="one-more-thing"><a href="#one-more-thing" class="headerlink" title="one more thing"></a>one more thing</h2><p>在go1.14对timer进行了优化，其中一个优化点是将timer与netpoll结合。在go1.10之前由一个独立的timerproc通过小顶堆和futexsleep来管理定时任务，go1.10为了降低锁的竞争将其扩展为最多64个小顶堆和timerproc，但依然没有从本质上解决全局锁以及多次G、P和M间的切换导致的性能开销问题。</p>
+<p>在go1.14中把存放定时事件的四叉堆放到P中，这样既很大程度上避免了全局锁又保证了G、P和M间的一致性避免相互之前多次切换，同时取消了timerproc协程转而使用netpoll来做就近时间的休眠等待：</p>
+<ol>
+<li>如果新添加的定时任务when小于netpoll的休眠等待时间<code>sched.pollUntil</code>就会激活netPoll的等待。也就是在<code>runtime.findrunable </code>里的最后会使用超时阻塞的方法调用<code>epoll_wait</code>，这样既监控了epoll实例红黑树上的fd，又可兼顾最近的定时任务</li>
+<li>在每次<code>runtime.schedule</code>调度时在<code>runtime.findrunable </code>中都会通过<code>checkTimers </code>来查找可运行的定时任务</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://morsmachine.dk/netpoller" target="_blank" rel="noopener">The Go netpoller</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-13T10:11:56.000Z" itemprop="dateUpdated">2020-12-13 18:11:56</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2020/12/13/golang-netpoll/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go netpoller网络模型》 — SingleX&url=http://singlecool.com/2020/12/13/golang-netpoll/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2020/12/13/golang-netpoll/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/01/22/SSTable-and-LSMTree/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SSTable和LSMTree</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/12/06/micro-service-subsetting/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">控制好微服务之间的连接数量</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2020/12/13/golang-netpoll/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go netpoller网络模型》 — SingleX&url=http://singlecool.com/2020/12/13/golang-netpoll/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2020/12/13/golang-netpoll/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2020/12/13/golang-netpoll/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

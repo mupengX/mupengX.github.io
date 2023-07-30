@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>利用Protocol buffers FieldMask和Wrapper Message设计API | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go">
+    <meta name="description" content="前言在做API设计的时候经常遇到两个问题： 1、更新接口参数是否可以只传要修改的字段。 2、protobuf3 Go generated code中没有HasField()方法之后，如何判断某个字段是否被赋值。 实践FieldMask对于前面提到的第一个问题可以利用FieldMask来解决，看下FieldMask官方介绍：  FieldMask represents a set of symbol">
+<meta name="keywords" content="Go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Protocol buffers FieldMask和Wrapper Message设计API">
+<meta property="og:url" content="http://singlecool.com/2021/10/23/protobuf-tips/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="前言在做API设计的时候经常遇到两个问题： 1、更新接口参数是否可以只传要修改的字段。 2、protobuf3 Go generated code中没有HasField()方法之后，如何判断某个字段是否被赋值。 实践FieldMask对于前面提到的第一个问题可以利用FieldMask来解决，看下FieldMask官方介绍：  FieldMask represents a set of symbol">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-10-30T12:41:13.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Protocol buffers FieldMask和Wrapper Message设计API">
+<meta name="twitter:description" content="前言在做API设计的时候经常遇到两个问题： 1、更新接口参数是否可以只传要修改的字段。 2、protobuf3 Go generated code中没有HasField()方法之后，如何判断某个字段是否被赋值。 实践FieldMask对于前面提到的第一个问题可以利用FieldMask来解决，看下FieldMask官方介绍：  FieldMask represents a set of symbol">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">利用Protocol buffers FieldMask和Wrapper Message设计API</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">利用Protocol buffers FieldMask和Wrapper Message设计API</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-10-23T08:30:42.000Z" itemprop="datePublished" class="page-time">
+  2021-10-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实践"><span class="post-toc-number">2.</span> <span class="post-toc-text">实践</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#FieldMask"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">FieldMask</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Wrapper-Message"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Wrapper Message</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">3.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-protobuf-tips"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">利用Protocol buffers FieldMask和Wrapper Message设计API</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-10-23 16:30:42" datetime="2021-10-23T08:30:42.000Z"  itemprop="datePublished">2021-10-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在做API设计的时候经常遇到两个问题：</p>
+<p>1、更新接口参数是否可以只传要修改的字段。</p>
+<p>2、protobuf3 Go generated code中没有HasField()方法之后，如何判断某个字段是否被赋值。</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><h3 id="FieldMask"><a href="#FieldMask" class="headerlink" title="FieldMask"></a>FieldMask</h3><p>对于前面提到的第一个问题可以利用FieldMask来解决，看下FieldMask官方介绍：</p>
+<blockquote>
+<p><code>FieldMask</code> represents a set of symbolic field paths. Field masks are used to specify a subset of fields that should be returned by a get operation (a <em>projection</em>), or modified by an update operation.</p>
+</blockquote>
+<p>FieldMask是一组字段的路径，它可以用来指定返回哪些字段或更新哪些字段。例如：我们有个一个更新用户信息的接口，在更新接口中我们可以通过FieldMask指定更新哪些字段，这样就不必为每个字段的更新设计一个接口。</p>
+<p>Protobuf 定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"google/protobuf/field_mask.proto"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"google/protobuf/wrappers.proto"</span>;</span><br><span class="line">message User &#123;</span><br><span class="line">  <span class="keyword">int64</span> id = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">string</span> name = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">string</span> gender = <span class="number">4</span>;</span><br><span class="line">  <span class="keyword">string</span> birthday = <span class="number">5</span>;</span><br><span class="line">  google.protobuf.StringValue email = <span class="number">6</span>;</span><br><span class="line">  google.protobuf.DoubleValue money = <span class="number">7</span>;</span><br><span class="line">  google.protobuf.Int32Value size = <span class="number">8</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message UpdateUserRequest &#123;</span><br><span class="line">  User user = <span class="number">1</span>;</span><br><span class="line">  google.protobuf.FieldMask field_mask = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message UserReply &#123;</span><br><span class="line">  User user = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service UserService &#123;</span><br><span class="line">  rpc UpdateUser(UpdateUserRequest) returns (UserReply);</span><br><span class="line">  rpc FindUser(FindUserRequest) returns (UserReply);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Client端在请求时指定要更新的字段，未被指定的字段不会被更新。代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">updateUser</span><span class="params">(client pb.UserServiceClient)</span></span> &#123;</span><br><span class="line">	ctx, cancel := context.WithTimeout(context.Background(), time.Second)</span><br><span class="line">	<span class="keyword">defer</span> cancel()</span><br><span class="line"></span><br><span class="line">	user := &amp;pb.User&#123;</span><br><span class="line">		Id:       <span class="number">1001</span>,</span><br><span class="line">		Name:     <span class="string">"Jerry"</span>,</span><br><span class="line">		Gender:   <span class="string">"female"</span>,</span><br><span class="line">		Birthday: <span class="string">"1991-01-01"</span>,</span><br><span class="line">		Money:    &amp;wrappers.DoubleValue&#123;Value: <span class="number">123243.43</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	req := &amp;pb.UpdateUserRequest&#123;</span><br><span class="line">		User: user,</span><br><span class="line">		FieldMask: &amp;field_mask.FieldMask&#123;</span><br><span class="line">			Paths: []<span class="keyword">string</span>&#123;<span class="string">"user.birthday"</span>, <span class="string">"user.money"</span>&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	reply, err := client.UpdateUser(ctx, req)</span><br><span class="line">	log.Printf(<span class="string">"update user reply: %v, err: %v\n"</span>, reply, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Server 端根据请求中的FieldMask来更新响应字段。代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *server)</span> <span class="title">UpdateUser</span><span class="params">(ctx context.Context, req *pb.UpdateUserRequest)</span> <span class="params">(*pb.UserReply, error)</span></span> &#123;</span><br><span class="line">	<span class="comment">// assume is found by req.GetUser().GetId() from db</span></span><br><span class="line">	dst := &amp;pb.User&#123;</span><br><span class="line">		Id:       <span class="number">1001</span>,</span><br><span class="line">		Name:     <span class="string">"mary"</span>,</span><br><span class="line">		Gender:   <span class="string">"female"</span>,</span><br><span class="line">		Birthday: <span class="string">"1996-12-12"</span>,</span><br><span class="line">		Email:    &amp;wrappers.StringValue&#123;Value: <span class="string">"xxx@xx.com"</span>&#125;,</span><br><span class="line">		Money:    &amp;wrappers.DoubleValue&#123;Value: <span class="number">12.34</span>&#125;,</span><br><span class="line">		Size:     &amp;wrappers.Int32Value&#123;Value: <span class="number">12</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	log.Printf(<span class="string">"user find from db: %v\n"</span>, dst)</span><br><span class="line">	fmutils.Filter(req, req.GetFieldMask().GetPaths())</span><br><span class="line">	src := req.GetUser()</span><br><span class="line">	log.Printf(<span class="string">"user to be merged: %v\n"</span>, src)</span><br><span class="line">	proto.Merge(dst, src)</span><br><span class="line">	log.Printf(<span class="string">"user to update: %v\n"</span>, dst)</span><br><span class="line">	<span class="comment">// omit save to db</span></span><br><span class="line">	<span class="keyword">return</span> &amp;pb.UserReply&#123;</span><br><span class="line">		User: dst,</span><br><span class="line">	&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Client端请求日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2021/10/30 15:41:21 update user reply: user:&#123;id:1001  name:"mary"  gender:"female"  birthday:"1991-01-01"  email:&#123;value:"xxx@xx.com"&#125;  money:&#123;value:123243.43&#125;  size:&#123;value:12&#125;&#125;, err: &lt;nil&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Server端日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2021/10/30 15:41:21 user find from db: id:1001  name:"mary"  gender:"female"  birthday:"1996-12-12"  email:&#123;value:"xxx@xx.com"&#125;  money:&#123;value:12.34&#125;  size:&#123;value:12&#125;</span><br><span class="line">2021/10/30 15:41:21 user to be merged: birthday:"1991-01-01"  money:&#123;value:123243.43&#125;</span><br><span class="line">2021/10/30 15:41:21 user to update: id:1001  name:"mary"  gender:"female"  birthday:"1991-01-01"  email:&#123;value:"xxx@xx.com"&#125;  money:&#123;value:123243.43&#125;  size:&#123;value:12&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到通过FieldMask只更新了用户的birthday和money两个字段，其他字段未被更新。这样做的好处是所有字段的更新可以统一到一个接口中，不需要根据不同的字段定义不同的接口，例如：UpdateUserBirthDay、UpdateUserMoney等。</p>
+<p>也可以使用FieldMask来指定查找接口里的返回字段：</p>
+<p>Client端代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	conn, err := grpc.Dial(<span class="string">"127.0.0.1:8888"</span>, grpc.WithInsecure(), grpc.WithBlock())</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalf(<span class="string">"did not connect: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> conn.Close()</span><br><span class="line"></span><br><span class="line">	client := pb.NewUserServiceClient(conn)</span><br><span class="line"></span><br><span class="line">	updateUser(client)</span><br><span class="line">	<span class="comment">// find user without field mask</span></span><br><span class="line">	findUser(client, <span class="literal">nil</span>)</span><br><span class="line">	<span class="comment">// find user with field mask</span></span><br><span class="line">	fieldMask := &amp;field_mask.FieldMask&#123;</span><br><span class="line">		Paths: []<span class="keyword">string</span>&#123;<span class="string">"id"</span>, <span class="string">"name"</span>, <span class="string">"gender"</span>, <span class="string">"email"</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	findUser(client, fieldMask)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findUser</span><span class="params">(client pb.UserServiceClient, fieldMask *field_mask.FieldMask)</span></span> &#123;</span><br><span class="line">	ctx, cancel := context.WithTimeout(context.Background(), time.Second)</span><br><span class="line">	<span class="keyword">defer</span> cancel()</span><br><span class="line">	req := &amp;pb.FindUserRequest&#123;</span><br><span class="line">		Id:        <span class="number">1001</span>,</span><br><span class="line">		FieldMask: fieldMask,</span><br><span class="line">	&#125;</span><br><span class="line">	reply, err := client.FindUser(ctx, req)</span><br><span class="line">	log.Printf(<span class="string">"find user reply: %v, fieldMask: %v, err: %v\n"</span>, reply, fieldMask, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Server端代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *server)</span> <span class="title">FindUser</span><span class="params">(ctx context.Context, req *pb.FindUserRequest)</span> <span class="params">(*pb.UserReply, error)</span></span> &#123;</span><br><span class="line">	user := &amp;pb.User&#123;</span><br><span class="line">		Id:       <span class="number">1001</span>,</span><br><span class="line">		Name:     <span class="string">"mary"</span>,</span><br><span class="line">		Gender:   <span class="string">"female"</span>,</span><br><span class="line">		Birthday: <span class="string">"1996-12-12"</span>,</span><br><span class="line">		Email:    &amp;wrappers.StringValue&#123;Value: <span class="string">"xxx@xx.com"</span>&#125;,</span><br><span class="line">		Money:    &amp;wrappers.DoubleValue&#123;Value: <span class="number">12.34</span>&#125;,</span><br><span class="line">		Size:     &amp;wrappers.Int32Value&#123;Value: <span class="number">12</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	log.Printf(<span class="string">"field mask path: %v\n"</span>, req.GetFieldMask().GetPaths())</span><br><span class="line">	<span class="comment">// filter user protobuf message by field mask</span></span><br><span class="line">	fmutils.Filter(user, req.GetFieldMask().GetPaths())</span><br><span class="line">	<span class="keyword">return</span> &amp;pb.UserReply&#123;</span><br><span class="line">		User: user,</span><br><span class="line">	&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Client端请求日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021/10/30 16:00:20 find user reply: user:&#123;id:1001  name:&quot;mary&quot;  gender:&quot;female&quot;  birthday:&quot;1996-12-12&quot;  email:&#123;value:&quot;xxx@xx.com&quot;&#125;  money:&#123;value:12.34&#125;  size:&#123;value:12&#125;&#125;, fieldMask: &lt;nil&gt;, err: &lt;nil&gt;</span><br><span class="line">2021/10/30 16:00:20 find user reply: user:&#123;id:1001  name:&quot;mary&quot;  gender:&quot;female&quot;  email:&#123;value:&quot;xxx@xx.com&quot;&#125;&#125;, fieldMask: paths:&quot;id&quot;  paths:&quot;name&quot;  paths:&quot;gender&quot;  paths:&quot;email&quot;, err: &lt;nil&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Server端日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021/10/30 16:00:20 field mask path: []</span><br><span class="line">2021/10/30 16:00:20 field mask path: [id name gender email]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到第一次FieldMask未赋值则User所有字段都返回，第二次请求则返回了指定字段。</p>
+<h3 id="Wrapper-Message"><a href="#Wrapper-Message" class="headerlink" title="Wrapper Message"></a>Wrapper Message</h3><p>针对第二个问题，除了FieldMask外注意到上面的代码中User Message中email、money等部分字段使用了 wrapper message类型而非基础类型来定义，这样做的好处是可以清晰的区分出该字段是未被赋值还是被赋为零值。例如：请求中money这个字段通过moneyl&#x3D;&#x3D;0无法判断moeny这字段是未赋值还是赋为空。</p>
+<p>例如：检查更新用户的接口中money字段必须赋值，否则报错</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *server)</span> <span class="title">validateUpdateUserRequest</span> <span class="params">(ctx context.Context, req *pb.UpdateUserRequest)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> req.GetUser().GetMoney() == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以在protobuf中使用protoc-gen-validate等工具来限定money字段不为空</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developers.google.cn/protocol-buffers/docs/reference/google.protobuf?hl=zh-cn#fieldmask" target="_blank" rel="noopener">Protobuf FieldMask</a></p>
+<p><a href="https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/wrappers.proto" target="_blank" rel="noopener">Protobuf Wrappers</a></p>
+<p><a href="https://github.com/mennanov/fieldmask-utils" target="_blank" rel="noopener">Protobuf fieldmask util</a></p>
+<p><a href="https://netflixtechblog.com/practical-api-design-at-netflix-part-1-using-protobuf-fieldmask-35cfdc606518" target="_blank" rel="noopener">Netflix API Design</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-10-30T12:41:13.097Z" itemprop="dateUpdated">2021-10-30 20:41:13</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2021/10/23/protobuf-tips/&title=《利用Protocol buffers FieldMask和Wrapper Message设计API》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2021/10/23/protobuf-tips/&title=《利用Protocol buffers FieldMask和Wrapper Message设计API》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2021/10/23/protobuf-tips/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《利用Protocol buffers FieldMask和Wrapper Message设计API》 — SingleX&url=http://singlecool.com/2021/10/23/protobuf-tips/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2021/10/23/protobuf-tips/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/05/03/computer-history/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">计算机发展历史</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/10/05/es-fuzzy-search/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ES模糊搜索</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2021/10/23/protobuf-tips/&title=《利用Protocol buffers FieldMask和Wrapper Message设计API》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2021/10/23/protobuf-tips/&title=《利用Protocol buffers FieldMask和Wrapper Message设计API》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2021/10/23/protobuf-tips/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《利用Protocol buffers FieldMask和Wrapper Message设计API》 — SingleX&url=http://singlecool.com/2021/10/23/protobuf-tips/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2021/10/23/protobuf-tips/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2021/10/23/protobuf-tips/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

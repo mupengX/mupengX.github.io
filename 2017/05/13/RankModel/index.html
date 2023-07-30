@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>搜索引擎系列(一)---Rank的概率模型 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="搜索">
+    <meta name="description" content="Rank是干啥的Rank是搜索引擎中的精髓模块，Rank所做的事情就是根据用户的query对所有的doc(常见的如网页)进行打分排序。打分排序的依据是doc与query的相关性，而相关性怎么计算呢？把搜索这个动作可拆为两件事情：  用户给出一个query 某个doc满足用户的搜索需求  rank排序依据可以用一个条件概率来表示: $P(d_{i}|q)$其中q是用户给定的一个查询，$d_i$代表d">
+<meta name="keywords" content="搜索">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜索引擎系列(一)---Rank的概率模型">
+<meta property="og:url" content="http://singlecool.com/2017/05/13/RankModel/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="Rank是干啥的Rank是搜索引擎中的精髓模块，Rank所做的事情就是根据用户的query对所有的doc(常见的如网页)进行打分排序。打分排序的依据是doc与query的相关性，而相关性怎么计算呢？把搜索这个动作可拆为两件事情：  用户给出一个query 某个doc满足用户的搜索需求  rank排序依据可以用一个条件概率来表示: $P(d_{i}|q)$其中q是用户给定的一个查询，$d_i$代表d">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搜索引擎系列(一)---Rank的概率模型">
+<meta name="twitter:description" content="Rank是干啥的Rank是搜索引擎中的精髓模块，Rank所做的事情就是根据用户的query对所有的doc(常见的如网页)进行打分排序。打分排序的依据是doc与query的相关性，而相关性怎么计算呢？把搜索这个动作可拆为两件事情：  用户给出一个query 某个doc满足用户的搜索需求  rank排序依据可以用一个条件概率来表示: $P(d_{i}|q)$其中q是用户给定的一个查询，$d_i$代表d">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">搜索引擎系列(一)---Rank的概率模型</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">搜索引擎系列(一)---Rank的概率模型</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-05-13T03:28:54.000Z" itemprop="datePublished" class="page-time">
+  2017-05-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/search/">search</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Rank是干啥的"><span class="post-toc-number">1.</span> <span class="post-toc-text">Rank是干啥的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PageRank"><span class="post-toc-number">2.</span> <span class="post-toc-text">PageRank</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#页面因子"><span class="post-toc-number">3.</span> <span class="post-toc-text">页面因子</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#query分析"><span class="post-toc-number">4.</span> <span class="post-toc-text">query分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多样性"><span class="post-toc-number">5.</span> <span class="post-toc-text">多样性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他"><span class="post-toc-number">6.</span> <span class="post-toc-text">其他</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-RankModel"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">搜索引擎系列(一)---Rank的概率模型</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-05-13 11:28:54" datetime="2017-05-13T03:28:54.000Z"  itemprop="datePublished">2017-05-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/search/">search</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="Rank是干啥的"><a href="#Rank是干啥的" class="headerlink" title="Rank是干啥的"></a>Rank是干啥的</h2><p>Rank是搜索引擎中的精髓模块，Rank所做的事情就是根据用户的query对所有的doc(常见的如网页)进行打分排序。打分排序的依据是doc与query的相关性，而相关性怎么计算呢？把搜索这个动作可拆为两件事情：</p>
+<ol>
+<li>用户给出一个query</li>
+<li>某个doc满足用户的搜索需求</li>
+</ol>
+<p>rank排序依据可以用一个条件概率来表示: $P(d_{i}|q)$其中q是用户给定的一个查询，$d_i$代表doc i满足用户的需求。这个条件概率的描述是：<strong>在给定一个用户查询时，一个特定的doc满足用户需求的概率</strong></p>
+<p>rank要做的就是对所有的doc按照$P(d_i|q)$值的大小进行排序。根据贝叶斯公式可以得到：<br>$$P(d_i|q)&#x3D;\frac{P(q|d_i)P(d_i)}{P(q)}\tag{1}$$</p>
+<p>这个公式告诉我们：</p>
+<ol>
+<li>不同的doc在同一个query查询下的值是可以比较的</li>
+<li>$P(d_i)$是一个与查询无关的值，这个值可以理解为doc满足用户query的能力，可以在不同的doc间进行比较</li>
+<li>$P(q|d_i)$可以理解为已知一个doc满足了用户的一些query，那么用户查询是q的概率是多少。就好比站长查看用户是从搜索引擎中的哪些query引到自己的网站。这个值反映的是一个doc对不同的query满足程度的比较，非doc间可比较。该值难以直接计算，它将一个已知query求条件概率的线上计算问题变成了一个已知doc求条件概率的线下计算问题。</li>
+<li>$P(q)$是指一个特定查询出现的概率。该值较大时代表一个热门query，(1)式中的分子必须较大才能满足用户需求。如果该值较小，(1)式中分子无需太大也能满足用户的需求。</li>
+</ol>
+<h2 id="PageRank"><a href="#PageRank" class="headerlink" title="PageRank"></a>PageRank</h2><p>传统的TF*IDF算法，TF代表词频，IDF代表逆向文档频率，它主要思想为：</p>
+<ol>
+<li>某个词或短语在一篇文章中出现的次数越多，越相关。</li>
+<li>整个文档集合中包含某个词的文档数量越少，这个词越重要。</li>
+</ol>
+<p>可见主要是针对(1)式中的$P(q|d_i)$，对$P(d_i)$考虑的比较少。而$P(d_i)$是一个查询无关的值，理解为在完全不知道用户查询的情况下，一个doc满足用户需求的情况，也可以理解为无查询推荐。它表示，即使在不知道用户想要什么，或者对用户的需求分析错的情况下，仍然可以尽量给出满足用户需求的doc。对于$P(d_i)$，google 利用一个随机浏览模型（即pagerank）进行计算，即认为这个值近似等于一个不断随着超链随机浏览的人看到网页i的概率。这个值的加入显著地提升了搜索质量。<br>由此可以窥见，推荐与搜索本来就是不分家的，有推荐的搜索才是真正的搜索，才体现出搜索的“情感”(query解析、排序、页面展示)，搜索引擎的难点(用户意图理解、有价值信息的展示)。<br>目前由于链接作弊等原因PageRank与真正想要值的差距已经越来越大了，渐渐的被其他算法所替代。</p>
+<h2 id="页面因子"><a href="#页面因子" class="headerlink" title="页面因子"></a>页面因子</h2><p>我们认为对于一个doc先验的满足用户需求的概率由很多因素决定，如：页面质量、被其他页面链接数等。我们可以将其抽象为一系列页面因子组成的向量，对于一个doc w&#x3D;&lt; X1…Xn &gt;,令S为用户得到满足的事件。<br>$$p(d)&#x3D;p(s|w)&#x3D;p(s|x_1,x_2,…x_n)&#x3D;\frac{p(x_1..x_n|s)p(s)}{p(x_1..x_n)}$$<br>假设各页面因子是相互独立的<br>$$p(s|&lt; x_1,..x_n &gt;）&#x3D;\frac{p(x_1|s)p(x_2|s)…p(x_n|s)p(s)}{p(x_1)…p(x_n)})$$<br>其中p(xi|s)是对于满足用户需求的某一个页面因子的值，例如：用户点击数等。<br>在(1)式中如果p(di)&#x3D;0，无论其他值如何这个doc满足用户需求的概率都是0，这种doc就是属于垃圾doc，没必要参与rank。</p>
+<h2 id="query分析"><a href="#query分析" class="headerlink" title="query分析"></a>query分析</h2><p>一个query可以被拆分为多个term，那么(1)式中p(q|di)的线下计算可以拆分为p(t|di)的计算。通过对query的分解变换将其转换为好计算的近似值，一个query可以分解为q&#x3D;&lt; t1..tn &gt;,分解方式可以为：</p>
+<ol>
+<li>完全不分解：$$p(q|d_i)&#x3D;p(&lt; t_1..t_n &gt;|d_i)\tag2$$</li>
+<li>分解为相互独立的term：$$p(q|d_i)&#x3D;p(t_1|d_i)..p(t_n|d_i)$$</li>
+<li>每个term都只跟前一个term相关:<br>$$p(q|di)&#x3D;p(t1|di)p(t2|di,t1)p(t3|di,t2)…p(tn|di,t_{n-1})$$</li>
+<li>查询的term必须按照一定顺序出现</li>
+</ol>
+<h2 id="多样性"><a href="#多样性" class="headerlink" title="多样性"></a>多样性</h2><p>如果一个doc可以满足多个query，那么：$\sum_jp(q_j|d_i)&#x3D;1$ 实际情况中我们要根据query来分析用户的真正查询意图，同一个字符串可能对应多个用户需求。例如：对于“人人”这个查询，可能对应两种需求：人人网和人人车。假设其中对人人车的需求要高于对人人网的需求，(1)式中的排序会偏袒热门需求，因为对于冷门需求(1)式中对分子的权值要求比较低，如果不考虑“人人”对两种需求各自出现的概率那么满足“人人网”的doc在排序处于不利的位置。针对多样性，可以参考以下公式，其中$q_s$代表查询字符串：<br>$$p(d_i|q_s)&#x3D;p(q_1|q_s)p(d_i|q_1)+P(q_2|q_s)p(d_i|q_2)&#x3D;p(q_1|q_s)\frac{p(q_1|d_i)}{p(q_1)}+p(q_2|q_s)\frac{p(q_2|d_i)p(d_i)}{p(q_2)}$$</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>在搜索引擎中可以引入其他的因素来扩展这个概率模型，比如引入时效性、权威性、引入地域等各种用户个性化信息。<br>另外目前各大搜索引擎希望在第一页(前10条)或者前3条结果中来满足用户需求，而不仅仅局限于某一个doc满足用户需求概率的最大化。<br>除了返回网页链接外，还可以通过增加返回结果类型的方式来满足用户的需求，例如：返回阿拉丁，框应用等。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>该模型解释了rank的排序依据以及如何将其分解为子目标进行计算，对于不好计算的变量，可以通过将其与好算的变量关联起来或者想办法近似的计算。近似计算就会用到一些假设，如果结果不对那么之前的假设就可能有问题。</p>
+<p><strong>各种近似的计算都是对理论模型的逼近，理论模型存在的意义之一在于，它让我们的思考系统化，告诉我们在逼近什么，努力的方向在哪，离目标还有多远。想尽一切办法，越来越精确地逼近理论值，这就是进步。</strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-05T09:56:43.000Z" itemprop="dateUpdated">2020-12-05 17:56:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2017/05/13/RankModel/&title=《搜索引擎系列(一)---Rank的概率模型》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2017/05/13/RankModel/&title=《搜索引擎系列(一)---Rank的概率模型》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2017/05/13/RankModel/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《搜索引擎系列(一)---Rank的概率模型》 — SingleX&url=http://singlecool.com/2017/05/13/RankModel/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2017/05/13/RankModel/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/06/11/ssh-nohup/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ssh远程执行nohup命令不退出</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/04/22/BigData-And-AI/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">大数据与人工智能</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2017/05/13/RankModel/&title=《搜索引擎系列(一)---Rank的概率模型》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2017/05/13/RankModel/&title=《搜索引擎系列(一)---Rank的概率模型》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2017/05/13/RankModel/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《搜索引擎系列(一)---Rank的概率模型》 — SingleX&url=http://singlecool.com/2017/05/13/RankModel/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2017/05/13/RankModel/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2017/05/13/RankModel/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
