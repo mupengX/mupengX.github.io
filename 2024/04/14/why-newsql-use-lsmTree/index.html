@@ -14,7 +14,7 @@
     
     
     
-    <title>为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？ | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <title>LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？ | SingleX | 倘若一成不变，何以激荡人心。</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -23,15 +23,15 @@
     <meta name="keywords" content>
     <meta name="description" content="问题由来最近在梳理业务中所使用的存储时脑子里突然冒出一个问题：为什么大部分 NewSQL 的践行者们在选择底层的存储模型时不约而同的选择了 LSM-Tree？在数据存储领域除了 LSM-Tree 之外另一个常用的存储模型就是 B-Tree（这里将 B+Tree 看做是 B-Tree 的一种），相比于 B-Tree，LSM-Tree 有哪些优劣之处？ 什么是 NewSQL，它要解决的问题是什么要回答">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？">
+<meta property="og:title" content="LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？">
 <meta property="og:url" content="http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="问题由来最近在梳理业务中所使用的存储时脑子里突然冒出一个问题：为什么大部分 NewSQL 的践行者们在选择底层的存储模型时不约而同的选择了 LSM-Tree？在数据存储领域除了 LSM-Tree 之外另一个常用的存储模型就是 B-Tree（这里将 B+Tree 看做是 B-Tree 的一种），相比于 B-Tree，LSM-Tree 有哪些优劣之处？ 什么是 NewSQL，它要解决的问题是什么要回答">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://singlecool.com/img/lsm-tree.png">
-<meta property="og:updated_time" content="2024-04-14T06:07:58.466Z">
+<meta property="og:updated_time" content="2024-04-14T06:20:51.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？">
+<meta name="twitter:title" content="LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？">
 <meta name="twitter:description" content="问题由来最近在梳理业务中所使用的存储时脑子里突然冒出一个问题：为什么大部分 NewSQL 的践行者们在选择底层的存储模型时不约而同的选择了 LSM-Tree？在数据存储领域除了 LSM-Tree 之外另一个常用的存储模型就是 B-Tree（这里将 B+Tree 看做是 B-Tree 的一种），相比于 B-Tree，LSM-Tree 有哪些优劣之处？ 什么是 NewSQL，它要解决的问题是什么要回答">
 <meta name="twitter:image" content="http://singlecool.com/img/lsm-tree.png">
     
@@ -112,7 +112,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？</div>
+        <div class="flex-col header-title ellipsis">LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -134,7 +134,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？</h1>
+        <h1 class="title">LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？</h1>
         <h5 class="subtitle">
             
                 <time datetime="2024-04-14T05:50:54.000Z" itemprop="datePublished" class="page-time">
@@ -166,7 +166,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？</h1>
+        <h1 class="post-card-title">LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？</h1>
         <div class="post-meta">
             <time class="post-time" title="2024-04-14 13:50:54" datetime="2024-04-14T05:50:54.000Z"  itemprop="datePublished">2024-04-14</time>
 
@@ -184,7 +184,7 @@
             <h1 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h1><p>最近在梳理业务中所使用的存储时脑子里突然冒出一个问题：为什么大部分 NewSQL 的践行者们在选择底层的存储模型时不约而同的选择了 LSM-Tree？在数据存储领域除了 LSM-Tree 之外另一个常用的存储模型就是 B-Tree（这里将 B+Tree 看做是 B-Tree 的一种），相比于 B-Tree，LSM-Tree 有哪些优劣之处？</p>
 <h2 id="什么是-NewSQL，它要解决的问题是什么"><a href="#什么是-NewSQL，它要解决的问题是什么" class="headerlink" title="什么是 NewSQL，它要解决的问题是什么"></a>什么是 NewSQL，它要解决的问题是什么</h2><p>要回答这个问题首先要弄清楚什么是 NewSQL 以及它要解决的问题是什么。在<a href="https://451research.com/analyst-team/analyst/Matt+Aslett" target="_blank" rel="noopener">Matthew Aslett</a> 2011 年的一篇<a href="http://cs.brown.edu/courses/cs227/archives/2012/papers/newsql/aslett-newsql.pdf" target="_blank" rel="noopener">论文</a>中第一次提出 NewSQL 的概念，它用来指代提供类似 NoSQL 高吞吐、高可用支持，同时仍然保持 ACID 特性的新一代数据库系统。旨在解决传统关系型数据库在大规模数据处理、高并发和分布式环境下的性能瓶颈。与 NoSQL 一样都是为了解决传统关系数据库的瓶颈问题，但NewSQL更注重于保持数据的一致性和可靠性，而NoSQL则更注重于可扩展性和高性能。</p>
 <p>从上述描述可以看出 NewSQL 所要解决的问题之一就是高并发下的性能瓶颈，对于关系型数据库的高并发读取业内已经有比较成熟的解决方案，而在数据写入上需要寻找更好的解决方案。</p>
-<p>在这样的背景下我们分析一下 LSM-Tree 的特性，至于分布式场景下的一些其他问题，例如：分布式事务、全局时间戳、高可用等问题就不在本次讨论的范围之内</p>
+<p>明白了 NewSQL 的核心目标后，我们接下来将深入探讨 LSM-Tree 的特性以及它如何成为解决高并发写入瓶颈的关键。至于分布式场景下的一些其他问题，例如：分布式事务、全局时间戳、高可用等问题就不在本次讨论的范围之内</p>
 <h1 id="LSM-Tree-的写入优势"><a href="#LSM-Tree-的写入优势" class="headerlink" title="LSM-Tree 的写入优势"></a>LSM-Tree 的写入优势</h1><p>写友好可以说是 LSM-Tree 身上最明显的一个标签，我们通过一张关于 LSM-Tree 经典的图来看看在写入过程中都做了哪些操作，并跟 B-Tree 做个对比：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -238,7 +238,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2024-04-14T06:07:58.466Z" itemprop="dateUpdated">2024-04-14 14:07:58</time>
+    最后更新时间：<time datetime="2024-04-14T06:20:51.156Z" itemprop="dateUpdated">2024-04-14 14:20:51</time>
 </span><br>
 
 
@@ -270,7 +270,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -280,7 +280,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -290,7 +290,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？》 — SingleX&url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？》 — SingleX&url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -437,7 +437,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -447,7 +447,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&title=《LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -457,7 +457,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？》 — SingleX&url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LSM-Tree vs B-Tree：NewSQL为何偏爱LSM-Tree？》 — SingleX&url=http://singlecool.com/2024/04/14/why-newsql-use-lsmTree/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
