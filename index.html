@@ -149,6 +149,46 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-why-newsql-use-lsmTree"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2024-04-14 13:50:54" datetime="2024-04-14T05:50:54.000Z"  itemprop="datePublished">2024-04-14</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2024/04/14/why-newsql-use-lsmTree/">为什么 NewSQL 普遍使用 LSM Tree 作为底层存储模型？</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        问题由来最近在梳理业务中所使用的存储时脑子里突然冒出一个问题：为什么大部分 NewSQL 的践行者们在选择底层的存储模型时不约而同的选择了 LSM-Tree？在数据存储领域除了 LSM-Tree 之外另一个常用的存储模型就是 B-Tree（这里将 B+Tree 看做是 B-Tree 的一种），相比于 B-Tree，LSM-Tree 有哪些优劣之处？
+什么是 NewSQL，它要解决的问题是什么...
+    
+
+        <a href="/2024/04/14/why-newsql-use-lsmTree/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-json-null-cause-nil-panic"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -575,65 +615,12 @@ FieldMask represents a set of sym...
 
         </li>
     
-        <li class="post-list-item fade">
-            <article id="post-micro-service-subsetting"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2020-12-06 21:25:45" datetime="2020-12-06T13:25:45.000Z"  itemprop="datePublished">2020-12-06</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2020/12/06/micro-service-subsetting/">控制好微服务之间的连接数量</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        在微服务的架构模式下服务间通过长连接进行通信，通常情况下每个客户端实例都会与每个服务实例建立连接，如果服务实例数达到几千几万个那么相互之间建立的连接数将指数级上升，这样带来的坏处是：
-
-客户端的连接池里的连接数变多，消耗的资源增加
-对应的服务端维护的长连接增多，尤其在一个连接一个线程的模式下消耗的资源很可观
-长连接定期的健康检查消耗一定的CPU
-
-为了避免过多的资源消耗客户端可以选择服务集群...
-    
-
-        <a href="/2020/12/06/micro-service-subsetting/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/">Architecture & Design</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
     </ul>
 
     
 <nav id="page-nav">
     <div class="inner">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
     </div>
 </nav>
 
