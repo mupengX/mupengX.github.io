@@ -14,7 +14,7 @@
     
     
     
-    <title>Go netpoller网络模型 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <title>探索Go的netpoller：netpoller网络模型与I/O多路复用技术 | SingleX | 倘若一成不变，何以激荡人心。</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -24,15 +24,15 @@
     <meta name="description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
 <meta name="keywords" content="Go">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go netpoller网络模型">
+<meta property="og:title" content="探索Go的netpoller：netpoller网络模型与I&#x2F;O多路复用技术">
 <meta property="og:url" content="http://singlecool.com/2020/12/13/golang-netpoll/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://singlecool.com/img/non-blockingIO.jpg">
-<meta property="og:updated_time" content="2020-12-13T10:11:56.000Z">
+<meta property="og:updated_time" content="2024-04-21T15:21:38.953Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go netpoller网络模型">
+<meta name="twitter:title" content="探索Go的netpoller：netpoller网络模型与I&#x2F;O多路复用技术">
 <meta name="twitter:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
 <meta name="twitter:image" content="http://singlecool.com/img/non-blockingIO.jpg">
     
@@ -113,7 +113,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Go netpoller网络模型</div>
+        <div class="flex-col header-title ellipsis">探索Go的netpoller：netpoller网络模型与I/O多路复用技术</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -135,7 +135,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Go netpoller网络模型</h1>
+        <h1 class="title">探索Go的netpoller：netpoller网络模型与I/O多路复用技术</h1>
         <h5 class="subtitle">
             
                 <time datetime="2020-12-13T02:15:18.000Z" itemprop="datePublished" class="page-time">
@@ -169,7 +169,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Go netpoller网络模型</h1>
+        <h1 class="post-card-title">探索Go的netpoller：netpoller网络模型与I/O多路复用技术</h1>
         <div class="post-meta">
             <time class="post-time" title="2020-12-13 10:15:18" datetime="2020-12-13T02:15:18.000Z"  itemprop="datePublished">2020-12-13</time>
 
@@ -213,7 +213,6 @@
                 <div class="image-caption">Non-blocking I/O</div>
             </figure>
 
-
 <h2 id="I-O多路复用"><a href="#I-O多路复用" class="headerlink" title="I&#x2F;O多路复用"></a>I&#x2F;O多路复用</h2><p>IO多路复用是指一个线程同时监听多个IO连接的事件，阻塞等待，当某个连接发生可读写IO事件时收到通知。所以复用的是线程而不是IO连接。常见的多路复用选择器有：select&#x2F;poll&#x2F;epoll、kqueue、iocp</p>
 <p>简单讲一下select&#x2F;poll&#x2F;epoll：</p>
 <h3 id="select-poll"><a href="#select-poll" class="headerlink" title="select&amp;poll"></a>select&amp;poll</h3><p>select主要存在以下几个缺点：</p>
@@ -255,7 +254,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-12-13T10:11:56.000Z" itemprop="dateUpdated">2020-12-13 18:11:56</time>
+    最后更新时间：<time datetime="2024-04-21T15:21:38.953Z" itemprop="dateUpdated">2024-04-21 23:21:38</time>
 </span><br>
 
 
@@ -289,7 +288,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《探索Go的netpoller：netpoller网络模型与I/O多路复用技术》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -299,7 +298,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《探索Go的netpoller：netpoller网络模型与I/O多路复用技术》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -309,7 +308,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go netpoller网络模型》 — SingleX&url=http://singlecool.com/2020/12/13/golang-netpoll/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《探索Go的netpoller：netpoller网络模型与I/O多路复用技术》 — SingleX&url=http://singlecool.com/2020/12/13/golang-netpoll/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -339,7 +338,7 @@
     <div class="waves-block waves-effect prev">
       <a href="/2021/01/22/SSTable-and-LSMTree/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">SSTable和LSMTree</h4>
+        <h4 class="title">LSM Tree与SSTable：构建高效KV存储的基石</h4>
       </a>
     </div>
   
@@ -463,7 +462,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《探索Go的netpoller：netpoller网络模型与I/O多路复用技术》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -473,7 +472,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《Go netpoller网络模型》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2020/12/13/golang-netpoll/&title=《探索Go的netpoller：netpoller网络模型与I/O多路复用技术》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -483,7 +482,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go netpoller网络模型》 — SingleX&url=http://singlecool.com/2020/12/13/golang-netpoll/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《探索Go的netpoller：netpoller网络模型与I/O多路复用技术》 — SingleX&url=http://singlecool.com/2020/12/13/golang-netpoll/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
