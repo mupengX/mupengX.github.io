@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -20,17 +20,16 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content>
-    <meta name="description" content="享受编程和技术所带来的快乐 – http://singlecool.com">
+    <meta name="keywords" content="">
+    <meta name="description" content="享受编程和技术所带来的快乐 – http:&#x2F;&#x2F;singlecool.com">
 <meta property="og:type" content="website">
 <meta property="og:title" content="SingleX">
 <meta property="og:url" content="http://singlecool.com/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="享受编程和技术所带来的快乐 – http://singlecool.com">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="享受编程和技术所带来的快乐 – http:&#x2F;&#x2F;singlecool.com">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="SingleX">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SingleX">
-<meta name="twitter:description" content="享受编程和技术所带来的快乐 – http://singlecool.com">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -39,7 +38,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -149,6 +148,262 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-agent-spec"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2026-04-09 15:13:43" datetime="2026-04-09T07:13:43.000Z"  itemprop="datePublished">2026-04-09</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2026/04/09/agent-spec/">在构建了这么多 Agent 之后，我发现了一个共同之处</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        每次开始构建一个新的 Agent，我都会跟自己说：这次要设计得优雅一点。
+然后大概写到第三个的时候，开始感觉不对劲。
+不是功能不对，是结构开始重复——模型初始化的代码复制过来改一改，Prompt 直接硬编码在代码里，工具列表在构造函数里一个个手动注册。每个 Agent 看起来都挺独立，但你一眼看过去，这些代码基本上都长一个样。
+更难受的是，你想改个 Prompt 试试效果，得改代码，然后重新...
+    
+
+        <a href="/2026/04/09/agent-spec/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-mcp-cli-context"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2026-03-25 14:03:47" datetime="2026-03-25T06:03:47.000Z"  itemprop="datePublished">2026-03-25</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2026/03/25/mcp-cli-context/">你还在为 MCP 占用巨大的上下文窗口而烦恼吗？</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近我越来越强烈地感觉到一件事：
+很多 Agent 系统到了后面，真正先撑不住的，不是模型能力，也不是工具数量，而是工具描述本身。
+这话听起来有点绕。明明我们接 MCP，就是为了让模型更好地用工具。结果工具一接多，schema 一铺开，最先被吃掉的反而是上下文窗口。你本来想给 Agent 加能力，最后干成了给它塞说明书。
+这就有点像什么呢？
+本来你是想给新同事配一套顺手的工具箱，结果你先给了...
+    
+
+        <a href="/2026/03/25/mcp-cli-context/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-openclaw-context-engine"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2026-03-14 16:03:47" datetime="2026-03-14T08:03:47.000Z"  itemprop="datePublished">2026-03-14</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2026/03/14/openclaw-context-engine/">你的 Agent 用着用着就&#34;叛变&#34;了？OpenClaw 终于把这个问题讲清楚了</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近有个 OpenClaw 核心 maintainer 说了一句很扎心的话：
+
+“your OpenClaw agents work perfectly for 20 minutes, then it silently forgets your instructions and goes rogue.”
+
+我第一次看到这句话的时候，笑了一下，然后有点难受。
+因为这不是在说某个人写的 Agen...
+    
+
+        <a href="/2026/03/14/openclaw-context-engine/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-context-window"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2026-03-10 23:03:47" datetime="2026-03-10T15:03:47.000Z"  itemprop="datePublished">2026-03-10</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2026/03/10/context-window/">别再拿上下文窗口不够大当借口了！</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近大家好像都得了一种”窗口焦虑症”。
+128K 嫌小，1M 刚够，恨不得把整个数据库都塞进 Prompt 里。
+那种感觉就像是你家里的杂物堆不下了，你第一反应不是去请个整理师，而是想把房子的门拓宽成城门——觉得只要”带宽”足够大，再乱的东西也能一股脑挤进去。
+但我相信，真正写过 Agent 业务代码的人，深夜里肯定都骂过娘：明明我把那条规则塞进上下文了，为什么它转头就给忘了？
+一、窗口越大...
+    
+
+        <a href="/2026/03/10/context-window/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-multi-agent-when-and-how"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2026-02-28 14:03:47" datetime="2026-02-28T06:03:47.000Z"  itemprop="datePublished">2026-02-28</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2026/02/28/multi-agent-when-and-how/">为什么你的 Multi-Agent 越拆越乱？</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        最近在重构一个 Agent 系统，从单智能体改成了多智能体架构。改完之后效果确实好了，但回头一看成本：Token 消耗翻了快 10 倍，代码复杂度也上去了。
+这让我开始反思：什么时候真的需要多 Agent？什么时候其实是过度设计？
+这篇文章就聊聊这个。不是理论分析，就是踩过的坑和一些实践经验。
+
+一、我为什么会想拆 Agent先说问题从哪来的。
+项目最开始是单 Agent 架构，跑了一段时间...
+    
+
+        <a href="/2026/02/28/multi-agent-when-and-how/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-agent"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -189,7 +444,7 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/">AI</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
     </div>
     
@@ -237,7 +492,7 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/">AI</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
     </div>
     
@@ -317,7 +572,7 @@
 
     
         上周因同事休假暂时帮忙维护一个服务，周五下午本以为要顺利度过本周的时候线上出了问题，在进行数据修复的时候发现之前一个工具代码的隐藏 bug，该 bug 会在进行数据修复时触发 panic。剥离具体业务逻辑之后代码逻辑如下：
-123456789101112func main() &#123;	// 从数据库中查询数据，a 为具体数据的指针，当数据没找到时 a=nil	a := findFrom...
+1234567891011121314func main() &#123;	// 从数据库中查询数据，a 为具体数据的指针，当数据没找到时 a=nil	a := find...
     
 
         <a href="/2023/07/30/json-null-cause-nil-panic/" class="post-more waves-effect waves-button">
@@ -337,7 +592,7 @@
         <time class="post-time" title="2023-03-18 11:24:59" datetime="2023-03-18T03:24:59.000Z"  itemprop="datePublished">2023-03-18</time>
 
         
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">系统设计</a></li></ul>
 
 
 
@@ -366,251 +621,6 @@
         <a href="/2023/03/18/not-need-lock/" class="post-more waves-effect waves-button">
             阅读全文…
         </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-the-dammit-mistaks-part2"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-12-03 18:13:24" datetime="2022-12-03T10:13:24.000Z"  itemprop="datePublished">2022-12-03</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/12/03/the-dammit-mistaks-part2/">说说那些“鬼见愁”的项目-Part2</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        书接上回，继续聊聊“鬼见愁”项目中的那些神操作
-数据库相关1. ES索引过大导致集群分布不均衡神操作： ES单索引分片数据过大导致集群中数据倾斜，历史数据不归档
-单索引分片数据过大或者索引分片数与集群实例数相差较多容易导致数据倾斜，使得集群某个实例负载较高而其他实例负载较低，在集群整体负载不高的情况下出现部分响应耗时较长的现象，也容易出现因为某个实例的存储水位过高导致整个集群不能写入数据的情...
-    
-
-        <a href="/2022/12/03/the-dammit-mistaks-part2/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/">Architecture & Design</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-the-dammit-mistakes-part1"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-11-27 20:43:24" datetime="2022-11-27T12:43:24.000Z"  itemprop="datePublished">2022-11-27</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/11/27/the-dammit-mistakes-part1/">说说那些“鬼见愁”的项目-Part1</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。 
-在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。
-代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接...
-    
-
-        <a href="/2022/11/27/the-dammit-mistakes-part1/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/">Architecture & Design</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-computer-history"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-05-03 11:20:29" datetime="2022-05-03T03:20:29.000Z"  itemprop="datePublished">2022-05-03</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/05/03/computer-history/">计算机发展历史</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        从算盘开始说起科学史专家们将中国的算盘作为人类历史上最早出现的计算机，由此算来计算机从出现至今已有2000年的历史。古希腊的算盘比中国的算盘早出现近7个世纪，为何中国算盘却被认为是人类历史上最早的计算机呢？
-古希腊的算盘与中国的算盘外形十分相似，但是古希腊的算盘只是用来辅助计算，算盘上的铜珠在计算过程中用来计数而计算的过程是靠人动脑筋来完成的，因此它只是一个辅助计算工具。中国的算盘是通过一套...
-    
-
-        <a href="/2022/05/03/computer-history/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/">Architecture & Design</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-protobuf-tips"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2021-10-23 16:30:42" datetime="2021-10-23T08:30:42.000Z"  itemprop="datePublished">2021-10-23</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2021/10/23/protobuf-tips/">利用Protocol buffers FieldMask和Wrapper Message设计API</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        前言在做API设计的时候经常遇到两个问题：
-1、更新接口参数是否可以只传要修改的字段。
-2、protobuf3 Go generated code中没有HasField()方法之后，如何判断某个字段是否被赋值。
-实践FieldMask对于前面提到的第一个问题可以利用FieldMask来解决，看下FieldMask官方介绍：
-
-FieldMask represents a set of sym...
-    
-
-        <a href="/2021/10/23/protobuf-tips/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-es-fuzzy-search"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2021-10-05 16:12:18" datetime="2021-10-05T08:12:18.000Z"  itemprop="datePublished">2021-10-05</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/search/">search</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2021/10/05/es-fuzzy-search/">ES模糊搜索</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        前言提到全文搜索ES是一款比较被人熟知的开源搜索引擎，很多公司会基于ES来做全文搜索相关的业务。例如，在做内容相关的业务时常会有类似的运营需求：根据某个关键词搜索出所有包含该关键词的内容。如果量级比较小使用SQL的LIKE语句便可以解决，如果量级比较大的话一般需要通过搜索引擎来处理，但中文搜索往往因为分词问题会影响到最终的搜索效果。不同的业务对搜索结果的准确率和召回率各有不同的侧重，在根据某...
-    
-
-        <a href="/2021/10/05/es-fuzzy-search/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
-
     </div>
     
 </article>
@@ -650,7 +660,7 @@ FieldMask represents a set of sym...
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

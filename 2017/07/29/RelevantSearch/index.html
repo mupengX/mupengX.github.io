@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="搜索">
     <meta name="description" content="什么是相关搜索在使用搜索引擎的时候，输入一个关键词之后经常在页面底部或者右侧会出现相关搜索提示。例如搜索”万达”会提示“万达广场”，“万达影院”等。相关搜索的作用是帮助用户更加快速的找到想要的东西，提升用户体验。当你通过一个关键词找不到想要的结果时相关搜索会帮到你，它会推荐你换一个关键词试试，所以它更像是搜索引擎中的一个推荐系统。搜索与推荐是不分家的，在搜索引擎中相关搜索的点击量还是很可观的。 如">
-<meta name="keywords" content="搜索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搜索引擎系列(二)---相关搜索">
 <meta property="og:url" content="http://singlecool.com/2017/07/29/RelevantSearch/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="什么是相关搜索在使用搜索引擎的时候，输入一个关键词之后经常在页面底部或者右侧会出现相关搜索提示。例如搜索”万达”会提示“万达广场”，“万达影院”等。相关搜索的作用是帮助用户更加快速的找到想要的东西，提升用户体验。当你通过一个关键词找不到想要的结果时相关搜索会帮到你，它会推荐你换一个关键词试试，所以它更像是搜索引擎中的一个推荐系统。搜索与推荐是不分家的，在搜索引擎中相关搜索的点击量还是很可观的。 如">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-29T03:28:07.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="搜索">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搜索引擎系列(二)---相关搜索">
-<meta name="twitter:description" content="什么是相关搜索在使用搜索引擎的时候，输入一个关键词之后经常在页面底部或者右侧会出现相关搜索提示。例如搜索”万达”会提示“万达广场”，“万达影院”等。相关搜索的作用是帮助用户更加快速的找到想要的东西，提升用户体验。当你通过一个关键词找不到想要的结果时相关搜索会帮到你，它会推荐你换一个关键词试试，所以它更像是搜索引擎中的一个推荐系统。搜索与推荐是不分家的，在搜索引擎中相关搜索的点击量还是很可观的。 如">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是相关搜索"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是相关搜索</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#如何实现相关搜索"><span class="post-toc-number">2.</span> <span class="post-toc-text">如何实现相关搜索</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据思考"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">数据思考</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#算法实现"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">算法实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-根据query变换"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">1. 根据query变换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-协同过滤"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">2. 协同过滤</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-词向量"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">3. 词向量</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.</span> <span class="post-toc-text">总结</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%9B%B8%E5%85%B3%E6%90%9C%E7%B4%A2"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是相关搜索</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9B%B8%E5%85%B3%E6%90%9C%E7%B4%A2"><span class="post-toc-number">2.</span> <span class="post-toc-text">如何实现相关搜索</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E6%80%9D%E8%80%83"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">数据思考</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">算法实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-%E6%A0%B9%E6%8D%AEquery%E5%8F%98%E6%8D%A2"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">1. 根据query变换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">2. 协同过滤</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-%E8%AF%8D%E5%90%91%E9%87%8F"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">3. 词向量</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-number">4.</span> <span class="post-toc-text">总结</span></a></li></ol>
         </nav>
     </aside>
 
@@ -196,22 +196,18 @@
 </ol>
 <h3 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h3><p>有了以上的思考之后，接下来看一下如何利用用户行为数据实现相关搜索。</p>
 <h4 id="1-根据query变换"><a href="#1-根据query变换" class="headerlink" title="1. 根据query变换"></a>1. 根据query变换</h4><p>根据之前的分析，在一次搜索行为中一个query之后的其他query可能是我们要找的词。那么首先如何定义<code>一次搜索行为</code>呢。通常在一定的时间跨度内，例如5分钟，用户的搜索行为定义为一次搜索行为，即一个session。搜索日志格式为：<br><code>UA querytime userID IP query result：A B C D E...</code><br>从搜索日志中将用户行为按照session进行分割合并，得到如下结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">userID：1 query：A afterwords:[B,C,D...]</span><br><span class="line">userID：2 query：C afterwords:[E,G,Q...]</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">userID：1 query：A afterwords:[B,C,D...]</span><br><span class="line">userID：2 query：C afterwords:[E,G,Q...]</span><br></pre></td></tr></table></figure>
 <p>假如一个用户思维比较天马行空，上一秒搜索词为成龙，下一秒换成了人大代表（成龙做过人大代表），但并不能说明二者有很大的联系，所以要统计多个用户的搜索日志，并加入置信度等阈值过滤掉噪音。可得到如下结果：</p>
 <p><code>spark教程：spark入门|spark基础教程|spark教程pdf</code></p>
 <h4 id="2-协同过滤"><a href="#2-协同过滤" class="headerlink" title="2. 协同过滤"></a>2. 协同过滤</h4><p>通过日志我们可以得到如下的数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user1 query:A,B,C,D</span><br><span class="line">user2 query:B,D,H,K</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user1 query:A,B,C,D</span><br><span class="line">user2 query:B,D,H,K</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>基于UserCF可以给搜索A query的用户推荐H query。</p>
 <p>另外，我们还可以得到如下日志：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">query：A result：url1 url2 url3 ...</span><br><span class="line">query：B result：url2 url3 url4 ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">query：A result：url1 url2 url3 ...</span><br><span class="line">query：B result：url2 url3 url4 ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>假设我们只取每个query结果的前十条，根据以上数据每个query可由一个由URL组成的向量来表示，每一维的向量值为URL的点展比，通过引入用户的点击行为数据，可以使得结果更加可靠。接下来就可以计算向量的相似度来进行相关推荐。<br>该方法本质也是一种CF：将query看做user，URL看做item，点击行为看做user like item的行为。可以用LFM等机器学习算法来得到相似度。</p>
 <h4 id="3-词向量"><a href="#3-词向量" class="headerlink" title="3. 词向量"></a>3. 词向量</h4><p>有了上述的query得应的URL向量后可以用K-means方法来进行聚类，然后在同一个簇内进行相关搜索推荐。</p>
 <p>另外可以根据词向量来进行相似度计算，首先从日志中得到如下数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL1: query1 query2 query3 ...</span><br><span class="line">URL2: query2 query4 query4 ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL1: query1 query2 query3 ...</span><br><span class="line">URL2: query2 query4 query4 ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>每个URL可以由多个不同的query来召回，将其合并，一条记录可以看做是一个doc，每个doc由多个词(query)组成，用word2vec计算每个词的词向量，然后根据向量来计算相似度，进行相关搜索推荐。这个word2vec就比较厉害了，在得到的结果里，你搜范冰冰他会推荐给你李晨，你搜李晨除了给你推荐范冰冰之外还会推荐给你大黑牛、跑男等，有意思吧。</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>相关搜索承担着扩展搜索，召回更多结果和帮助用户找到更准确的结果等责任。上述的算法部分算作是离线数据处理部分，处理完后可以将结果推到数据库中供在线部分查询使用。在线部分对用户输入的query进行分词，针对某些长尾词进行词干提取，然后去离线产生的数据中查询获取相关推荐。所以类似的系统设计一般都是重离线，轻在线，使得在线部分能够快速响应用户请求。另外，在线部分要记录用户的行为数据，将其给离线部分使用，形成一个闭环。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相关搜索是搜索引擎中的一小部分，通过相关搜索可以提升用户搜索体验，并能够反馈给搜索引擎，提升搜索效果。所以，搜索和推荐是分不开的，当然啦，还有广告。上述只是写了一些思路，实际上做起来还有好多需要注意的地方。</p>
@@ -247,7 +243,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li></ul>
 
 
             
@@ -314,7 +310,7 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2017/07/09/2017上半年/" id="post-next" class="post-nav-link">
+      <a href="/2017/07/09/2017%E4%B8%8A%E5%8D%8A%E5%B9%B4/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
         <h4 class="title">7月盛夏</h4>
       </a>
@@ -413,7 +409,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="Go">
-    <meta name="description" content="这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&amp;lt;1S。 首先看&amp;#x2F;etc&amp;#x2F;resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个">
-<meta name="keywords" content="Go">
+    <meta name="description" content="这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&lt;1S。 首先看&#x2F;etc&#x2F;resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go 域名解析过慢">
 <meta property="og:url" content="http://singlecool.com/2017/09/16/go-dns/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&amp;lt;1S。 首先看&amp;#x2F;etc&amp;#x2F;resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:description" content="这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&lt;1S。 首先看&#x2F;etc&#x2F;resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-09-16T11:25:54.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="go 域名解析过慢">
-<meta name="twitter:description" content="这几天发现一个问题，用go的HttpClient向某个URL发送post请求超时，经过一番排查，发现主要是在DNS解析的时候很慢要5S左右。但是同样的环境用Python和Java发送请求可以很快的返回结果，&amp;lt;1S。 首先看&amp;#x2F;etc&amp;#x2F;resolv.conf文件，默认配置了两个nameserver。strace执行过程发现在请求nameserver时有timeout，并且整个">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -212,7 +212,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
 
 
             
@@ -378,7 +378,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

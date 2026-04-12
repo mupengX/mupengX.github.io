@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="Go">
     <meta name="description" content="在计算机的世界里，同一类工具不同的实现所体现出背后的哲理也是不一样的，例如 Linux 与 windows，都是操作系统，但是如果用使用windows的习惯去操作Linux是玩不转的。编程语言也一样，对于面向对象不同的语言也同过不同的方式来实现。java不支持类的多重继承，但是可以通过接口的多重继承来弥补。Python干脆在语言层面上就不提供接口这样的特性，所以要想实现接口的效果可以采用继承只有方">
-<meta name="keywords" content="Go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go语言的接口">
-<meta property="og:url" content="http://singlecool.com/2015/12/02/Go语言的接口/index.html">
+<meta property="og:url" content="http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="在计算机的世界里，同一类工具不同的实现所体现出背后的哲理也是不一样的，例如 Linux 与 windows，都是操作系统，但是如果用使用windows的习惯去操作Linux是玩不转的。编程语言也一样，对于面向对象不同的语言也同过不同的方式来实现。java不支持类的多重继承，但是可以通过接口的多重继承来弥补。Python干脆在语言层面上就不提供接口这样的特性，所以要想实现接口的效果可以采用继承只有方">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-12-02T08:28:12.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go语言的接口">
-<meta name="twitter:description" content="在计算机的世界里，同一类工具不同的实现所体现出背后的哲理也是不一样的，例如 Linux 与 windows，都是操作系统，但是如果用使用windows的习惯去操作Linux是玩不转的。编程语言也一样，对于面向对象不同的语言也同过不同的方式来实现。java不支持类的多重继承，但是可以通过接口的多重继承来弥补。Python干脆在语言层面上就不提供接口这样的特性，所以要想实现接口的效果可以采用继承只有方">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口"><span class="post-toc-number">1.</span> <span class="post-toc-text">接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内嵌类型"><span class="post-toc-number">2.</span> <span class="post-toc-text">内嵌类型</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="post-toc-number">1.</span> <span class="post-toc-text">接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%86%85%E5%B5%8C%E7%B1%BB%E5%9E%8B"><span class="post-toc-number">2.</span> <span class="post-toc-text">内嵌类型</span></a></li></ol>
         </nav>
     </aside>
 
@@ -188,14 +188,11 @@
 <p>C++、Java使用的是“侵入式”的接口，即实现类需要显式的声明自己所实现的接口，而Go采用的是“非侵入式”的接口，从语言角度看，接口是一种类型，它指定一个方法集。只要类型T的公开方法完全满足接口I的要求，就可以把类型T的对象用在需要接口I的地方，所谓类型T的公开方法完全满足接口I的要求，也就是如果一个接口里的所有方法都被类型T实现了，那么我们就说该类型实现了该接口。这种做法的学名叫做Structural Typing，有人也把它看作是一种静态的Duck Typing。</p>
 <h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>定义一个接口如下</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Driver <span class="keyword">interface</span>&#123;</span><br><span class="line">    Drive()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>我们定义了一个接口Driver，该接口中声明了一个方法Drive，接下来我们看如何定义一个struct来实现该接口。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person sturct&#123;</span><br><span class="line">    Name stirng</span><br><span class="line">    Car  <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Person)</span> <span class="title">Drive</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"Drive my"</span>, p.Car)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person sturct&#123;</span><br><span class="line">    Name stirng</span><br><span class="line">    Car  <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Person)</span></span> Drive() &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Drive my&quot;</span>, p.Car)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>定义了一个方法，该方法的Receiver是Person，并且该方法完全符合接口Driver的要求所以Person就实现了该接口。</p>
 <p>下面我们定义一个方法用来接受任意一个实现Driver接口的类型的值或者指针。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p := Person&#123;<span class="string">"Grace"</span>, <span class="string">"BMW"</span>&#125;</span><br><span class="line"></span><br><span class="line">	DriveCar(p)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DriveCar</span><span class="params">(d Driver)</span></span> &#123;</span><br><span class="line">	d.Drive()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//OutPut:</span></span><br><span class="line">cannot use p (<span class="keyword">type</span> Person) as <span class="keyword">type</span> Driver in argument to DriveCar:</span><br><span class="line">Person does not implement Driver (Drive method has pointer receiver)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p := Person&#123;<span class="string">&quot;Grace&quot;</span>, <span class="string">&quot;BMW&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">	DriveCar(p)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DriveCar</span><span class="params">(d Driver)</span></span> &#123;</span><br><span class="line">	d.Drive()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//OutPut:</span></span><br><span class="line">cannot use p (<span class="keyword">type</span> Person) as <span class="keyword">type</span> Driver in argument to DriveCar:</span><br><span class="line">Person does not implement Driver (Drive method has pointer receiver)</span><br></pre></td></tr></table></figure>
 <p>诶？为什么编译器不考虑值是实现该接口的类型？这就涉及到Go语言规范里的一些规则：</p>
 <ul>
 <li>类型 <code>*T</code>的可调用方法集包含接受者为 <code>*T</code> 或 <code>T</code> 的所有方法集</li>
@@ -209,14 +206,12 @@
 <li>类型 <code>T</code>的可调用方法集不包含接受者为 <code>*T</code> 的方法</li>
 </ul>
 <p>所以我们只需将Person的地址传给DriveCar即可</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p := &amp;Person&#123;<span class="string">"Grace"</span>, <span class="string">"BMW"</span>&#125;</span><br><span class="line"></span><br><span class="line">	DriveCar(p)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DriveCar</span><span class="params">(d Driver)</span></span> &#123;</span><br><span class="line">	d.Drive()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p := &amp;Person&#123;<span class="string">&quot;Grace&quot;</span>, <span class="string">&quot;BMW&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">	DriveCar(p)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DriveCar</span><span class="params">(d Driver)</span></span> &#123;</span><br><span class="line">	d.Drive()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>类型的指针同样可以调用接受者是值的方法。Go调整和解引用指针使得调用可以被执行。注意，当接受者不是一个指针时，该方法操作对应接受者的值的副本(意思就是即使你使用了指针调用函数，但是函数的接受者是值类型，所以函数内部操作还是对副本的操作，而不是指针操作）</p>
 <h2 id="内嵌类型"><a href="#内嵌类型" class="headerlink" title="内嵌类型"></a>内嵌类型</h2><p>struct中的一个属性为另一个struct即为内嵌，定义一个新类型然后潜入Person：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Manager <span class="keyword">struct</span> &#123;</span><br><span class="line">	Person</span><br><span class="line">	Age <span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Manager <span class="keyword">struct</span> &#123;</span><br><span class="line">	Person</span><br><span class="line">	Age <span class="type">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这种方式是组合而不是集成，现在修改调用方法：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	m := &amp;Manager&#123;</span><br><span class="line"></span><br><span class="line">		Person: Person&#123;</span><br><span class="line">			Name: <span class="string">"xiaoming"</span>,</span><br><span class="line">			Car:  <span class="string">"BMW"</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">		Age: <span class="number">22</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	DriveCar(m)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//OutPut:</span></span><br><span class="line">Drive my BMW</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	m := &amp;Manager&#123;</span><br><span class="line"></span><br><span class="line">		Person: Person&#123;</span><br><span class="line">			Name: <span class="string">&quot;xiaoming&quot;</span>,</span><br><span class="line">			Car:  <span class="string">&quot;BMW&quot;</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">		Age: <span class="number">22</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	DriveCar(m)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//OutPut:</span></span><br><span class="line">Drive my BMW</span><br></pre></td></tr></table></figure>
 
 <p>解释如下</p>
 <blockquote>
@@ -270,7 +265,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
 
 
             
@@ -280,7 +275,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2015/12/02/Go语言的接口/&title=《Go语言的接口》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/&title=《Go语言的接口》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -290,22 +285,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2015/12/02/Go语言的接口/&title=《Go语言的接口》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/&title=《Go语言的接口》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2015/12/02/Go语言的接口/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go语言的接口》 — SingleX&url=http://singlecool.com/2015/12/02/Go语言的接口/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go语言的接口》 — SingleX&url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2015/12/02/Go语言的接口/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -328,7 +323,7 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2016/04/09/AngularJS中ui-router如何传递参数/" id="post-prev" class="post-nav-link">
+      <a href="/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
         <h4 class="title">AngularJS中ui-router如何传递参数</h4>
       </a>
@@ -337,7 +332,7 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2015/08/16/数据库表空间/" id="post-next" class="post-nav-link">
+      <a href="/2015/08/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%A9%BA%E9%97%B4/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
         <h4 class="title">数据库表空间</h4>
       </a>
@@ -436,7 +431,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -454,7 +449,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2015/12/02/Go语言的接口/&title=《Go语言的接口》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/&title=《Go语言的接口》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -464,22 +459,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2015/12/02/Go语言的接口/&title=《Go语言的接口》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/&title=《Go语言的接口》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2015/12/02/Go语言的接口/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go语言的接口》 — SingleX&url=http://singlecool.com/2015/12/02/Go语言的接口/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go语言的接口》 — SingleX&url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2015/12/02/Go语言的接口/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -490,7 +485,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2015/12/02/Go语言的接口/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/" alt="微信分享二维码">
 </div>
 
 

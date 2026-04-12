@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -21,18 +21,19 @@
     
     
     <meta name="keywords" content="ssh,nohup">
-    <meta name="description" content="现象在本机执行ssh target &amp;quot;nohup sh test.sh &amp;amp;&amp;quot;,ssh并没有立即结束退出，而是等着test.sh执行完才退出，如果提前断开ssh则执行失败。使用nohup和&amp;amp;是想让test.sh在后台执行，并忽略SIGHUP信号，即使执行命令的console退出了，执行命令的进程也可以继续执行。而ssh远程执行nohup的命令不立即退出跟nohup">
-<meta name="keywords" content="ssh,nohup">
+    <meta name="description" content="现象在本机执行ssh target &quot;nohup sh test.sh &amp;&quot;,ssh并没有立即结束退出，而是等着test.sh执行完才退出，如果提前断开ssh则执行失败。使用nohup和&amp;是想让test.sh在后台执行，并忽略SIGHUP信号，即使执行命令的console退出了，执行命令的进程也可以继续执行。而ssh远程执行nohup的命令不立即退出跟nohup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ssh远程执行nohup命令不退出">
 <meta property="og:url" content="http://singlecool.com/2017/06/11/ssh-nohup/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="现象在本机执行ssh target &amp;quot;nohup sh test.sh &amp;amp;&amp;quot;,ssh并没有立即结束退出，而是等着test.sh执行完才退出，如果提前断开ssh则执行失败。使用nohup和&amp;amp;是想让test.sh在后台执行，并忽略SIGHUP信号，即使执行命令的console退出了，执行命令的进程也可以继续执行。而ssh远程执行nohup的命令不立即退出跟nohup">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:description" content="现象在本机执行ssh target &quot;nohup sh test.sh &amp;&quot;,ssh并没有立即结束退出，而是等着test.sh执行完才退出，如果提前断开ssh则执行失败。使用nohup和&amp;是想让test.sh在后台执行，并忽略SIGHUP信号，即使执行命令的console退出了，执行命令的进程也可以继续执行。而ssh远程执行nohup的命令不立即退出跟nohup">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-06-11T04:14:27.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="nohup">
+<meta property="article:tag" content="ssh">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ssh远程执行nohup命令不退出">
-<meta name="twitter:description" content="现象在本机执行ssh target &amp;quot;nohup sh test.sh &amp;amp;&amp;quot;,ssh并没有立即结束退出，而是等着test.sh执行完才退出，如果提前断开ssh则执行失败。使用nohup和&amp;amp;是想让test.sh在后台执行，并忽略SIGHUP信号，即使执行命令的console退出了，执行命令的进程也可以继续执行。而ssh远程执行nohup的命令不立即退出跟nohup">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +42,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -158,7 +159,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#现象"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">原因</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8E%B0%E8%B1%A1"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="post-toc-number">2.</span> <span class="post-toc-text">原因</span></a></li></ol>
         </nav>
     </aside>
 
@@ -187,8 +188,7 @@
             <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>在本机执行<code>ssh target &quot;nohup sh test.sh &amp;&quot;</code>,ssh并没有立即结束退出，而是等着test.sh执行完才退出，如果提前断开ssh则执行失败。使用<code>nohup</code>和<code>&amp;</code>是想让test.sh在后台执行，并忽略<code>SIGHUP</code>信号，即使执行命令的console退出了，执行命令的进程也可以继续执行。而ssh远程执行nohup的命令不立即退出跟nohup没有太大的关系。将上面的命令换成下面的命令就会立即返回：<br><code>ssh target &quot;nohup sh test.sh &gt;/dev/null 2&amp;1 &amp;&quot;</code></p>
 <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>ssh在执行远程的命令时，首先在远程的机器上建立一个sshd的进程，然后由这个sshd进程启动一个bash进程来执行传过来的命令。bash进程的0，1，2三个fd通过管道与sshd的相应的文件描述符关联起来。如果远程命令是后台执行会发现其父进程变为1，输入fd重定向到了&#x2F;dev&#x2F;null，但是输出和错误的fd是管道，与sshd进程关联，所以这次启动的sshd进程不会结束，必须重定向输出和错误fd。</p>
 <p>对于命令：<code>ssh target &quot;for i in 1 2 3;do sh ./test.sh;done&quot;</code> 在targe机器上执行<code>ps -ef | grep &#39;test\|sshd&#39;</code> 看到下面结果:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">work      14766     1  0 12:42 ?        00:00:00 /bin/bash .test.sh</span><br><span class="line">root      18185  2387  0 16:24 ?        00:00:00 sshd: work [priv] </span><br><span class="line">work      18377 18185  0 16:24 ?        00:00:00 sshd: work@pts/0  </span><br><span class="line">work      18406 18377  0 16:24 pts/0    00:00:00 bash -c <span class="keyword">for</span> i <span class="keyword">in</span> 1 2 3;<span class="keyword">do</span> sh ./test.sh;<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">work      14766     1  0 12:42 ?        00:00:00 /bin/bash .test.sh</span><br><span class="line">root      18185  2387  0 16:24 ?        00:00:00 sshd: work [priv] </span><br><span class="line">work      18377 18185  0 16:24 ?        00:00:00 sshd: work@pts/0  </span><br><span class="line">work      18406 18377  0 16:24 pts/0    00:00:00 bash -c <span class="keyword">for</span> i <span class="keyword">in</span> 1 2 3;<span class="keyword">do</span> sh ./test.sh;<span class="keyword">done</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>由此可以看到进程的递进关系：sshd –&gt; bash -c –&gt; bash。所以本机执行<code>ssh target &quot;cmd&quot;</code>要能够立刻返回要满足：sshd进程没有要等着结束的子进程，这一点靠<code>&amp;</code>来保证。其次，没有其他正在执行的进程与它有管道关系，这点靠重定向来保证。因为重定向只对单个简单命令或单个复合命令有效，对于组合的命令需要放到{}中：<code>ssh target &quot;{ ./test.sh &amp;&amp; ./test.sh; } &gt;/dev/null 2&gt;&amp;1 &amp;&quot;</code>。</p>
 <p>示例一：<br><code>ssh target &quot;for i in 1 2 3; do ./test.sh &gt;/dev/null 2&gt;&amp;1 0&lt;/dev/null; done &amp;&quot;</code><br>ssh不会立即退出，test.sh挨个执行，bash-c是后台执行但是1和2fd跟sshd有管道相连。</p>
 <p>示例二：<br><code>ssh target &quot;for i in 1 2 3; do ./test.sh ; done &gt;/dev/null 2&gt;&amp;1 &amp;&quot;</code><br>ssh立即退出，test.sh挨个执行，执行test.sh的bash由bash-c启动，bash-c进行了重定向，所以子bash继承了重定向。</p>
@@ -225,7 +225,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nohup/">nohup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nohup/" rel="tag">nohup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li></ul>
 
 
             
@@ -391,7 +391,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

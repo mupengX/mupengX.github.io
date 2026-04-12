@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="密码">
     <meta name="description" content="作为一名开发者，开发一个用户账户系统很可能就是你工作内容的一部分，其中比较重要的事情就是如何保护用户的密码，当系统被攻破、数据库被拖库时如何降低泄露用户原始密码的风险是一件值得深思的问题（还记得当年CSDN被拖库后爆出系统存储了用户的明文密码吗？）。比较行之有效的办法是对用户密码进行加盐哈希。 为什么要对密码进行哈希首先我们希望即使被拖库后用户的明文密码也不会遭到泄露，以免使得坏蛋们可以拿着这些明">
-<meta name="keywords" content="密码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于密码保护">
-<meta property="og:url" content="http://singlecool.com/2016/08/28/关于密码保护/index.html">
+<meta property="og:url" content="http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="作为一名开发者，开发一个用户账户系统很可能就是你工作内容的一部分，其中比较重要的事情就是如何保护用户的密码，当系统被攻破、数据库被拖库时如何降低泄露用户原始密码的风险是一件值得深思的问题（还记得当年CSDN被拖库后爆出系统存储了用户的明文密码吗？）。比较行之有效的办法是对用户密码进行加盐哈希。 为什么要对密码进行哈希首先我们希望即使被拖库后用户的明文密码也不会遭到泄露，以免使得坏蛋们可以拿着这些明">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-08-28T12:32:25.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="密码">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于密码保护">
-<meta name="twitter:description" content="作为一名开发者，开发一个用户账户系统很可能就是你工作内容的一部分，其中比较重要的事情就是如何保护用户的密码，当系统被攻破、数据库被拖库时如何降低泄露用户原始密码的风险是一件值得深思的问题（还记得当年CSDN被拖库后爆出系统存储了用户的明文密码吗？）。比较行之有效的办法是对用户密码进行加盐哈希。 为什么要对密码进行哈希首先我们希望即使被拖库后用户的明文密码也不会遭到泄露，以免使得坏蛋们可以拿着这些明">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -141,7 +141,7 @@
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/加解密/">加解密</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E5%8A%A0%E8%A7%A3%E5%AF%86/">加解密</a></li></ul>
 
             
         </h5>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么要对密码进行哈希"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么要对密码进行哈希</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#单纯的哈希安全吗？"><span class="post-toc-number">2.</span> <span class="post-toc-text">单纯的哈希安全吗？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加盐"><span class="post-toc-number">3.</span> <span class="post-toc-text">加盐</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加盐哈希的误区"><span class="post-toc-number">4.</span> <span class="post-toc-text">加盐哈希的误区</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关于组合哈希"><span class="post-toc-number">5.</span> <span class="post-toc-text">关于组合哈希</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关于慢哈希"><span class="post-toc-number">6.</span> <span class="post-toc-text">关于慢哈希</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#慢比较是怎么做的"><span class="post-toc-number">7.</span> <span class="post-toc-text">慢比较是怎么做的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">8.</span> <span class="post-toc-text">最后</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AF%B9%E5%AF%86%E7%A0%81%E8%BF%9B%E8%A1%8C%E5%93%88%E5%B8%8C"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么要对密码进行哈希</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%95%E7%BA%AF%E7%9A%84%E5%93%88%E5%B8%8C%E5%AE%89%E5%85%A8%E5%90%97%EF%BC%9F"><span class="post-toc-number">2.</span> <span class="post-toc-text">单纯的哈希安全吗？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8A%A0%E7%9B%90"><span class="post-toc-number">3.</span> <span class="post-toc-text">加盐</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8A%A0%E7%9B%90%E5%93%88%E5%B8%8C%E7%9A%84%E8%AF%AF%E5%8C%BA"><span class="post-toc-number">4.</span> <span class="post-toc-text">加盐哈希的误区</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B3%E4%BA%8E%E7%BB%84%E5%90%88%E5%93%88%E5%B8%8C"><span class="post-toc-number">5.</span> <span class="post-toc-text">关于组合哈希</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B3%E4%BA%8E%E6%85%A2%E5%93%88%E5%B8%8C"><span class="post-toc-number">6.</span> <span class="post-toc-text">关于慢哈希</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%85%A2%E6%AF%94%E8%BE%83%E6%98%AF%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84"><span class="post-toc-number">7.</span> <span class="post-toc-text">慢比较是怎么做的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%80%E5%90%8E"><span class="post-toc-number">8.</span> <span class="post-toc-text">最后</span></a></li></ol>
         </nav>
     </aside>
 
@@ -172,7 +172,7 @@
             <time class="post-time" title="2016-08-28 20:32:25" datetime="2016-08-28T12:32:25.000Z"  itemprop="datePublished">2016-08-28</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/加解密/">加解密</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E5%8A%A0%E8%A7%A3%E5%AF%86/">加解密</a></li></ul>
 
 
 
@@ -220,20 +220,20 @@
 </ul>
 <p><strong>但有人对此提出质疑：他们认为实际上这样做几乎没有好处，仅仅造成了函数之间互相影响的问题，甚至有时候会变得更加不安全。</strong></p>
 <p>使用组合哈希函数是考虑到如果攻击者不知道系统用的哪种哈希函数就不会预先生成彩虹表，但是如密码学中著名的Kerckhoff准则所说，攻击者还是比较容易拿到源码的。</p>
-<p> <strong>Kerckhoff准则：</strong>系统的保密性不依赖于加密体质或者算法的保密，而依赖于密钥。</p>
+<p> **Kerckhoff准则：**系统的保密性不依赖于加密体质或者算法的保密，而依赖于密钥。</p>
 <h2 id="关于慢哈希"><a href="#关于慢哈希" class="headerlink" title="关于慢哈希"></a>关于慢哈希</h2><p>使用随机盐可以让攻击者无法使用查表和彩虹表的方式对大量hash进行破解，但是仍然不能阻止攻击者针对单个密码进行暴力和字典攻击，高端的显卡(GPUs)和一些定制的硬件每秒可以计算数十亿的hash。</p>
 <p>为了避免针对单个密码的查表和暴力攻击，可以采用一种称为key扩展(key stretching)的技术。就是让hash的过程便得非常缓慢，即使使用高速GPU和特定的硬件，字典和暴力破解的速度也慢到没有实用价值，通过减慢hash的过程来防御攻击。</p>
 <p>key扩展的实现是使用一种大量消耗cpu资源的hash函数。不要去使用自己创造的迭代hash函数，如果迭代不够多，是可以被高效的硬件快速并行计算出来的。要使用标准算法的hash函数，比如PBKDF2或者bcrypt。这类算法使用一个安全因子或迭代次数作为参数，这个值决定了哈希函数会有多慢。</p>
 <p>同时应注意如果在web应用的服务器中做这类hash计算，密钥扩展也使得网站更容易遭受拒绝服务攻击（DoS）。当然也可以考虑在用户的浏览器运行hash函数，这样将计算量都分摊到了客户端，可以减轻服务器的压力，客户端的密钥扩展并不能免除服务端进行哈希加密的职责，服务器必须对客户端传来的哈希值再次进行哈希加密，就像看待一个普通密码一样，如果客户端不支持JS的时候，服务端应该接手计算。</p>
 <h2 id="慢比较是怎么做的"><a href="#慢比较是怎么做的" class="headerlink" title="慢比较是怎么做的"></a>慢比较是怎么做的</h2><p>『慢比较』代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">slowEquals</span><span class="params">(<span class="keyword">byte</span>[] a, <span class="keyword">byte</span>[] b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> diff = a.length ^ b.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length &amp;&amp; i &lt; b.length; i++) &#123;</span><br><span class="line">       diff |= a[i] ^ b[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> diff == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">slowEquals</span><span class="params">(<span class="type">byte</span>[] a, <span class="type">byte</span>[] b)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">diff</span> <span class="operator">=</span> a.length ^ b.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; a.length &amp;&amp; i &lt; b.length; i++) &#123;</span><br><span class="line">       diff |= a[i] ^ b[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> diff == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>代码里使用异或来比较两个数字，将其应用到整数中每一位，当且仅当字节两个整数各位都相等，结果才是0。所以循环结束后diff是0的话只有一种可能，那就是循环前两个数组长度相等（a.length &#x3D;&#x3D; b.length），并且数组中每一个字节都相同（每次异或的结果都非0）。</p>
 <p>使用异或而不是”&#x3D;&#x3D;”来作比较是因为”&#x3D;&#x3D;”通常会被编译成带有分支的语句，例如C语言中的“diff &amp;&#x3D; a &#x3D;&#x3D; b”可能会被编译为如下汇编语言：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX, [A]</span><br><span class="line">CMP [B], EAX</span><br><span class="line">JZ equal</span><br><span class="line">JMP done</span><br><span class="line">equal:</span><br><span class="line">AND [VALID], 1</span><br><span class="line">done:</span><br><span class="line">AND [VALID], 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX, [A]</span><br><span class="line">CMP [B], EAX</span><br><span class="line">JZ equal</span><br><span class="line">JMP done</span><br><span class="line">equal:</span><br><span class="line">AND [VALID], 1</span><br><span class="line">done:</span><br><span class="line">AND [VALID], 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>其中的分支导致代码运行的时间不固定，决定于两个整数相等的程度和CPU内部的跳转预测机制。<br>而C语言代码“diff |&#x3D;a ^ b”会被编译为下面的样子，它执行的时间和两个整数是什么样的情况无关。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX, [A]</span><br><span class="line">XOR EAX, [B]</span><br><span class="line">OR [DIFF], EAX</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX, [A]</span><br><span class="line">XOR EAX, [B]</span><br><span class="line">OR [DIFF], EAX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>对密码进行哈希加密的手段，不是为了保护网站免受入侵，而是在入侵已经发生时保护数据库中的用户密码，以免使得危害继续扩散（如果用户在多个网站使用相同的密码，就容易被撞库），至少我们要对用户负责。</p>
 
@@ -268,7 +268,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/密码/">密码</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81/" rel="tag">密码</a></li></ul>
 
 
             
@@ -278,7 +278,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/08/28/关于密码保护/&title=《关于密码保护》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/&title=《关于密码保护》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -288,22 +288,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/08/28/关于密码保护/&title=《关于密码保护》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/&title=《关于密码保护》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/08/28/关于密码保护/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《关于密码保护》 — SingleX&url=http://singlecool.com/2016/08/28/关于密码保护/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《关于密码保护》 — SingleX&url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/08/28/关于密码保护/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -326,7 +326,7 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2016/11/13/mysql的set names/" id="post-prev" class="post-nav-link">
+      <a href="/2016/11/13/mysql%E7%9A%84set%20names/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
         <h4 class="title">mysql的set names</h4>
       </a>
@@ -434,7 +434,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -452,7 +452,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/08/28/关于密码保护/&title=《关于密码保护》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/&title=《关于密码保护》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -462,22 +462,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/08/28/关于密码保护/&title=《关于密码保护》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/&title=《关于密码保护》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/08/28/关于密码保护/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《关于密码保护》 — SingleX&url=http://singlecool.com/2016/08/28/关于密码保护/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《关于密码保护》 — SingleX&url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/08/28/关于密码保护/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -488,7 +488,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/08/28/关于密码保护/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/08/28/%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4/" alt="微信分享二维码">
 </div>
 
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="搜索">
     <meta name="description" content="搜索引擎主要是帮助用户找到想要的信息或者服务，所以这里面涉及到三件事情，理解用户搜索意图，理解资源，匹配用户意图和资源。在一开始的时候搜索引擎主要通过对文本的统计分析，如TF-IDF,BM25等，来满足二者之间的匹配。后来发现除了文本统计之外还可以通过对页面质量的分析，外链的分析，如PageRank，来提升对资源的理解改善搜索效果。再到后来发现通过分析用户在搜索时的行为可以更好的了解用户意图并以此">
-<meta name="keywords" content="搜索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搜索引擎系列(三)---用户行为分析">
 <meta property="og:url" content="http://singlecool.com/2017/08/13/user-behavior/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="搜索引擎主要是帮助用户找到想要的信息或者服务，所以这里面涉及到三件事情，理解用户搜索意图，理解资源，匹配用户意图和资源。在一开始的时候搜索引擎主要通过对文本的统计分析，如TF-IDF,BM25等，来满足二者之间的匹配。后来发现除了文本统计之外还可以通过对页面质量的分析，外链的分析，如PageRank，来提升对资源的理解改善搜索效果。再到后来发现通过分析用户在搜索时的行为可以更好的了解用户意图并以此">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-13T08:28:29.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="搜索">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搜索引擎系列(三)---用户行为分析">
-<meta name="twitter:description" content="搜索引擎主要是帮助用户找到想要的信息或者服务，所以这里面涉及到三件事情，理解用户搜索意图，理解资源，匹配用户意图和资源。在一开始的时候搜索引擎主要通过对文本的统计分析，如TF-IDF,BM25等，来满足二者之间的匹配。后来发现除了文本统计之外还可以通过对页面质量的分析，外链的分析，如PageRank，来提升对资源的理解改善搜索效果。再到后来发现通过分析用户在搜索时的行为可以更好的了解用户意图并以此">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用户行为有哪些"><span class="post-toc-number">1.</span> <span class="post-toc-text">用户行为有哪些</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基础数据"><span class="post-toc-number">2.</span> <span class="post-toc-text">基础数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用户行为理解"><span class="post-toc-number">3.</span> <span class="post-toc-text">用户行为理解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用户行为分析"><span class="post-toc-number">4.</span> <span class="post-toc-text">用户行为分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#调优结果排序"><span class="post-toc-number">5.</span> <span class="post-toc-text">调优结果排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#冷门-VS-热门"><span class="post-toc-number">6.</span> <span class="post-toc-text">冷门 VS 热门</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">总结</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="post-toc-number">1.</span> <span class="post-toc-text">用户行为有哪些</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE"><span class="post-toc-number">2.</span> <span class="post-toc-text">基础数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E7%90%86%E8%A7%A3"><span class="post-toc-number">3.</span> <span class="post-toc-text">用户行为理解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90"><span class="post-toc-number">4.</span> <span class="post-toc-text">用户行为分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B0%83%E4%BC%98%E7%BB%93%E6%9E%9C%E6%8E%92%E5%BA%8F"><span class="post-toc-number">5.</span> <span class="post-toc-text">调优结果排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%86%B7%E9%97%A8-VS-%E7%83%AD%E9%97%A8"><span class="post-toc-number">6.</span> <span class="post-toc-text">冷门 VS 热门</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-number">7.</span> <span class="post-toc-text">总结</span></a></li></ol>
         </nav>
     </aside>
 
@@ -187,8 +187,7 @@
             <p>搜索引擎主要是帮助用户找到想要的信息或者服务，所以这里面涉及到三件事情，理解用户搜索意图，理解资源，匹配用户意图和资源。在一开始的时候搜索引擎主要通过对文本的统计分析，如TF-IDF,BM25等，来满足二者之间的匹配。后来发现除了文本统计之外还可以通过对页面质量的分析，外链的分析，如PageRank，来提升对资源的理解改善搜索效果。再到后来发现通过分析用户在搜索时的行为可以更好的了解用户意图并以此来提升搜索结果的相关度。为什么呢？用户选择搜索结果的过程是一次人类智慧的体现，通过观察多个用户的这种行为并从中找出规律可以提升搜索结果的相关度，毕竟人还是要比机器更加有智慧，这也是典型的利用集体智慧的例子。</p>
 <h3 id="用户行为有哪些"><a href="#用户行为有哪些" class="headerlink" title="用户行为有哪些"></a>用户行为有哪些</h3><p>用户在使用搜索引擎的过程中会有浏览，点击结果，翻页，变换query，点击相关搜索等行为，这些行为便是我们要记录和分析的行为。</p>
 <h3 id="基础数据"><a href="#基础数据" class="headerlink" title="基础数据"></a>基础数据</h3><p>通过对用户行为的记录我们会得到展现日志，点击日志，搜索日志等数据。例如我们得到点击日志格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">时间 | 行为 | query | URL List</span><br><span class="line">time | Search | 薛之谦 | ...</span><br><span class="line">time | 点击第二条结果 | 薛之谦 | ...</span><br><span class="line">time | 点击相关搜索第二条 | 火星情报局 | ...</span><br><span class="line">time | 点击第一条结果 | 爱奇艺在线观看 | ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">时间 | 行为 | query | URL List</span><br><span class="line">time | Search | 薛之谦 | ...</span><br><span class="line">time | 点击第二条结果 | 薛之谦 | ...</span><br><span class="line">time | 点击相关搜索第二条 | 火星情报局 | ...</span><br><span class="line">time | 点击第一条结果 | 爱奇艺在线观看 | ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>将日志按照userID和时间戳排序就可以看到每个用户的一系列搜索行为。</p>
 <h3 id="用户行为理解"><a href="#用户行为理解" class="headerlink" title="用户行为理解"></a>用户行为理解</h3><p>有了用户行为之后我们对用户行为进行一个简单的分析可以得出：<br>1.	顺序浏览模式，大多数用户倾向于从前到后顺序浏览。<br>2.	点击行为代表对结果投票，用户通过标题、摘要、飘红等信息对结果进行预判，感觉有兴趣可能会满足需求才会点击。<br>3.	点击不一定能满足，通过点击进入落地页之后发现内容不满足需求，可能会重新搜索。<br>4.	重视最后一次点击，在同一次搜索的多次点击中，最后一次点击对应的结果往往最好，其次是第一次点击的结果。<br>5.	搜索行为的关联性，用户的后一次搜索(query变换，点击相关搜索等)往往是对之前搜索需求的细化或者拓展。</p>
 <h3 id="用户行为分析"><a href="#用户行为分析" class="headerlink" title="用户行为分析"></a>用户行为分析</h3><p>考虑如下case：对于一个query，有两个结果A和B，A排在B前面，理论上说A会得到的点击数量比B要多，如果B比A的点击数多，那么说明B比A的相关性要好，需要调换二者的顺序。但是简单的通过点击数来衡量会存在如下的问题：</p>
@@ -236,7 +235,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li></ul>
 
 
             
@@ -402,7 +401,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

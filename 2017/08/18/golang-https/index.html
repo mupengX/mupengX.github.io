@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -21,18 +21,19 @@
     
     
     <meta name="keywords" content="Go,https">
-    <meta name="description" content="关于HTTPS中SSL&amp;#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有">
-<meta name="keywords" content="Go,https">
+    <meta name="description" content="关于HTTPS中SSL&#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go语言HttpClient中的https证书">
 <meta property="og:url" content="http://singlecool.com/2017/08/18/golang-https/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="关于HTTPS中SSL&amp;#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:description" content="关于HTTPS中SSL&#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-18T09:17:15.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="https">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="go语言HttpClient中的https证书">
-<meta name="twitter:description" content="关于HTTPS中SSL&amp;#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的文章 这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。 然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +42,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -177,16 +178,16 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>关于HTTPS中SSL&#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">文章</a></p>
+            <p>关于HTTPS中SSL&#x2F;TLS具体原理就不具体说了，可以看一下阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html">文章</a></p>
 <p>这里我们主要说一下HTTPS中的证书，HTTPS开始的握手阶段是基于非对称加密，也就是公钥加密的数据要用私钥才能解开，同理用私钥加密的数据用公钥才能解开。</p>
 <p>然而有一肚子坏水的家伙可以进行中间人劫持然后用自己的公钥来替换要访问的服务器的公钥，这样本来要发给服务器的数据发给了中间人，信息就被他们给窃取走了，所以有了CA这个机构来负责管理和签发证书。CA会将申请者的一些信息和公钥用CA自己的私钥加密并附上CA的一些信息生成数字证书给申请者。client在向服务器发出加密请求的时候，服务器会将数字证书一起返回给client，client在受信任的根证书颁发机构列表里来查看解开数字证书的公钥是否在列表之内，如果这张数字证书不是由受信任的机构颁发的会发出警告，如果数字证书是可靠的，客户端就可以使用证书中的服务器公钥。</p>
 <p>通过CA的数字签名来保证公钥的有效性，而黑客的公钥是很难通过CA的认证。CA证书具有层级结构，它建立了自上而下的信任链，下级CA信任上级CA，下级CA由上级CA颁发证书并认证。数字证书最常见的格式是X.509，这种公钥基础设施又称之为PKIX。在用HttpClient进行数字证书认证出错的时候会提示：<code>PKIX path building failed</code></p>
 <p>我们知道浏览器保存了一个常用的CA证书列表，那么用golang的HttpClient请求HTTPS的服务时，它所受信任的证书列表在哪里呢？</p>
 <p>查看golang的源码发现在目录<code>src/crypto/x509</code>下有针对各个操作系统获取根证书的实现，例如root_linux.go中记录了各个Linux发行版根证书的存放路径：</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2015 The Go Authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style</span></span><br><span class="line"><span class="comment">// license that can be found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> x509</span><br><span class="line"></span><br><span class="line"><span class="comment">// Possible certificate files; stop after finding one.</span></span><br><span class="line"><span class="keyword">var</span> certFiles = []<span class="keyword">string</span>&#123;</span><br><span class="line">	<span class="string">"/etc/ssl/certs/ca-certificates.crt"</span>,                <span class="comment">// Debian/Ubuntu/Gentoo etc.</span></span><br><span class="line">	<span class="string">"/etc/pki/tls/certs/ca-bundle.crt"</span>,                  <span class="comment">// Fedora/RHEL 6</span></span><br><span class="line">	<span class="string">"/etc/ssl/ca-bundle.pem"</span>,                            <span class="comment">// OpenSUSE</span></span><br><span class="line">	<span class="string">"/etc/pki/tls/cacert.pem"</span>,                           <span class="comment">// OpenELEC</span></span><br><span class="line">	<span class="string">"/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"</span>, <span class="comment">// CentOS/RHEL 7</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2015 The Go Authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style</span></span><br><span class="line"><span class="comment">// license that can be found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> x509</span><br><span class="line"></span><br><span class="line"><span class="comment">// Possible certificate files; stop after finding one.</span></span><br><span class="line"><span class="keyword">var</span> certFiles = []<span class="type">string</span>&#123;</span><br><span class="line">	<span class="string">&quot;/etc/ssl/certs/ca-certificates.crt&quot;</span>,                <span class="comment">// Debian/Ubuntu/Gentoo etc.</span></span><br><span class="line">	<span class="string">&quot;/etc/pki/tls/certs/ca-bundle.crt&quot;</span>,                  <span class="comment">// Fedora/RHEL 6</span></span><br><span class="line">	<span class="string">&quot;/etc/ssl/ca-bundle.pem&quot;</span>,                            <span class="comment">// OpenSUSE</span></span><br><span class="line">	<span class="string">&quot;/etc/pki/tls/cacert.pem&quot;</span>,                           <span class="comment">// OpenELEC</span></span><br><span class="line">	<span class="string">&quot;/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem&quot;</span>, <span class="comment">// CentOS/RHEL 7</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>root_unix.go中写了类Unix系统的证书路径：</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Possible directories with certificate files; stop after successfully</span></span><br><span class="line"><span class="comment">// reading at least one file from a directory.</span></span><br><span class="line">  <span class="keyword">var</span> certDirectories = []<span class="keyword">string</span>&#123;</span><br><span class="line">  	<span class="string">"/etc/ssl/certs"</span>,               <span class="comment">// SLES10/SLES11, https://golang.org/issue/12139</span></span><br><span class="line">  	<span class="string">"/system/etc/security/cacerts"</span>, <span class="comment">// Android</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Possible directories with certificate files; stop after successfully</span></span><br><span class="line"><span class="comment">// reading at least one file from a directory.</span></span><br><span class="line">  <span class="keyword">var</span> certDirectories = []<span class="type">string</span>&#123;</span><br><span class="line">  	<span class="string">&quot;/etc/ssl/certs&quot;</span>,               <span class="comment">// SLES10/SLES11, https://golang.org/issue/12139</span></span><br><span class="line">  	<span class="string">&quot;/system/etc/security/cacerts&quot;</span>, <span class="comment">// Android</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>对应的还有root_darwin.go，root_windows.go等分别实现了MacOS及Windows平台下的根证书的获取。</p>
 <p>另外，Java在JRE的安装目录下也有一份默认的可信任证书列表，这个列表一般是保存在 $JRE&#x2F;lib&#x2F;security&#x2F;cacerts 文件中，随着JDK版本的升级而更新。</p>
@@ -222,7 +223,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/" rel="tag">https</a></li></ul>
 
 
             
@@ -388,7 +389,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="Architecture &amp; Design">
     <meta name="description" content="前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。  在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。 代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接口得到">
-<meta name="keywords" content="Architecture &amp; Design">
 <meta property="og:type" content="article">
 <meta property="og:title" content="说说那些“鬼见愁”的项目-Part1">
 <meta property="og:url" content="http://singlecool.com/2022/11/27/the-dammit-mistakes-part1/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。  在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。 代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接口得到">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-12-14T09:46:43.982Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-27T12:43:24.000Z">
+<meta property="article:modified_time" content="2022-12-14T09:46:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="Architecture &amp; Design">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="说说那些“鬼见愁”的项目-Part1">
-<meta name="twitter:description" content="前言聊一聊之前接手的一个核心老系统，该系统主要负责内容的生产和加工，内容包括：图文、视频、直播等，加工生产主要指内容的发布、修改、特征计算和处理。内容在经过加工处理后送给下游进行个性化分发。  在这个系统中见识到了许许多多令人震惊的神操作，这里面一部分是有历史原因还有相当一部分是因为不好的开发习惯以及项目缺乏维护而引起。 代码相关1. 调用其他服务接口不判断响应结果神操作： 在调用其他服务接口得到">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -141,7 +141,7 @@
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">系统设计</a></li></ul>
 
             
         </h5>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#代码相关"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-调用其他服务接口不判断响应结果"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. 调用其他服务接口不判断响应结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-好异步却不知Trace为何物"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 好异步却不知Trace为何物</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-滥用事件且监听随意"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3. 滥用事件且监听随意</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-日志不全、吞异常不打日志"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4. 日志不全、吞异常不打日志</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-数据同步消息发送时机混乱导致读取到旧数据"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">5. 数据同步消息发送时机混乱导致读取到旧数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-方法名词不达意、随意复用方法引发bug"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">6. 方法名词不达意、随意复用方法引发bug</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-过长的函数"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">7. 过长的函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-嵌套过深的if语句"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">8. 嵌套过深的if语句</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-数据库事务与数据唯一性混淆"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">9. 数据库事务与数据唯一性混淆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-异步任务共用队列，不区分优先级"><span class="post-toc-number">2.10.</span> <span class="post-toc-text">10. 异步任务共用队列，不区分优先级</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#未完待续。。。"><span class="post-toc-number">2.11.</span> <span class="post-toc-text">未完待续。。。</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E5%89%8D%E8%A8%80"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E7%9B%B8%E5%85%B3"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E4%B8%8D%E5%88%A4%E6%96%AD%E5%93%8D%E5%BA%94%E7%BB%93%E6%9E%9C"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. 调用其他服务接口不判断响应结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-%E5%A5%BD%E5%BC%82%E6%AD%A5%E5%8D%B4%E4%B8%8D%E7%9F%A5Trace%E4%B8%BA%E4%BD%95%E7%89%A9"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 好异步却不知Trace为何物</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-%E6%BB%A5%E7%94%A8%E4%BA%8B%E4%BB%B6%E4%B8%94%E7%9B%91%E5%90%AC%E9%9A%8F%E6%84%8F"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3. 滥用事件且监听随意</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-%E6%97%A5%E5%BF%97%E4%B8%8D%E5%85%A8%E3%80%81%E5%90%9E%E5%BC%82%E5%B8%B8%E4%B8%8D%E6%89%93%E6%97%A5%E5%BF%97"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4. 日志不全、吞异常不打日志</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E6%97%B6%E6%9C%BA%E6%B7%B7%E4%B9%B1%E5%AF%BC%E8%87%B4%E8%AF%BB%E5%8F%96%E5%88%B0%E6%97%A7%E6%95%B0%E6%8D%AE"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">5. 数据同步消息发送时机混乱导致读取到旧数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-%E6%96%B9%E6%B3%95%E5%90%8D%E8%AF%8D%E4%B8%8D%E8%BE%BE%E6%84%8F%E3%80%81%E9%9A%8F%E6%84%8F%E5%A4%8D%E7%94%A8%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91bug"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">6. 方法名词不达意、随意复用方法引发bug</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-%E8%BF%87%E9%95%BF%E7%9A%84%E5%87%BD%E6%95%B0"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">7. 过长的函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-%E5%B5%8C%E5%A5%97%E8%BF%87%E6%B7%B1%E7%9A%84if%E8%AF%AD%E5%8F%A5"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">8. 嵌套过深的if语句</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#9-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%94%AF%E4%B8%80%E6%80%A7%E6%B7%B7%E6%B7%86"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">9. 数据库事务与数据唯一性混淆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#10-%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E5%85%B1%E7%94%A8%E9%98%9F%E5%88%97%EF%BC%8C%E4%B8%8D%E5%8C%BA%E5%88%86%E4%BC%98%E5%85%88%E7%BA%A7"><span class="post-toc-number">2.10.</span> <span class="post-toc-text">10. 异步任务共用队列，不区分优先级</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD%E3%80%82%E3%80%82%E3%80%82"><span class="post-toc-number">2.11.</span> <span class="post-toc-text">未完待续。。。</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -172,7 +172,7 @@
             <time class="post-time" title="2022-11-27 20:43:24" datetime="2022-11-27T12:43:24.000Z"  itemprop="datePublished">2022-11-27</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/系统设计/">系统设计</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">系统设计</a></li></ul>
 
 
 
@@ -226,7 +226,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2022-12-14T09:46:43.982Z" itemprop="dateUpdated">2022-12-14 17:46:43</time>
+    最后更新时间：<time datetime="2022-12-14T09:46:43.000Z" itemprop="dateUpdated">2022-12-14 17:46:43</time>
 </span><br>
 
 
@@ -250,7 +250,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/">Architecture & Design</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Architecture-Design/" rel="tag">Architecture &amp; Design</a></li></ul>
 
 
             
@@ -416,7 +416,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

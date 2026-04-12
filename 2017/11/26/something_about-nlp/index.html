@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="AI">
     <meta name="description" content="无论在工程界还是学术界自然语言处理(NLP)一直是一个比较热的话题，尤其随着近些年深度学习的发展给NLP也带来一些新思路。对于这个话题随便聊聊，想到哪写到哪。 其实自然语言理解很难为什么说让机器真正的理解自然语言很难呢？ 人类语言从出现至今经过上万年的演变，规则极其错综复杂，就连人类自己在学习一门外语的时候还经常发语法错误更不用说机器了。例如，一个句子由多个词语组成，通过各种组合能够得到更为复杂的">
-<meta name="keywords" content="AI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="闲聊NLP">
 <meta property="og:url" content="http://singlecool.com/2017/11/26/something_about-nlp/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="无论在工程界还是学术界自然语言处理(NLP)一直是一个比较热的话题，尤其随着近些年深度学习的发展给NLP也带来一些新思路。对于这个话题随便聊聊，想到哪写到哪。 其实自然语言理解很难为什么说让机器真正的理解自然语言很难呢？ 人类语言从出现至今经过上万年的演变，规则极其错综复杂，就连人类自己在学习一门外语的时候还经常发语法错误更不用说机器了。例如，一个句子由多个词语组成，通过各种组合能够得到更为复杂的">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-26T11:57:15.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闲聊NLP">
-<meta name="twitter:description" content="无论在工程界还是学术界自然语言处理(NLP)一直是一个比较热的话题，尤其随着近些年深度学习的发展给NLP也带来一些新思路。对于这个话题随便聊聊，想到哪写到哪。 其实自然语言理解很难为什么说让机器真正的理解自然语言很难呢？ 人类语言从出现至今经过上万年的演变，规则极其错综复杂，就连人类自己在学习一门外语的时候还经常发语法错误更不用说机器了。例如，一个句子由多个词语组成，通过各种组合能够得到更为复杂的">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其实自然语言理解很难"><span class="post-toc-number">1.</span> <span class="post-toc-text">其实自然语言理解很难</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NLP做哪些事情"><span class="post-toc-number">2.</span> <span class="post-toc-text">NLP做哪些事情</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#特征工程"><span class="post-toc-number">3.</span> <span class="post-toc-text">特征工程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文本预处理"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">文本预处理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文本表示"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">文本表示</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#特征提取"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">特征提取</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#深度学习在NLP中的应用"><span class="post-toc-number">4.</span> <span class="post-toc-text">深度学习在NLP中的应用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关于文本分类及实体识别"><span class="post-toc-number">5.</span> <span class="post-toc-text">关于文本分类及实体识别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问答系统和多轮对话系统"><span class="post-toc-number">6.</span> <span class="post-toc-text">问答系统和多轮对话系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#最后"><span class="post-toc-number">7.</span> <span class="post-toc-text">最后</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B6%E5%AE%9E%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%90%86%E8%A7%A3%E5%BE%88%E9%9A%BE"><span class="post-toc-number">1.</span> <span class="post-toc-text">其实自然语言理解很难</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NLP%E5%81%9A%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85"><span class="post-toc-number">2.</span> <span class="post-toc-text">NLP做哪些事情</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="post-toc-number">3.</span> <span class="post-toc-text">特征工程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">文本预处理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%9C%AC%E8%A1%A8%E7%A4%BA"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">文本表示</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">特征提取</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9C%A8NLP%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="post-toc-number">4.</span> <span class="post-toc-text">深度学习在NLP中的应用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B3%E4%BA%8E%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E5%8F%8A%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB"><span class="post-toc-number">5.</span> <span class="post-toc-text">关于文本分类及实体识别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%A4%9A%E8%BD%AE%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F"><span class="post-toc-number">6.</span> <span class="post-toc-text">问答系统和多轮对话系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E5%90%8E"><span class="post-toc-number">7.</span> <span class="post-toc-text">最后</span></a></li></ol>
         </nav>
     </aside>
 
@@ -196,7 +196,7 @@
 <p>解决了文本表示的问题，则可以通过CNN&#x2F;RNN来进一步解决自动特征提取进而完成文本分类等问题。</p>
 <h3 id="关于文本分类及实体识别"><a href="#关于文本分类及实体识别" class="headerlink" title="关于文本分类及实体识别"></a>关于文本分类及实体识别</h3><p>文本分类和实体识别是NLP里一个老生常谈的话题，最早开始人们通过规则匹配的方式来做，到后来随着数据量的增长和机器性能的提升，运用统计学知识的机器学习方法开始渐渐成为处理此类问题的一个主要手段。但依旧避不开特征工程这个步骤。</p>
 <p>例如在句子分类中，首先要把句子表示成TF-vector或者是WordCountVector进而利用LR或者SVM等分类器进行分类。而在NER中则更为复杂：当前词的前序词、后续词、是否大写、是否是Title、词的前缀和后缀，词性等等，这些都是大家在不断的摸索中发现的比较好的特征。</p>
-<p>利用深度学习网络自动提取特征的技能可以帮助人们更好的完成之前的文本处理任务。例如：利用word2vec将词转成词向量，然后利用CNN进行卷积计算，在卷积的过程中不同size的卷积核可以自动获取n取值不同的n-gram信息，通过不同的卷积层捕捉局部相关性可以更好的来进行分类。详见：<a href="https://arxiv.org/abs/1408.5882" target="_blank" rel="noopener">Yoon Kim发表的论文</a></p>
+<p>利用深度学习网络自动提取特征的技能可以帮助人们更好的完成之前的文本处理任务。例如：利用word2vec将词转成词向量，然后利用CNN进行卷积计算，在卷积的过程中不同size的卷积核可以自动获取n取值不同的n-gram信息，通过不同的卷积层捕捉局部相关性可以更好的来进行分类。详见：<a href="https://arxiv.org/abs/1408.5882">Yoon Kim发表的论文</a></p>
 <h3 id="问答系统和多轮对话系统"><a href="#问答系统和多轮对话系统" class="headerlink" title="问答系统和多轮对话系统"></a>问答系统和多轮对话系统</h3><p>问答系统早期的做法是通过模板、规则匹配的方法，这种方法比较适合命令式的场景，例如家电控制等。</p>
 <p>目前还有一种常用做法是基于检索的方法：将Q&amp;A索引起来，新来的question在索引上做一次检索，在候选集上用匹配模型去匹配，最后做一个排序，一般把第一个答案返回给用户。</p>
 <p>还有一种方法是通过神经网络来对问题和答案做卷积，判断两句话里哪些局部的词语是互相对应的，最终判断问题和答案是否相关。</p>
@@ -234,7 +234,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/">AI</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
 
             
@@ -400,7 +400,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

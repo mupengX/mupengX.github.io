@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,18 +22,18 @@
     
     <meta name="keywords" content="AI">
     <meta name="description" content="基本概念会话管理(以下简称DM)是人机多轮对话系统的核心部分。它主要的功能包括：  对话状态维护(dialog state tracking, DST) 维护更新会话状态。当前的会话状态依赖于之前的系统状态和之前的系统响应以及当前时刻的用户输入。 产生决策(dialog strategy) 根据DST中会话状态做出系统决策，决定下一步做什么。 与其他后端系统交互  下图是一个经典的对话系统结构图，">
-<meta name="keywords" content="AI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="会话管理(Dialog Management)">
 <meta property="og:url" content="http://singlecool.com/2018/04/01/DM/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="基本概念会话管理(以下简称DM)是人机多轮对话系统的核心部分。它主要的功能包括：  对话状态维护(dialog state tracking, DST) 维护更新会话状态。当前的会话状态依赖于之前的系统状态和之前的系统响应以及当前时刻的用户输入。 产生决策(dialog strategy) 根据DST中会话状态做出系统决策，决定下一步做什么。 与其他后端系统交互  下图是一个经典的对话系统结构图，">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://singlecool.com/img/DM.svg">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:published_time" content="2018-04-01T08:24:12.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="会话管理(Dialog Management)">
-<meta name="twitter:description" content="基本概念会话管理(以下简称DM)是人机多轮对话系统的核心部分。它主要的功能包括：  对话状态维护(dialog state tracking, DST) 维护更新会话状态。当前的会话状态依赖于之前的系统状态和之前的系统响应以及当前时刻的用户输入。 产生决策(dialog strategy) 根据DST中会话状态做出系统决策，决定下一步做什么。 与其他后端系统交互  下图是一个经典的对话系统结构图，">
 <meta name="twitter:image" content="http://singlecool.com/img/DM.svg">
     
     <link rel="shortcut icon" href="/favicon.ico">
@@ -43,7 +43,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本概念"><span class="post-toc-number">1.</span> <span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现方法"><span class="post-toc-number">2.</span> <span class="post-toc-text">实现方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Structure-based-Approaches"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Structure-based Approaches</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#FSM-based-Approaches"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">FSM-based Approaches</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Frame-based-Approaches"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Frame-based Approaches</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Agenda-Frame-CMU-Communicator"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Agenda + Frame(CMU Communicator)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DM设计"><span class="post-toc-number">3.</span> <span class="post-toc-text">DM设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#模型化困难"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">模型化困难</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-number">1.</span> <span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="post-toc-number">2.</span> <span class="post-toc-text">实现方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Structure-based-Approaches"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Structure-based Approaches</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#FSM-based-Approaches"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">FSM-based Approaches</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Frame-based-Approaches"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Frame-based Approaches</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Agenda-Frame-CMU-Communicator"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Agenda + Frame(CMU Communicator)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DM%E8%AE%BE%E8%AE%A1"><span class="post-toc-number">3.</span> <span class="post-toc-text">DM设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%8C%96%E5%9B%B0%E9%9A%BE"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">模型化困难</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -198,7 +198,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/img/DM.svg" alt="Architecture of dialog system" title>
+                    <img src="/img/DM.svg" alt="Architecture of dialog system" title="">
                 </div>
                 <div class="image-caption">Architecture of dialog system</div>
             </figure>
@@ -234,9 +234,9 @@
 <p>个人目前的做法是NLU是单独实现好的，那么DM要做的是多轮会话topic切换(场景打断与恢复)，基于context的语义信息筛选，多轮对话的容错，与其他service交互以及各下游服务结果的rank等。</p>
 <p>人与人之间的对话是及其复杂的，想用一个模型来刻画描述这个过程十分困难，无论在理论研究还是在工程实践领域仍有大量的工作要做，相信将来人机对话的体验会越来越好。</p>
 <p><strong>参考链接</strong></p>
-<p><a href="https://www.inf.uni-hamburg.de/en/inst/ab/lt/publications/2016-schnelleetal-workshop-smartobjects.pdf" target="_blank" rel="noopener">NLU vs. Dialog Management: To Whom am I Speaking?</a></p>
-<p><a href="http://www.cs.cmu.edu/~xw/asru99-agenda.pdf" target="_blank" rel="noopener">AN AGENDA-BASED DIALOG MANAGEMENT<br>ARCHITECTURE FOR SPOKEN LANGUAGE SYSTEMS</a></p>
-<p><a href="https://tutorials.botsfloor.com/dialog-management-799c20a39aad" target="_blank" rel="noopener">Dialog management</a></p>
+<p><a href="https://www.inf.uni-hamburg.de/en/inst/ab/lt/publications/2016-schnelleetal-workshop-smartobjects.pdf">NLU vs. Dialog Management: To Whom am I Speaking?</a></p>
+<p><a href="http://www.cs.cmu.edu/~xw/asru99-agenda.pdf">AN AGENDA-BASED DIALOG MANAGEMENT<br>ARCHITECTURE FOR SPOKEN LANGUAGE SYSTEMS</a></p>
+<p><a href="https://tutorials.botsfloor.com/dialog-management-799c20a39aad">Dialog management</a></p>
 
         </div>
 
@@ -269,7 +269,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/">AI</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
 
             
@@ -435,7 +435,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

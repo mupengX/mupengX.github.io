@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="AngularJS">
-    <meta name="description" content="ui-router是AngualrJS中常用的路由框架。其中ui-sref 一般使用在 a标签中，$state.go(‘someState’)一般使用在controller里面。这两个本质上是一样的东西，查看ui-sref的源码，ui-sref最后调用的还是$state.go()方法。 如何传递参数首先定义路由状态： 123456789.state(&apos;monitorInstance&apos;, &amp;#123">
-<meta name="keywords" content="AngularJS">
+    <meta name="description" content="ui-router是AngualrJS中常用的路由框架。其中ui-sref 一般使用在 a标签中，$state.go(‘someState’)一般使用在controller里面。这两个本质上是一样的东西，查看ui-sref的源码，ui-sref最后调用的还是$state.go()方法。 如何传递参数首先定义路由状态： 123456789.state(&#x27;monitorInstance&amp;#x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AngularJS中ui-router如何传递参数">
-<meta property="og:url" content="http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/index.html">
+<meta property="og:url" content="http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="ui-router是AngualrJS中常用的路由框架。其中ui-sref 一般使用在 a标签中，$state.go(‘someState’)一般使用在controller里面。这两个本质上是一样的东西，查看ui-sref的源码，ui-sref最后调用的还是$state.go()方法。 如何传递参数首先定义路由状态： 123456789.state(&apos;monitorInstance&apos;, &amp;#123">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="og:description" content="ui-router是AngualrJS中常用的路由框架。其中ui-sref 一般使用在 a标签中，$state.go(‘someState’)一般使用在controller里面。这两个本质上是一样的东西，查看ui-sref的源码，ui-sref最后调用的还是$state.go()方法。 如何传递参数首先定义路由状态： 123456789.state(&#x27;monitorInstance&amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-09T15:36:18.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="AngularJS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AngularJS中ui-router如何传递参数">
-<meta name="twitter:description" content="ui-router是AngualrJS中常用的路由框架。其中ui-sref 一般使用在 a标签中，$state.go(‘someState’)一般使用在controller里面。这两个本质上是一样的东西，查看ui-sref的源码，ui-sref最后调用的还是$state.go()方法。 如何传递参数首先定义路由状态： 123456789.state(&apos;monitorInstance&apos;, &amp;#123">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -141,7 +141,7 @@
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
 
             
         </h5>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何传递参数"><span class="post-toc-number">1.</span> <span class="post-toc-text">如何传递参数</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0"><span class="post-toc-number">1.</span> <span class="post-toc-text">如何传递参数</span></a></li></ol>
         </nav>
     </aside>
 
@@ -172,7 +172,7 @@
             <time class="post-time" title="2016-04-09 23:36:18" datetime="2016-04-09T15:36:18.000Z"  itemprop="datePublished">2016-04-09</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
 
 
 
@@ -186,16 +186,14 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>ui-router是AngualrJS中常用的路由框架。其中ui-sref 一般使用在 a标签中，$state.go(‘someState’)一般使用在controller里面。这两个本质上是一样的东西，查看ui-sref的源码，ui-sref最后调用的还是$state.go()方法。</p>
 <h3 id="如何传递参数"><a href="#如何传递参数" class="headerlink" title="如何传递参数"></a>如何传递参数</h3><p>首先定义路由状态：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.state(<span class="string">'monitorInstance'</span>, &#123;</span><br><span class="line">   url: <span class="string">"/monitorInstance/:instanceId/:templateId"</span>,</span><br><span class="line">   views: &#123;</span><br><span class="line">    <span class="string">"appContent"</span> :&#123;</span><br><span class="line">       templateUrl: baseUrl +<span class="string">'/tpl/monitorInstance.html'</span>,</span><br><span class="line">       controller: MonitorInstanceCtrl</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.<span class="title function_">state</span>(<span class="string">&#x27;monitorInstance&#x27;</span>, &#123;</span><br><span class="line">   <span class="attr">url</span>: <span class="string">&quot;/monitorInstance/:instanceId/:templateId&quot;</span>,</span><br><span class="line">   <span class="attr">views</span>: &#123;</span><br><span class="line">    <span class="string">&quot;appContent&quot;</span> :&#123;</span><br><span class="line">       <span class="attr">templateUrl</span>: baseUrl +<span class="string">&#x27;/tpl/monitorInstance.html&#x27;</span>,</span><br><span class="line">       <span class="attr">controller</span>: <span class="title class_">MonitorInstanceCtrl</span></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>ui-sref传参：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a ui-sref=<span class="string">"monitorInstance(&#123;instanceId: &#123;&#123;instance.id&#125;&#125;,  templateId: &#123;&#123;instance.template.id&#125;&#125; &#125;)"</span>&gt;</span><br><span class="line">    &lt;span&gt;&#123;&#123;instance.name&#125;&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>a&gt;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;a ui-sref=<span class="string">&quot;monitorInstance(&#123;instanceId: &#123;&#123;instance.id&#125;&#125;,  templateId: &#123;&#123;instance.template.id&#125;&#125; &#125;)&quot;</span>&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123;instance.name&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line">&lt;/a&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>$state.go传参：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$state.go(<span class="string">'monitorInstance'</span>, &#123;<span class="attr">instanceId</span>: instance.id, <span class="attr">templateId</span>:instance.template.id&#125;);</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$state.<span class="title function_">go</span>(<span class="string">&#x27;monitorInstance&#x27;</span>, &#123;<span class="attr">instanceId</span>: instance.<span class="property">id</span>, <span class="attr">templateId</span>:instance.<span class="property">template</span>.<span class="property">id</span>&#125;);</span><br></pre></td></tr></table></figure>
 <p>接收参数：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">listInstanceCtrl</span>(<span class="params">$scope,$stateParams,listInstanceServices</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log($stateParams.instanceId);</span><br><span class="line">    <span class="built_in">console</span>.log($stateParams.templateId);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">listInstanceCtrl</span>(<span class="params">$scope,$stateParams,listInstanceServices</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>($stateParams.<span class="property">instanceId</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>($stateParams.<span class="property">templateId</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
         </div>
 
         <blockquote class="post-copyright">
@@ -227,7 +225,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/">AngularJS</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/" rel="tag">AngularJS</a></li></ul>
 
 
             
@@ -237,7 +235,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/&title=《AngularJS中ui-router如何传递参数》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/&title=《AngularJS中ui-router如何传递参数》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -247,22 +245,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/&title=《AngularJS中ui-router如何传递参数》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/&title=《AngularJS中ui-router如何传递参数》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AngularJS中ui-router如何传递参数》 — SingleX&url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AngularJS中ui-router如何传递参数》 — SingleX&url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -294,7 +292,7 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2015/12/02/Go语言的接口/" id="post-next" class="post-nav-link">
+      <a href="/2015/12/02/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E6%8E%A5%E5%8F%A3/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
         <h4 class="title">Go语言的接口</h4>
       </a>
@@ -393,7 +391,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -411,7 +409,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/&title=《AngularJS中ui-router如何传递参数》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/&title=《AngularJS中ui-router如何传递参数》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -421,22 +419,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/&title=《AngularJS中ui-router如何传递参数》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/&title=《AngularJS中ui-router如何传递参数》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AngularJS中ui-router如何传递参数》 — SingleX&url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AngularJS中ui-router如何传递参数》 — SingleX&url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -447,7 +445,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/04/09/AngularJS中ui-router如何传递参数/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/04/09/AngularJS%E4%B8%ADui-router%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/" alt="微信分享二维码">
 </div>
 
 

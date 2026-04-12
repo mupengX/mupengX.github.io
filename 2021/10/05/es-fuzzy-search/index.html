@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,17 +22,17 @@
     
     <meta name="keywords" content="搜索">
     <meta name="description" content="前言提到全文搜索ES是一款比较被人熟知的开源搜索引擎，很多公司会基于ES来做全文搜索相关的业务。例如，在做内容相关的业务时常会有类似的运营需求：根据某个关键词搜索出所有包含该关键词的内容。如果量级比较小使用SQL的LIKE语句便可以解决，如果量级比较大的话一般需要通过搜索引擎来处理，但中文搜索往往因为分词问题会影响到最终的搜索效果。不同的业务对搜索结果的准确率和召回率各有不同的侧重，在根据某关键词">
-<meta name="keywords" content="搜索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES模糊搜索">
 <meta property="og:url" content="http://singlecool.com/2021/10/05/es-fuzzy-search/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="前言提到全文搜索ES是一款比较被人熟知的开源搜索引擎，很多公司会基于ES来做全文搜索相关的业务。例如，在做内容相关的业务时常会有类似的运营需求：根据某个关键词搜索出所有包含该关键词的内容。如果量级比较小使用SQL的LIKE语句便可以解决，如果量级比较大的话一般需要通过搜索引擎来处理，但中文搜索往往因为分词问题会影响到最终的搜索效果。不同的业务对搜索结果的准确率和召回率各有不同的侧重，在根据某关键词">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-10-05T12:14:12.504Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-05T08:12:18.000Z">
+<meta property="article:modified_time" content="2021-10-05T12:14:12.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="搜索">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ES模糊搜索">
-<meta name="twitter:description" content="前言提到全文搜索ES是一款比较被人熟知的开源搜索引擎，很多公司会基于ES来做全文搜索相关的业务。例如，在做内容相关的业务时常会有类似的运营需求：根据某个关键词搜索出所有包含该关键词的内容。如果量级比较小使用SQL的LIKE语句便可以解决，如果量级比较大的话一般需要通过搜索引擎来处理，但中文搜索往往因为分词问题会影响到最终的搜索效果。不同的业务对搜索结果的准确率和召回率各有不同的侧重，在根据某关键词">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -41,7 +41,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -158,7 +158,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#可用于模糊搜索的几种方式"><span class="post-toc-number">2.</span> <span class="post-toc-text">可用于模糊搜索的几种方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于Term的几种模糊搜素方式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基于Term的几种模糊搜素方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Fuzzy搜索"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">Fuzzy搜索</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#wildcard通配符匹配"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">wildcard通配符匹配</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于分词的全文模糊搜索模式"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">基于分词的全文模糊搜索模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#match搜索"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">match搜索</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#match-phrase短语匹配"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">match_phrase短语匹配</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#配合NGram分词提升召回率"><span class="post-toc-number">2.2.2.1.</span> <span class="post-toc-text">配合NGram分词提升召回率</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#混合使用match和match-phrase提高召回率和准确率"><span class="post-toc-number">2.2.2.2.</span> <span class="post-toc-text">混合使用match和match_phrase提高召回率和准确率</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他的方案"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他的方案</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">4.</span> <span class="post-toc-text">最后</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%89%8D%E8%A8%80"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%AF%E7%94%A8%E4%BA%8E%E6%A8%A1%E7%B3%8A%E6%90%9C%E7%B4%A2%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="post-toc-number">2.</span> <span class="post-toc-text">可用于模糊搜索的几种方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E4%BA%8ETerm%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E7%B3%8A%E6%90%9C%E7%B4%A0%E6%96%B9%E5%BC%8F"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基于Term的几种模糊搜素方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Fuzzy%E6%90%9C%E7%B4%A2"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">Fuzzy搜索</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#wildcard%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">wildcard通配符匹配</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%88%86%E8%AF%8D%E7%9A%84%E5%85%A8%E6%96%87%E6%A8%A1%E7%B3%8A%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%BC%8F"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">基于分词的全文模糊搜索模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#match%E6%90%9C%E7%B4%A2"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">match搜索</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#match-phrase%E7%9F%AD%E8%AF%AD%E5%8C%B9%E9%85%8D"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">match_phrase短语匹配</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E9%85%8D%E5%90%88NGram%E5%88%86%E8%AF%8D%E6%8F%90%E5%8D%87%E5%8F%AC%E5%9B%9E%E7%8E%87"><span class="post-toc-number">2.2.2.1.</span> <span class="post-toc-text">配合NGram分词提升召回率</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E6%B7%B7%E5%90%88%E4%BD%BF%E7%94%A8match%E5%92%8Cmatch-phrase%E6%8F%90%E9%AB%98%E5%8F%AC%E5%9B%9E%E7%8E%87%E5%92%8C%E5%87%86%E7%A1%AE%E7%8E%87"><span class="post-toc-number">2.2.2.2.</span> <span class="post-toc-text">混合使用match和match_phrase提高召回率和准确率</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E6%96%B9%E6%A1%88"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他的方案</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%80%E5%90%8E"><span class="post-toc-number">4.</span> <span class="post-toc-text">最后</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
         </nav>
     </aside>
 
@@ -199,7 +199,7 @@
 <p>Returns documents that contain terms matching a wildcard pattern</p>
 </blockquote>
 <p>通配符匹配搜索从query形式上看是最接近SQL中<code>LIKE</code>语句的搜索方式，在SQL中的<code> LIKE %东方木子%</code>可以在ES中写成</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /myindex/article/_search</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"query"</span>: &#123;</span><br><span class="line">        <span class="attr">"wildcard"</span>: &#123;</span><br><span class="line">            <span class="attr">"content"</span>: <span class="string">"*东方木子*"</span> </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /myindex/article/_search</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;wildcard&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*东方木子*&quot;</span> </span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>但从实际效果来看并非如此，就像官方文档上说的这种查询方式返回的是所包含的term中能匹配上该搜索条件的所有doc。还是以<code>东方木子</code>为例，如果在索引中分词为<code>东方</code>和<code>方木</code>则上面的查询语句没有办法匹配到该doc，除非写成<code>*东*方*木*子*</code>。</p>
 <p>另外该搜索模式在某些场景下资源开销比较大会影响性能，官方 提示如下：</p>
@@ -208,7 +208,7 @@
 </blockquote>
 <p>中文含义是：避免以*或？开头的模式，这会增加查找匹配项所需的迭代次数并降低搜索性能，并且如果没有开启允许开销较大的查询设置则ES不会执行该查询：</p>
 <blockquote>
-<p>Wildcard queries will not be executed if <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html#query-dsl-allow-expensive-queries" target="_blank" rel="noopener"><code>search.allow_expensive_queries</code></a> is set to false.</p>
+<p>Wildcard queries will not be executed if <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html#query-dsl-allow-expensive-queries"><code>search.allow_expensive_queries</code></a> is set to false.</p>
 </blockquote>
 <p>Regexp正则表达式搜索与Wildcard原理类似不再赘述</p>
 <h3 id="基于分词的全文模糊搜索模式"><a href="#基于分词的全文模糊搜索模式" class="headerlink" title="基于分词的全文模糊搜索模式"></a>基于分词的全文模糊搜索模式</h3><h4 id="match搜索"><a href="#match搜索" class="headerlink" title="match搜索"></a>match搜索</h4><p>官方文档对该搜索方式的描述：</p>
@@ -224,26 +224,26 @@
 <p>使用该搜索模式虽然也会遇到与match搜索类似的问题，但因为该搜索会考虑term间位置的关系因此准确率上会有一定的提升</p>
 <h5 id="配合NGram分词提升召回率"><a href="#配合NGram分词提升召回率" class="headerlink" title="配合NGram分词提升召回率"></a>配合NGram分词提升召回率</h5><p>官方文档介绍：</p>
 <blockquote>
-<p>The <code>ngram</code> tokenizer first breaks text down into words whenever it encounters one of a list of specified characters, then it emits <a href="https://en.wikipedia.org/wiki/N-gram" target="_blank" rel="noopener">N-grams</a> of each word of the specified length.</p>
+<p>The <code>ngram</code> tokenizer first breaks text down into words whenever it encounters one of a list of specified characters, then it emits <a href="https://en.wikipedia.org/wiki/N-gram">N-grams</a> of each word of the specified length.</p>
 </blockquote>
 <p>以gram为单位可配置min_gram最小词元长度和max_gram最大词元长度。例如：</p>
 <p>一个单词 quick，5 种长度下的 ngram</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ngram length=1，q u i c k</span><br><span class="line">ngram length=2，qu ui ic ck</span><br><span class="line">ngram length=3，qui uic ick</span><br><span class="line">ngram length=4，quic uick</span><br><span class="line">ngram length=5，quick</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ngram length=1，q u i c k</span><br><span class="line">ngram length=2，qu ui ic ck</span><br><span class="line">ngram length=3，qui uic ick</span><br><span class="line">ngram length=4，quic uick</span><br><span class="line">ngram length=5，quick</span><br></pre></td></tr></table></figure>
 
 <p>还有一种形式叫做edge ngram：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">首字母后进行 ngram</span><br><span class="line">q</span><br><span class="line">qu</span><br><span class="line">qui</span><br><span class="line">quic</span><br><span class="line">quick</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">首字母后进行 ngram</span><br><span class="line">q</span><br><span class="line">qu</span><br><span class="line">qui</span><br><span class="line">quic</span><br><span class="line">quick</span><br></pre></td></tr></table></figure>
 
 <p>类似前缀索引的效果，可以应用于搜索suggest场景</p>
 <p>NGram分词搭配使用match查询只要任何一个字匹配上就会被召回，错误率太高；搭配使用match_phrase查询既可以减少因对doc和query进行智能分词结果有差异导致的召回率低问题，同时加上match_phrase的slop偏移量参数配置可提升搜索的准确率</p>
 <h5 id="混合使用match和match-phrase提高召回率和准确率"><a href="#混合使用match和match-phrase提高召回率和准确率" class="headerlink" title="混合使用match和match_phrase提高召回率和准确率"></a>混合使用match和match_phrase提高召回率和准确率</h5><p>单独使用match搜索存在召回率高但准确率低的问题，而单独使用match_phrase存在准确率高但召回率低的问题。如果二者混合一起使用可以一定程度上既提升召回率又提升准确率：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">GET /myindex/article/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"bool"</span>: &#123;</span><br><span class="line">      <span class="attr">"must"</span>: [</span><br><span class="line">        &#123;<span class="attr">"match"</span>: &#123;</span><br><span class="line">          <span class="attr">"content"</span>: <span class="string">"东方木子"</span></span><br><span class="line">        &#125;&#125;</span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">"should"</span>: [</span><br><span class="line">        &#123;<span class="attr">"match_phrase"</span>: &#123;</span><br><span class="line">          <span class="attr">"content"</span>: &#123;</span><br><span class="line">            <span class="attr">"query"</span>: <span class="string">"东方木子"</span>,</span><br><span class="line">             <span class="attr">"slop"</span>: <span class="number">2</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">GET /myindex/article/_search</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;bool&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;must&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span><span class="attr">&quot;match&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;东方木子&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;should&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span><span class="attr">&quot;match_phrase&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="string">&quot;东方木子&quot;</span><span class="punctuation">,</span></span><br><span class="line">             <span class="attr">&quot;slop&quot;</span><span class="punctuation">:</span> <span class="number">2</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>但这种混用的方式不一定适合搜索出所有包含某关键词内容的场景</p>
 <h2 id="其他的方案"><a href="#其他的方案" class="headerlink" title="其他的方案"></a>其他的方案</h2><p>回到文章开始提到的场景：搜索出所有包含某关键词内容。如果我们就是要以超高的准确率找到包含某关键词的全部内容那这就变成了一个关键词匹配的场景，在这个场景下除了使用ES之外还有没有其他的方案呢？</p>
 <p>这种场景实际转变为了字符串匹配的问题，字符串匹配问题业内已经有比较成熟的算法，那么我们可以使用MR或者Spark跑一个离线任务对每一篇文章进行字符串匹配计算将匹配上的文章返回，但这种方式不能满足请求即时响应。</p>
 <p>如果要支持输入的关键词纠错查询或者支持?、*正则匹配呢？这种情况下如果用一个正则表达式去匹配全文内容会比较耗费资源，一种办法是先将doc按照标点符号进行断句，然后针对每一个句子进行正则匹配，这样做的前提假设是关键词不会有跨句出现的情况。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>以上即为在中文搜索中实现类似SQL <code>LIKE</code>模糊匹配的几种方式，中文搜索比英文搜索复杂的一个地方在于中文的分词问题，如果分词比较准确则能够很大的提升搜索效果，当然除了分词搜索本身还有许多难题要解决，例如query理解等，这不在本文讨论范围之内。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank" rel="noopener">Elastic Search官方文档</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html">Elastic Search官方文档</a></p>
 
         </div>
 
@@ -252,7 +252,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2021-10-05T12:14:12.504Z" itemprop="dateUpdated">2021-10-05 20:14:12</time>
+    最后更新时间：<time datetime="2021-10-05T12:14:12.000Z" itemprop="dateUpdated">2021-10-05 20:14:12</time>
 </span><br>
 
 
@@ -276,7 +276,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搜索/">搜索</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li></ul>
 
 
             
@@ -442,7 +442,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

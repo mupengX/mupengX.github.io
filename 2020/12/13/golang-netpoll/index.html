@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content="Go">
-    <meta name="description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
-<meta name="keywords" content="Go">
+    <meta name="description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="探索Go的netpoller：netpoller网络模型与I&#x2F;O多路复用技术">
 <meta property="og:url" content="http://singlecool.com/2020/12/13/golang-netpoll/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://singlecool.com/img/non-blockingIO.jpg">
-<meta property="og:updated_time" content="2024-04-21T15:21:38.953Z">
+<meta property="article:published_time" content="2020-12-13T02:15:18.000Z">
+<meta property="article:modified_time" content="2024-04-21T15:21:38.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="探索Go的netpoller：netpoller网络模型与I&#x2F;O多路复用技术">
-<meta name="twitter:description" content="使用Go进行网络编程是十分的高效和便捷的，在goroutine-per-connection这样的编程模式下开发者可以使用同步的模式来编写业务逻辑而无需关心网络的阻塞、异步等问题极大的降低了心智负担。同时Go基于 I&amp;#x2F;O multiplexing 和 goroutine scheduler 使得这个网络模型在开发模式和接口层面保持简洁的同时也具备较高的性能可以满足绝大多数的场景。 I&amp;#">
 <meta name="twitter:image" content="http://singlecool.com/img/non-blockingIO.jpg">
     
     <link rel="shortcut icon" href="/favicon.ico">
@@ -43,7 +43,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O模型"><span class="post-toc-number">1.</span> <span class="post-toc-text">I/O模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O多路复用"><span class="post-toc-number">2.</span> <span class="post-toc-text">I/O多路复用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#select-poll"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">select&amp;poll</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">epoll</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#netpoller"><span class="post-toc-number">3.</span> <span class="post-toc-text">netpoller</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#one-more-thing"><span class="post-toc-number">4.</span> <span class="post-toc-text">one more thing</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O%E6%A8%A1%E5%9E%8B"><span class="post-toc-number">1.</span> <span class="post-toc-text">I&#x2F;O模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="post-toc-number">2.</span> <span class="post-toc-text">I&#x2F;O多路复用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#select-poll"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">select&amp;poll</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">epoll</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#netpoller"><span class="post-toc-number">3.</span> <span class="post-toc-text">netpoller</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#one-more-thing"><span class="post-toc-number">4.</span> <span class="post-toc-text">one more thing</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
         </nav>
     </aside>
 
@@ -208,7 +208,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/img/non-blockingIO.jpg" alt="Non-blocking I/O" title>
+                    <img src="/img/non-blockingIO.jpg" alt="Non-blocking I/O" title="">
                 </div>
                 <div class="image-caption">Non-blocking I/O</div>
             </figure>
@@ -228,7 +228,7 @@
 <li>当某个fd注册完成后会与对应的设备建立回调关系，当设备就绪触发中断后内核通过该回调函数将该fd添加到rdllist 双向就绪链表中。epoll_wait 就是去检查 rdllist 中是否有就绪的 fd，当 rdllist 为空时就会阻塞挂起当前调用epoll_wait进程，直到 rdllist 非空时进程才被唤醒并返回。此处epoll解决了select的第二个问题：不需要每次调用都遍历传进来的fd列表，从而不会因为随着fd数量的增多而性能下降。</li>
 </ol>
 <h2 id="netpoller"><a href="#netpoller" class="headerlink" title="netpoller"></a>netpoller</h2><p>首先对于epoll提供的三个调用接口Go对此都做了封装</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/epoll.h&gt;  </span><br><span class="line"><span class="keyword">int</span> epoll_create(<span class="keyword">int</span> size);  </span><br><span class="line"><span class="keyword">int</span> epoll_ctl(<span class="keyword">int</span> epfd, <span class="keyword">int</span> op, <span class="keyword">int</span> fd, <span class="keyword">struct</span> epoll_event *event);  </span><br><span class="line"><span class="keyword">int</span> epoll_wait(<span class="keyword">int</span> epfd, <span class="keyword">struct</span> epoll_event * events, <span class="keyword">int</span> maxevents, <span class="keyword">int</span> timeout);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Go 对上面三个调用的封装</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpollinit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpollopen</span><span class="params">(fd <span class="keyword">uintptr</span>, pd *pollDesc)</span> <span class="title">int32</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpoll</span><span class="params">(block <span class="keyword">bool</span>)</span> <span class="title">gList</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/epoll.h&gt;  </span><br><span class="line"><span class="type">int</span> epoll_create(<span class="type">int</span> size);  </span><br><span class="line"><span class="type">int</span> epoll_ctl(<span class="type">int</span> epfd, <span class="type">int</span> op, <span class="type">int</span> fd, <span class="keyword">struct</span> epoll_event *event);  </span><br><span class="line"><span class="type">int</span> epoll_wait(<span class="type">int</span> epfd, <span class="keyword">struct</span> epoll_event * events, <span class="type">int</span> maxevents, <span class="type">int</span> timeout);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Go 对上面三个调用的封装</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpollinit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpollopen</span><span class="params">(fd <span class="type">uintptr</span>, pd *pollDesc)</span></span> <span class="type">int32</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netpoll</span><span class="params">(block <span class="type">bool</span>)</span></span> gList</span><br></pre></td></tr></table></figure>
 
 <p>当调用<code>net.Listen</code>之后操作系统会创建一个socket同时返回与之对应的fd(被设置为非阻塞模式)，该fd用来初始化listener的netFD(go层面封装的网络文件描述符)，同时会调用<code>epoll_create</code>创建一个 epoll 实例 作为整个 runtime 的唯一 event-loop 使用。</p>
 <p>当一个client连接server时，listener通过accept接受新的连接，该连接的fd被设置为非阻塞模式同时会起一个新的goroutine来处理新连接并将新连接对应的fd注册到epoll中。当goroutine调用<code>conn.Read</code>，<code>conn.Write</code>对连接进行读写操作遇到<code> EAGAIN</code>错误时会被 gopark 给park住进行休眠，让P去执行本地调度队列里的下一个可执行的G。这些被park住的goroutine会在goroutine的调度中调用<code>runtime.netpoll</code>被唤醒，然后调用 injectglist 把唤醒的 G 放入当前 P 本地调度队列或者全局调度队列去执行。</p>
@@ -245,7 +245,7 @@
 <li>如果新添加的定时任务when小于netpoll的休眠等待时间<code>sched.pollUntil</code>就会激活netPoll的等待。也就是在<code>runtime.findrunable </code>里的最后会使用超时阻塞的方法调用<code>epoll_wait</code>，这样既监控了epoll实例红黑树上的fd，又可兼顾最近的定时任务</li>
 <li>在每次<code>runtime.schedule</code>调度时在<code>runtime.findrunable </code>中都会通过<code>checkTimers </code>来查找可运行的定时任务</li>
 </ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://morsmachine.dk/netpoller" target="_blank" rel="noopener">The Go netpoller</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://morsmachine.dk/netpoller">The Go netpoller</a></p>
 
         </div>
 
@@ -254,7 +254,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2024-04-21T15:21:38.953Z" itemprop="dateUpdated">2024-04-21 23:21:38</time>
+    最后更新时间：<time datetime="2024-04-21T15:21:38.000Z" itemprop="dateUpdated">2024-04-21 23:21:38</time>
 </span><br>
 
 
@@ -278,7 +278,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
 
 
             
@@ -444,7 +444,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

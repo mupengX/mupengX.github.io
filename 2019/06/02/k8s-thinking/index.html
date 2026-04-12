@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -22,18 +22,18 @@
     
     <meta name="keywords" content="k8s">
     <meta name="description" content="随着这些年的发展Kubernetes已经成为容器编排调度的事实标准，它的出现将改变软件部署交付的方式而它本身的设计理念也十分值得深思和借鉴。 声明式API和编程范式当你开始尝试在k8s中部署一个pod时，它所给你带来的最直接的感受就是k8s的API是声明式而不是命令式的。如果是命令式的API，那么你就需要通过API来告诉k8s具体要执行的动作是什么，比如启动或停止容器。而声明式的API只需要我们使">
-<meta name="keywords" content="k8s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于Kubernetes的思考">
 <meta property="og:url" content="http://singlecool.com/2019/06/02/k8s-thinking/index.html">
 <meta property="og:site_name" content="SingleX">
 <meta property="og:description" content="随着这些年的发展Kubernetes已经成为容器编排调度的事实标准，它的出现将改变软件部署交付的方式而它本身的设计理念也十分值得深思和借鉴。 声明式API和编程范式当你开始尝试在k8s中部署一个pod时，它所给你带来的最直接的感受就是k8s的API是声明式而不是命令式的。如果是命令式的API，那么你就需要通过API来告诉k8s具体要执行的动作是什么，比如启动或停止容器。而声明式的API只需要我们使">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://singlecool.com/img/k8s-volume.png">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:published_time" content="2019-06-02T12:14:39.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于Kubernetes的思考">
-<meta name="twitter:description" content="随着这些年的发展Kubernetes已经成为容器编排调度的事实标准，它的出现将改变软件部署交付的方式而它本身的设计理念也十分值得深思和借鉴。 声明式API和编程范式当你开始尝试在k8s中部署一个pod时，它所给你带来的最直接的感受就是k8s的API是声明式而不是命令式的。如果是命令式的API，那么你就需要通过API来告诉k8s具体要执行的动作是什么，比如启动或停止容器。而声明式的API只需要我们使">
 <meta name="twitter:image" content="http://singlecool.com/img/k8s-volume.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
@@ -43,7 +43,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#声明式API和编程范式"><span class="post-toc-number">1.</span> <span class="post-toc-text">声明式API和编程范式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#list-watch机制"><span class="post-toc-number">2.</span> <span class="post-toc-text">list-watch机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#系统抽象"><span class="post-toc-number">3.</span> <span class="post-toc-text">系统抽象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#系统扩展"><span class="post-toc-number">4.</span> <span class="post-toc-text">系统扩展</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#面向k8s交付，甚至面向Operator交付"><span class="post-toc-number">5.</span> <span class="post-toc-text">面向k8s交付，甚至面向Operator交付</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#最后"><span class="post-toc-number">6.</span> <span class="post-toc-text">最后</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A3%B0%E6%98%8E%E5%BC%8FAPI%E5%92%8C%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F"><span class="post-toc-number">1.</span> <span class="post-toc-text">声明式API和编程范式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#list-watch%E6%9C%BA%E5%88%B6"><span class="post-toc-number">2.</span> <span class="post-toc-text">list-watch机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%8A%BD%E8%B1%A1"><span class="post-toc-number">3.</span> <span class="post-toc-text">系统抽象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%B1%95"><span class="post-toc-number">4.</span> <span class="post-toc-text">系统扩展</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9D%A2%E5%90%91k8s%E4%BA%A4%E4%BB%98%EF%BC%8C%E7%94%9A%E8%87%B3%E9%9D%A2%E5%90%91Operator%E4%BA%A4%E4%BB%98"><span class="post-toc-number">5.</span> <span class="post-toc-text">面向k8s交付，甚至面向Operator交付</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E5%90%8E"><span class="post-toc-number">6.</span> <span class="post-toc-text">最后</span></a></li></ol>
         </nav>
     </aside>
 
@@ -192,7 +192,7 @@
 <p>再者是稳定，声明式和命令式分别代表着两种不同的动作触发模式：水平触发和边缘触发。举个例子：<br>比如一个开关，我们进行了开、关、开三次操作，对于命令式API这意味着要发三次命令，如果网络出现了问题最后一次开的命令丢失了则这个开关会一直处于错误的状态，所以如果是边缘触发则需要配合补偿机制。如果是声明式API即使网络出了问题系统停留在错误的状态，但是当网络恢复之后系统依然可以调整到所期望的状态。设想我们在对系统做扩缩容的操作时，如果每次告诉k8s要增加或减少一个实例，一但这个代表具体操作的命令发生了丢失那么系统的状态就乱了，更好的做法是告诉k8s我们所期望的实例个数是多少，即使这期间网络发生了问题或者控制器出了问题，等到网络或者出问题的组件恢复后k8s依然可以为我们把实例调整到我们所期望的个数。</p>
 <p>第三是便于处理多写的操作，k8s API的客户端有多种，以kubectl为例它除了提供kubectl create、kubectl replace等操作外还提供了kubectl apply，kubectl apply 与 kubectl create、kubectl replace的不同之处在于前者是声明式的操作而后两者是命令式的操作。以Kubectl replace为例，它是使用新的yaml文件里的api对象来替换旧的对象而kubectl apply则是对原有的对象做patch操作。二者最大的区别是对于声明式请求一次可以处理多个写操作并且具备merge能力。Service Mesh是最近比较火的一个概念，其中一个代表型的项目叫Istio，它最主要的一个组件是Envoy。为了实现服务发现与治理的功能Istio需要为每个pod里安装一个Envoy容器，这过程中Istio通过k8s的Dynamic Admission Control功能所做的事情就是对新建的pod声明对象patch一个Envoy的容器配置，这样随后创建的pod中就注入了一个Envoy容器。</p>
 <p>在声明式API基础上所形成的Kubernetes编程范式即：使用控制器监听Kubernetes里API对象的状态变化，为不同的事件注册相应的操作函数，当其状态发生变化时执行对应的函数进行相应的操作进而完成用户业务逻辑的编写。</p>
-<h3 id="list-watch机制"><a href="#list-watch机制" class="headerlink" title="list-watch机制"></a>list-watch机制</h3><p>我们知道k8s中API对象的状态都存储在etcd当中，而所有跟etcd的交互都必须通过api server来进行。之前我们提到在声明式API的基础上控制器以及调度器等都需要监听API对象状态的变化，当API对象声明的状态发生变化后需要作出相应的动作。在这种需求下一般会引入MQ，而k8s为了降低系统本身对其他组件的依赖并没有使用任何的消息中间件也没有使用轮询的方式而是提供了一种list-watch的机制。该机制的list部分主要通过提供list接口来实现对api对象及其状态的查询，watch部分则是通过提供watch api来实现对资源变更事件的监听。watch实现的关键是http1.1中的<a href="https://zh.wikipedia.org/zh-hans/%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E7%BC%96%E7%A0%81" target="_blank" rel="noopener">Chunked transfer encoding(分块传输编码)</a></p>
+<h3 id="list-watch机制"><a href="#list-watch机制" class="headerlink" title="list-watch机制"></a>list-watch机制</h3><p>我们知道k8s中API对象的状态都存储在etcd当中，而所有跟etcd的交互都必须通过api server来进行。之前我们提到在声明式API的基础上控制器以及调度器等都需要监听API对象状态的变化，当API对象声明的状态发生变化后需要作出相应的动作。在这种需求下一般会引入MQ，而k8s为了降低系统本身对其他组件的依赖并没有使用任何的消息中间件也没有使用轮询的方式而是提供了一种list-watch的机制。该机制的list部分主要通过提供list接口来实现对api对象及其状态的查询，watch部分则是通过提供watch api来实现对资源变更事件的监听。watch实现的关键是http1.1中的<a href="https://zh.wikipedia.org/zh-hans/%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E7%BC%96%E7%A0%81">Chunked transfer encoding(分块传输编码)</a></p>
 <p>list和watch相互配合，通过list获取全量数据，通过watch可以获取增量数据。当某个时间点watch连接中断后会发生消息丢失的问题而此时通过调用list接口则可以解决该问题保证消息的可靠性。通过watch可以在保证消息实时性的同时降低系统的开销，同时事件中的resourceVersion标签可以保证消息的顺序性，当客户端并发处理同一个资源的事件时，可以对比 resourceVersion来保证资源最终的状态和最新的事件所期望的状态保持一致。</p>
 <p>通过list-watch机制API Server相当于充当了消息总线的角色，k8s中的控制器、调度器、kubelet等其他组件只需通过该机制监听自己所关心的对象状态即可，相互之间并不知道彼此的存在。比如pod的调度，调度器通过监听发现有新的pod创建出来且尚未对其调度，调度器开始执行自己的调度逻辑为该pod选择node节点，然后调用API Server接口把要绑定的node信息写入pod对象的Node字段中即完成了调度。同时node节点上的kubelet组件通过订阅事件发现有一个pod调度到该节点上了，那么它就会通过API Server获取该pod对象的配置信息，根据pod的Spec完成部署。整个过程中kubelet并不知道scheduler的存在，通过这种机制对各组件的依赖关系进行了解耦。</p>
 <h3 id="系统抽象"><a href="#系统抽象" class="headerlink" title="系统抽象"></a>系统抽象</h3><p>在系统抽象方面尤其在存储方面的抽象Kubernetes做的很精彩。</p>
@@ -202,13 +202,13 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/img/k8s-volume.png" alt="The complete picture of dynamic provisioning of PersistentVolumes" title>
+                    <img src="/img/k8s-volume.png" alt="The complete picture of dynamic provisioning of PersistentVolumes" title="">
                 </div>
                 <div class="image-caption">The complete picture of dynamic provisioning of PersistentVolumes</div>
             </figure>
 
 <h3 id="系统扩展"><a href="#系统扩展" class="headerlink" title="系统扩展"></a>系统扩展</h3><p>为了方便系统的扩展k8s提供了许多interface，比如CNI(Container Network Interface),CRI(Container Runtime Interface),CSI(Container Storage Interface)等。</p>
-<p>除此之外k8s还提供了CRD(Custom Resource Definition),CR(Custom Resuorce)和Operator机制方便用户自定义资源以及编写对应的Operator。所谓的Operator可以理解为操作用户自定义资源的controller，社区提供的kube-builder和coreos提供的operator-framework可以帮助我们生成Operator的基础代码：初始化 Kubernetes客户端，建立Watch等。Operator甚至可以将应用集群当做一种资源，通过Operator可以完成集群的部署、高可用、故障恢复等，将运维经验代码化。比如：通过<a href="https://github.com/coreos/etcd-operator" target="_blank" rel="noopener">etcd-opeator</a>完成etcd集群的搭建。</p>
+<p>除此之外k8s还提供了CRD(Custom Resource Definition),CR(Custom Resuorce)和Operator机制方便用户自定义资源以及编写对应的Operator。所谓的Operator可以理解为操作用户自定义资源的controller，社区提供的kube-builder和coreos提供的operator-framework可以帮助我们生成Operator的基础代码：初始化 Kubernetes客户端，建立Watch等。Operator甚至可以将应用集群当做一种资源，通过Operator可以完成集群的部署、高可用、故障恢复等，将运维经验代码化。比如：通过<a href="https://github.com/coreos/etcd-operator">etcd-opeator</a>完成etcd集群的搭建。</p>
 <h3 id="面向k8s交付，甚至面向Operator交付"><a href="#面向k8s交付，甚至面向Operator交付" class="headerlink" title="面向k8s交付，甚至面向Operator交付"></a>面向k8s交付，甚至面向Operator交付</h3><p>随着技术的发展软件的交付方式也发生了几次迭代：</p>
 <ul>
 <li>交付源代码：最初根据客户现场的环境不同需要交付方带着源代码到客户现场进行现场编译、部署、运行</li>
@@ -250,7 +250,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/">k8s</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
 
 
             
@@ -416,7 +416,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     
 
     
@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content="分词">
-    <meta name="description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C&amp;#x3D;C1,C2,……,Cn，输出是一个词串S&amp;#x3D;W1,W2,……,Wm，其中m&amp;l">
-<meta name="keywords" content="分词">
+    <meta name="description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C&#x3D;C1,C2,……,Cn，输出是一个词串S&#x3D;W1,W2,……,Wm，其中m&amp;l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于词图的最大概率中文分词方法">
-<meta property="og:url" content="http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/index.html">
+<meta property="og:url" content="http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="SingleX">
-<meta property="og:description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C&amp;#x3D;C1,C2,……,Cn，输出是一个词串S&amp;#x3D;W1,W2,……,Wm，其中m&amp;l">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C&#x3D;C1,C2,……,Cn，输出是一个词串S&#x3D;W1,W2,……,Wm，其中m&amp;l">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://singlecool.com/img/WordSeg.png">
-<meta property="og:updated_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:published_time" content="2016-07-31T07:59:39.000Z">
+<meta property="article:modified_time" content="2020-12-05T09:56:43.000Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="分词">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于词图的最大概率中文分词方法">
-<meta name="twitter:description" content="分词方法分类中文分词大致分为三类：  基于字符串匹配：最大正向匹配法、逆向最大匹配法、最少切分法、双向匹配法等 基于统计：基于词频度统计的分词方法 基于规则：基于知识理解，利用神经网络等分词方法  语言模型基于词图的最大概率分词方法源于概率统计语言模型。从统计思想的角度来看，分词问题的输入是一个字串C&amp;#x3D;C1,C2,……,Cn，输出是一个词串S&amp;#x3D;W1,W2,……,Wm，其中m&amp;l">
 <meta name="twitter:image" content="http://singlecool.com/img/WordSeg.png">
     
     <link rel="shortcut icon" href="/favicon.ico">
@@ -43,7 +43,7 @@
     <!-- custom head -->
     
 
-</head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分词方法分类"><span class="post-toc-number">1.</span> <span class="post-toc-text">分词方法分类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#语言模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">语言模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#词典"><span class="post-toc-number">3.</span> <span class="post-toc-text">词典</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构建词图"><span class="post-toc-number">4.</span> <span class="post-toc-text">构建词图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#计算最大概率"><span class="post-toc-number">5.</span> <span class="post-toc-text">计算最大概率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">6.</span> <span class="post-toc-text">最后</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95%E5%88%86%E7%B1%BB"><span class="post-toc-number">1.</span> <span class="post-toc-text">分词方法分类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="post-toc-number">2.</span> <span class="post-toc-text">语言模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AF%8D%E5%85%B8"><span class="post-toc-number">3.</span> <span class="post-toc-text">词典</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9E%84%E5%BB%BA%E8%AF%8D%E5%9B%BE"><span class="post-toc-number">4.</span> <span class="post-toc-text">构建词图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87"><span class="post-toc-number">5.</span> <span class="post-toc-text">计算最大概率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%80%E5%90%8E"><span class="post-toc-number">6.</span> <span class="post-toc-text">最后</span></a></li></ol>
         </nav>
     </aside>
 
@@ -242,15 +242,14 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/img/WordSeg.png" alt="WordSeg" title>
+                    <img src="/img/WordSeg.png" alt="WordSeg" title="">
                 </div>
                 <div class="image-caption">WordSeg</div>
             </figure>
 
 <p>路径1： 0-3-4-6  小红马&#x2F;上&#x2F;下来<br>路径2： 0-2-4-6  小红&#x2F;马上&#x2F;下来<br>……<br>切分词图中的边都是词典中的词，边的起点和终点分别是词的开始和结束位置。</p>
 <h2 id="计算最大概率"><a href="#计算最大概率" class="headerlink" title="计算最大概率"></a>计算最大概率</h2><p>因为假设每个词之间的概率是上下文无关的，因此满足动态规划求解所要求的最优子结构性质和无后效性。求出值最大的P(Si)后，利用回溯的方法直接输出Si。图用邻接矩阵存储，伪代码如下：</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> Token <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">//分词的字串</span></span><br><span class="line">	text []<span class="keyword">byte</span></span><br><span class="line">	<span class="comment">//该分词概率</span></span><br><span class="line">	Prod <span class="keyword">float32</span></span><br><span class="line">	<span class="comment">// 词性标注</span></span><br><span class="line">	pos <span class="keyword">string</span></span><br><span class="line">	<span class="comment">//分词开始节点的概率</span></span><br><span class="line">	PredProd <span class="keyword">float32</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">segmentWords(<span class="keyword">byte</span> []s) []Segment&#123;</span><br><span class="line">    <span class="keyword">for</span> i:=<span class="number">0</span>; i&lt;<span class="built_in">len</span>(s); i++ &#123;</span><br><span class="line">        <span class="comment">// 从Trie树中得到以当前字元开头的所有分词</span></span><br><span class="line">        tokens = dict.getPrev(i)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> j:=<span class="number">0</span>; j&lt;<span class="built_in">len</span>(token); j++ &#123;</span><br><span class="line">            newProd := token[j].PrevProd + token[j].Prod</span><br><span class="line">            <span class="keyword">if</span>(newProd &gt; dis[token.end].prod) &#123;</span><br><span class="line">                dis[token.end].prod = newProd</span><br><span class="line">                dis[token.end].token = token[j]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从右向左扫描</span></span><br><span class="line">    numSegments := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> index := <span class="built_in">len</span>(text) - <span class="number">1</span>; index &gt;= <span class="number">0</span>; &#123;</span><br><span class="line">	</span><br><span class="line">		location := index - <span class="built_in">len</span>(dis[index].token.text) + <span class="number">1</span></span><br><span class="line">		numSegments++</span><br><span class="line">		index = location - <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	output := <span class="built_in">make</span>([]Segment, numSeg)</span><br><span class="line">    <span class="keyword">for</span> index:=<span class="built_in">len</span>(s)<span class="number">-1</span>; index&gt;=<span class="number">0</span>; &#123;</span><br><span class="line">        location := index - <span class="built_in">len</span>(dis[index].token.text) + <span class="number">1</span></span><br><span class="line">		numSegments--</span><br><span class="line">		output[numSegments].text = dis[index].token.text</span><br><span class="line">		index = location - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> Token <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">//分词的字串</span></span><br><span class="line">	text []<span class="type">byte</span></span><br><span class="line">	<span class="comment">//该分词概率</span></span><br><span class="line">	Prod <span class="type">float32</span></span><br><span class="line">	<span class="comment">// 词性标注</span></span><br><span class="line">	pos <span class="type">string</span></span><br><span class="line">	<span class="comment">//分词开始节点的概率</span></span><br><span class="line">	PredProd <span class="type">float32</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">segmentWords(<span class="type">byte</span> []s) []Segment&#123;</span><br><span class="line">    <span class="keyword">for</span> i:=<span class="number">0</span>; i&lt;<span class="built_in">len</span>(s); i++ &#123;</span><br><span class="line">        <span class="comment">// 从Trie树中得到以当前字元开头的所有分词</span></span><br><span class="line">        tokens = dict.getPrev(i)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> j:=<span class="number">0</span>; j&lt;<span class="built_in">len</span>(token); j++ &#123;</span><br><span class="line">            newProd := token[j].PrevProd + token[j].Prod</span><br><span class="line">            <span class="keyword">if</span>(newProd &gt; dis[token.end].prod) &#123;</span><br><span class="line">                dis[token.end].prod = newProd</span><br><span class="line">                dis[token.end].token = token[j]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从右向左扫描</span></span><br><span class="line">    numSegments := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> index := <span class="built_in">len</span>(text) - <span class="number">1</span>; index &gt;= <span class="number">0</span>; &#123;</span><br><span class="line">	</span><br><span class="line">		location := index - <span class="built_in">len</span>(dis[index].token.text) + <span class="number">1</span></span><br><span class="line">		numSegments++</span><br><span class="line">		index = location - <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	output := <span class="built_in">make</span>([]Segment, numSeg)</span><br><span class="line">    <span class="keyword">for</span> index:=<span class="built_in">len</span>(s)<span class="number">-1</span>; index&gt;=<span class="number">0</span>; &#123;</span><br><span class="line">        location := index - <span class="built_in">len</span>(dis[index].token.text) + <span class="number">1</span></span><br><span class="line">		numSegments--</span><br><span class="line">		output[numSegments].text = dis[index].token.text</span><br><span class="line">		index = location - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>从右向左扫描是因为汉语句子的重心经常落在后面，这种扫描方式能提高分词的准确性。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>该模型有一个前提条件：『假设每个词之间的概率是上下文无关的』，这一点是不严谨的，一句话当中相邻词之间上下文无关很难做到。</p>
 <p>搜索引擎中的中文分词十分复杂，分词的过程中需要考虑：</p>
@@ -295,7 +294,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分词/">分词</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E8%AF%8D/" rel="tag">分词</a></li></ul>
 
 
             
@@ -305,7 +304,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/&title=《基于词图的最大概率中文分词方法》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -315,22 +314,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/&title=《基于词图的最大概率中文分词方法》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于词图的最大概率中文分词方法》 — SingleX&url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于词图的最大概率中文分词方法》 — SingleX&url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -461,7 +460,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>SingleX &copy; 1982 - 2025</span>
+        <p><span>SingleX &copy; 1982 - 2026</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -479,7 +478,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/&title=《基于词图的最大概率中文分词方法》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -489,22 +488,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&title=《基于词图的最大概率中文分词方法》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/&title=《基于词图的最大概率中文分词方法》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于词图的最大概率中文分词方法》 — SingleX&url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/&via=http://singlecool.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于词图的最大概率中文分词方法》 — SingleX&url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/&via=http://singlecool.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -515,7 +514,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/07/31/基于词图的最大概率中文分词方法/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2016/07/31/%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
 </div>
 
 
