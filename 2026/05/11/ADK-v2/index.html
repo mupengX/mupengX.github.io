@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>ADK Go：Go 开发者终于等来了自己的 AI 智能体框架 | SingleX | 倘若一成不变，何以激荡人心。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="AI">
+    <meta name="description" content="一、引言过去一年，AI 智能体的热潮席卷全球。但如果你是 Go 开发者，心里多半是既兴奋又有点不是滋味。 兴奋的是，AI 的能力确实让人大开眼界；不是滋味的是，想用 Go 构建一个真正能上生产的 AI 应用，却发现满世界都是 Python 的炼丹教程。调 prompt 像念咒，结果时好时坏。单元测试怎么写？版本怎么管理？怎么和现有 Go 微服务优雅集成？一堆问题让人头大。 这种感觉，就像一个习惯了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADK Go：Go 开发者终于等来了自己的 AI 智能体框架">
+<meta property="og:url" content="http://singlecool.com/2026/05/11/ADK-v2/index.html">
+<meta property="og:site_name" content="SingleX">
+<meta property="og:description" content="一、引言过去一年，AI 智能体的热潮席卷全球。但如果你是 Go 开发者，心里多半是既兴奋又有点不是滋味。 兴奋的是，AI 的能力确实让人大开眼界；不是滋味的是，想用 Go 构建一个真正能上生产的 AI 应用，却发现满世界都是 Python 的炼丹教程。调 prompt 像念咒，结果时好时坏。单元测试怎么写？版本怎么管理？怎么和现有 Go 微服务优雅集成？一堆问题让人头大。 这种感觉，就像一个习惯了">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-11T11:55:43.000Z">
+<meta property="article:modified_time" content="2026-06-09T03:28:46.001Z">
+<meta property="article:author" content="SingleX">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">SingleX</h5>
+          <a href="mailto:mupenghaha@gmail.com" title="mupenghaha@gmail.com" class="mail">mupenghaha@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ADK Go：Go 开发者终于等来了自己的 AI 智能体框架</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ADK Go：Go 开发者终于等来了自己的 AI 智能体框架</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2026-05-11T11:55:43.000Z" itemprop="datePublished" class="page-time">
+  2026-05-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、引言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88-Go-%E5%BC%80%E5%8F%91%E8%80%85%E9%9C%80%E8%A6%81-ADK%EF%BC%9F"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、为什么 Go 开发者需要 ADK？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%89%E3%80%81%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9A5-%E5%88%86%E9%92%9F%E6%90%9E%E6%87%82%E6%9E%B6%E6%9E%84"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、核心概念：5 分钟搞懂架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9B%9B%E3%80%81%E5%8A%A8%E6%89%8B%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E4%BD%93"><span class="post-toc-number">4.</span> <span class="post-toc-text">四、动手写第一个智能体</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">环境准备</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">核心代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%94%E3%80%81%E7%94%9F%E4%BA%A7%E7%BA%A7%E7%89%B9%E6%80%A7%EF%BC%9A%E5%AE%83%E5%87%AD%E4%BB%80%E4%B9%88%E8%AF%B4%E8%87%AA%E5%B7%B1%E4%B8%8D%E6%98%AF%E7%8E%A9%E5%85%B7%EF%BC%9F"><span class="post-toc-number">5.</span> <span class="post-toc-text">五、生产级特性：它凭什么说自己不是玩具？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%AD%E3%80%81%E8%AF%B4%E5%AE%9E%E8%AF%9D%EF%BC%9A%E5%AE%83%E7%9A%84%E5%B1%80%E9%99%90%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="post-toc-number">6.</span> <span class="post-toc-text">六、说实话：它的局限在哪？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%83%E3%80%81%E4%BB%80%E4%B9%88%E4%BA%BA%E5%BA%94%E8%AF%A5%E7%94%A8%E5%AE%83%EF%BC%9F"><span class="post-toc-number">7.</span> <span class="post-toc-text">七、什么人应该用它？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="post-toc-number">8.</span> <span class="post-toc-text">结语</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ADK-v2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ADK Go：Go 开发者终于等来了自己的 AI 智能体框架</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2026-05-11 19:55:43" datetime="2026-05-11T11:55:43.000Z"  itemprop="datePublished">2026-05-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/AI/">AI</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h2><p>过去一年，AI 智能体的热潮席卷全球。但如果你是 Go 开发者，心里多半是既兴奋又有点不是滋味。</p>
+<p>兴奋的是，AI 的能力确实让人大开眼界；不是滋味的是，想用 Go 构建一个真正能上生产的 AI 应用，却发现满世界都是 Python 的炼丹教程。调 prompt 像念咒，结果时好时坏。单元测试怎么写？版本怎么管理？怎么和现有 Go 微服务优雅集成？一堆问题让人头大。</p>
+<p>这种感觉，就像一个习惯了精密图纸和标准化流程的机械工程师，突然被扔进了满是玄学咒语的炼丹房。</p>
+<p>直到 Google 开源了 <strong>ADK-Go（Agent Development Kit for Go）</strong>，并且迅速霸榜 GitHub Go 趋势榜一周多，我才意识到：转机来了。</p>
+<hr>
+<h2 id="二、为什么-Go-开发者需要-ADK？"><a href="#二、为什么-Go-开发者需要-ADK？" class="headerlink" title="二、为什么 Go 开发者需要 ADK？"></a>二、为什么 Go 开发者需要 ADK？</h2><p>先说 Go 本身的优势，这不是废话——它直接决定了 ADK Go 的价值天花板：</p>
+<ul>
+<li><strong>高并发</strong>：Goroutine 仅需几千字节内存，可处理数千个并发工具调用</li>
+<li><strong>类型安全</strong>：静态类型消除了 LLM 输出解析的运行时错误</li>
+<li><strong>云原生</strong>：天然适配容器化和微服务部署</li>
+</ul>
+<p>但更重要的是 ADK Go 的<strong>设计理念</strong>：它选择了「代码优先」，而不是拖拽配置、YAML 低代码那套。</p>
+<p>所有逻辑用 Go 代码定义，版本控制、代码审查、单元测试一应俱全，和现有 Go 项目无缝集成。这才是 Gopher 应该有的工作方式。</p>
+<hr>
+<h2 id="三、核心概念：5-分钟搞懂架构"><a href="#三、核心概念：5-分钟搞懂架构" class="headerlink" title="三、核心概念：5 分钟搞懂架构"></a>三、核心概念：5 分钟搞懂架构</h2><p>ADK Go 采用<strong>事件驱动的运行时架构</strong>，一句话说清楚：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户请求 → Runner → 事件循环 → 模型调用 → 工具执行 → 返回结果</span><br></pre></td></tr></table></figure>
+
+<p><strong>四个核心组件</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>是什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Runner</strong></td>
+<td>系统入口，管理整个执行生命周期</td>
+</tr>
+<tr>
+<td><strong>Agent</strong></td>
+<td>执行特定任务的智能体</td>
+</tr>
+<tr>
+<td><strong>Tool</strong></td>
+<td>智能体能调用的外部能力（函数、API 等）</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td>管理对话上下文和状态</td>
+</tr>
+</tbody></table>
+<p><strong>三种智能体类型</strong>：</p>
+<ul>
+<li><strong>LLM Agent</strong>：最常用，背后是大语言模型</li>
+<li><strong>Workflow Agent</strong>：控制执行流程（顺序 &#x2F; 并行 &#x2F; 循环）</li>
+<li><strong>Multi-Agent</strong>：多个智能体协作，各司其职</li>
+</ul>
+<hr>
+<h2 id="四、动手写第一个智能体"><a href="#四、动手写第一个智能体" class="headerlink" title="四、动手写第一个智能体"></a>四、动手写第一个智能体</h2><p>理论说够了，直接上代码。以「天气查询智能体」为例：</p>
+<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> my_agent &amp;&amp; <span class="built_in">cd</span> my_agent</span><br><span class="line">go mod init my_agent</span><br><span class="line">go get google.golang.org/adk</span><br><span class="line"><span class="built_in">export</span> GOOGLE_API_KEY=<span class="string">&quot;your_api_key&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;context&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;log&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;google.golang.org/adk/agent/llmagent&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/adk/model/gemini&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/adk/runner&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/adk/tool&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/adk/tool/geminitool&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/genai&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ctx := context.Background()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 初始化模型</span></span><br><span class="line">    model, err := gemini.NewModel(ctx, <span class="string">&quot;gemini-2.5-flash&quot;</span>, &amp;genai.ClientConfig&#123;</span><br><span class="line">        APIKey: os.Getenv(<span class="string">&quot;GOOGLE_API_KEY&quot;</span>),</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatalf(<span class="string">&quot;Failed to create model: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 创建智能体</span></span><br><span class="line">    agent, err := llmagent.New(llmagent.Config&#123;</span><br><span class="line">        Name:        <span class="string">&quot;weather_agent&quot;</span>,</span><br><span class="line">        Model:       model,</span><br><span class="line">        Description: <span class="string">&quot;回答城市天气问题的助手&quot;</span>,</span><br><span class="line">        Instruction: <span class="string">&quot;你是一个天气助手，使用 Google Search 获取实时天气信息。&quot;</span>,</span><br><span class="line">        Tools:       []tool.Tool&#123;geminitool.GoogleSearch&#123;&#125;&#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatalf(<span class="string">&quot;Failed to create agent: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 创建运行器并执行</span></span><br><span class="line">    r, err := runner.New(runner.Config&#123;Agent: agent&#125;)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatalf(<span class="string">&quot;Failed to create runner: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 发起对话</span></span><br><span class="line">    result, err := r.Run(ctx, <span class="string">&quot;北京今天天气怎么样？&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatalf(<span class="string">&quot;Failed to run: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三步：初始化模型 → 创建智能体 → 跑起来。和写普通 Go 代码没什么两样。</p>
+<hr>
+<h2 id="五、生产级特性：它凭什么说自己不是玩具？"><a href="#五、生产级特性：它凭什么说自己不是玩具？" class="headerlink" title="五、生产级特性：它凭什么说自己不是玩具？"></a>五、生产级特性：它凭什么说自己不是玩具？</h2><p>光能跑 demo 不算本事，ADK Go 真正有价值的是这几个生产级能力：</p>
+<p><strong>① 原生 OpenTelemetry 追踪</strong></p>
+<p>每个模型调用、每次工具执行都有结构化追踪，可以可视化智能体的”思维链”，调试复杂逻辑不再靠 print 大法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">telemetryProviders, _ := telemetry.New(ctx, telemetry.WithOtelToCloud(<span class="literal">true</span>))</span><br><span class="line"><span class="keyword">defer</span> telemetryProviders.Shutdown(ctx)</span><br></pre></td></tr></table></figure>
+
+<p><strong>② Retry and Reflect 插件</strong></p>
+<p>工具调用失败？不用手动处理，插件会把错误反馈给模型，让它自动调整参数重试。某种意义上是”自愈”能力。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">r, _ := runner.New(runner.Config&#123;</span><br><span class="line">    Agent: myAgent,</span><br><span class="line">    PluginConfig: runner.PluginConfig&#123;</span><br><span class="line">        Plugins: []*plugin.Plugin&#123;</span><br><span class="line">            retryandreflect.MustNew(retryandreflect.WithMaxRetries(<span class="number">3</span>)),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>③ Human-in-the-Loop</strong></p>
+<p>敏感操作加一行 <code>RequireConfirmation: true</code>，执行前强制等人工确认，生产环境的救命稻草。</p>
+<hr>
+<h2 id="六、说实话：它的局限在哪？"><a href="#六、说实话：它的局限在哪？" class="headerlink" title="六、说实话：它的局限在哪？"></a>六、说实话：它的局限在哪？</h2><p>我不想写成一篇广告软文，所以必须把坑也说清楚：</p>
+<ul>
+<li><strong>生态还嫩</strong>：Python 版本的第三方工具丰富度碾压 Go 版本，遇到冷门需求大概率要自己造轮子</li>
+<li><strong>主要优化 Gemini</strong>：虽然号称”模型无关”，但用其他模型可能踩坑，建议先验证兼容性</li>
+<li><strong>学习曲线存在</strong>：代码优先的理念对 Go 开发者友好，但对 Python 背景的 AI 玩家反而增加了门槛</li>
+<li><strong>Google 绑定风险</strong>：深度集成 GCP，如果你有多云需求，提前想好迁移成本</li>
+</ul>
+<hr>
+<h2 id="七、什么人应该用它？"><a href="#七、什么人应该用它？" class="headerlink" title="七、什么人应该用它？"></a>七、什么人应该用它？</h2><p><strong>适合你，如果：</strong></p>
+<ul>
+<li>团队技术栈是 Go，想少踩迁移坑</li>
+<li>要构建高并发的生产级 AI 服务</li>
+<li>需要与现有 Go 微服务集成</li>
+</ul>
+<p><strong>暂时不适合，如果：</strong></p>
+<ul>
+<li>快速验证想法（Python 原型更快）</li>
+<li>需要大量第三方工具集成（LangChain 生态更丰富）</li>
+<li>团队完全不懂 Go</li>
+</ul>
+<hr>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>ADK Go 不是银弹，但对 Go 开发者来说，它是目前最工程化、最有生产诚意的 AI 智能体框架。</p>
+<p>炼丹房的大门终于向 Gopher 打开了，而且这次进去，你会发现里面装了空调、贴了施工图纸，还备了灭火器。</p>
+<p><strong>本周行动建议</strong>：花 30 分钟跑通上面那个天气 demo，感受一下「用写普通 Go 代码的方式写 AI 应用」是什么感觉。</p>
+<hr>
+<p><strong>参考资源：</strong></p>
+<ul>
+<li>官方文档：<a href="https://adk.dev/">https://adk.dev/</a></li>
+<li>GitHub 仓库：<a href="https://github.com/google/adk-go">https://github.com/google/adk-go</a></li>
+<li>Go 示例：<a href="https://github.com/google/adk-samples/tree/main/go">https://github.com/google/adk-samples/tree/main/go</a></li>
+<li>Codelabs 教程：<a href="https://codelabs.developers.google.com/codelabs/agent-starter-pack-golang">https://codelabs.developers.google.com/codelabs/agent-starter-pack-golang</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2026-06-09T03:28:46.001Z" itemprop="dateUpdated">2026-06-09 11:28:46</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://singlecool.com">
+            <img src="/img/avatar.png" alt="SingleX">
+            SingleX
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2026/05/11/ADK-v2/&title=《ADK Go：Go 开发者终于等来了自己的 AI 智能体框架》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2026/05/11/ADK-v2/&title=《ADK Go：Go 开发者终于等来了自己的 AI 智能体框架》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2026/05/11/ADK-v2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ADK Go：Go 开发者终于等来了自己的 AI 智能体框架》 — SingleX&url=http://singlecool.com/2026/05/11/ADK-v2/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2026/05/11/ADK-v2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2026/05/26/mcp-gateway-v2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">如何让 AI 快速接入业务系统？</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2026/05/09/coordinator/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">当用户说&#34;不对&#34;的时候，你的 Multi-Agent 系统会怎么做？</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'd25e5b8e8f0d567d5b2d',
+          clientSecret: 'fa8b78bef84ab1fe32c963c672113a81875c16d4',
+          repo: 'mupengX.github.io',
+          owner: 'mupengX',
+          admin: ['mupengX'],
+          id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        煎饼果子加个蛋~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/WechatPay.jpg" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+<!--
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    -->
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        遇到过<span id="busuanzi_value_site_pv"></span>个人才等到你❤
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>SingleX &copy; 1982 - 2026</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://singlecool.com/2026/05/11/ADK-v2/&title=《ADK Go：Go 开发者终于等来了自己的 AI 智能体框架》 — SingleX&pic=http://singlecool.com/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://singlecool.com/2026/05/11/ADK-v2/&title=《ADK Go：Go 开发者终于等来了自己的 AI 智能体框架》 — SingleX&source=享受编程和技术所带来的快乐 – http://singlecool.com" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://singlecool.com/2026/05/11/ADK-v2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ADK Go：Go 开发者终于等来了自己的 AI 智能体框架》 — SingleX&url=http://singlecool.com/2026/05/11/ADK-v2/&via=http://singlecool.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://singlecool.com/2026/05/11/ADK-v2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://singlecool.com/2026/05/11/ADK-v2/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
